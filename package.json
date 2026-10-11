@@ -1,0 +1,13 @@
+{
+  "name": "ecossistema-autonomo",
+  "version": "1.0.0",
+  "description": "Projeto Leandro - Ecossistema Autónomo",
+  "main": "Server.ts",
+  "scripts": {
+    "start": "npx ts-node Server.ts"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  }
+}
