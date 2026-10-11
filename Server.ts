@@ -1,23 +1,5 @@
-import { createServer } from 'http';
-import { readFile } from 'fs';
-import { join } from 'path';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const PORT = process.env.PORT || 3000;
-
-const server = createServer((req, res) => {
-  const filePath = join(__dirname, 'index.html');
-  
-  readFile(filePath, (err, data) => {
-    if (err) {
-      res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end('Erro ao carregar a interface gráfica.');
-    } else {
-      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end(data);
-    }
-  });
-});
-
-server.listen(PORT, () => {
-  console.log(`Servidor ativo na porta ${PORT}`);
-});
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
