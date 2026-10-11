@@ -1,4 +1,3 @@
-j
 import { createServer } from 'http';
 import { readFile } from 'fs';
 import { join } from 'path';
@@ -6,7 +5,6 @@ import { join } from 'path';
 const PORT = process.env.PORT || 3000;
 
 const server = createServer((req, res) => {
-  // Se pedirem a página principal, servimos o index.html
   const filePath = join(__dirname, 'index.html');
   
   readFile(filePath, (err, data) => {
@@ -21,5 +19,5 @@ const server = createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Servidor do Projeto Leandro ativo na porta ${PORT}`);
+  console.log(`Servidor ativo na porta ${PORT}`);
 });
