@@ -1,10 +1,9 @@
-import express, { Request, Response } from 'express';
-
+const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.get('/', (req: Request, res: Response) => {
-  const htmlContent = `
+app.get('/', (req, res) => {
+  res.send(`
     <!DOCTYPE html>
     <html lang="pt">
     <head>
@@ -19,7 +18,6 @@ app.get('/', (req: Request, res: Response) => {
         h1 { font-size: 24px; margin-bottom: 12px; color: #fff; }
         p { color: #94a3b8; font-size: 15px; margin-bottom: 24px; line-height: 1.5; }
         .btn { display: inline-block; width: 100%; padding: 12px; background: #2563eb; color: white; border-radius: 8px; font-weight: 600; text-decoration: none; text-align: center; }
-        .btn:hover { background: #1d4ed8; }
       </style>
     </head>
     <body>
@@ -31,9 +29,7 @@ app.get('/', (req: Request, res: Response) => {
       </div>
     </body>
     </html>
-  `;
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.send(htmlContent);
+  `);
 });
 
 app.listen(port, () => {
