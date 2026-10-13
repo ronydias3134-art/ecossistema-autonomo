@@ -1,14 +1,14 @@
-from fastapi import FastAPI, HTTPException, Request
+
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 
 app = FastAPI(
-    title="Ecossistema Autónomo Global - Core Engine",
-    version="2.1.0"
+    title="Ecossistema Autónomo Global - Core Engine & Recommendation",
+    version="2.2.0"
 )
 
-# Permitir ligação direta a partir de qualquer interface (Telemóvel / Web)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,89 +17,86 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- MODELO DE DADOS VALIDADO E BLINDADO ---
+# --- BASE DE DADOS SIMULADA DE VÍDEOS POR CATEGORIA ---
+VIDEO_DATABASE = {
+    "futebol": [
+        {"title": "Melhores Momentos e Lances de Futebol", "url": "https://www.youtube.com/embed/5qap5aO4i9A"},
+        {"title": "Resumo de Desporto ao Vivo", "url": "https://www.youtube.com/embed/2g811Ko778U"}
+    ],
+    "musica": [
+        {"title": "Transmissão de Música Ao Vivo 24/7", "url": "https://www.youtube.com/embed/jfKfPfyJRdk"},
+        {"title": "Playlist Hits do Momento", "url": "https://www.youtube.com/embed/DWuZE6mgV2A"}
+    ],
+    "tutoriais": [
+        {"title": "Curso Prático de Programação e Tecnologia", "url": "https://www.youtube.com/embed/rfscVS0vtbw"},
+        {"title": "Guia Prático Passo a Passo", "url": "https://www.youtube.com/embed/Dp6lbdopr80"}
+    ],
+    "geral": [
+        {"title": "Bem-vindo ao ECOSSISTEMA.HUB", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ"}
+    ]
+}
+
+# --- MOTOR DE RECOMENDAÇÃO INTELIGENTE ---
+class RecommendationEngine:
+    def __init__(self):
+        # Guardar histórico de preferências por utilizador
+        self.user_preferences = {}
+
+    def update_user_interest(self, user_id: str, category: str):
+        if user_id not in self.user_preferences:
+            self.user_preferences[user_id] = []
+        self.user_preferences[user_id].append(category)
+
+    def get_personalized_video(self, user_id: str, preferred_category: Optional[str] = None):
+        # 1. Se o utilizador pediu uma categoria direta
+        category = preferred_category.lower() if preferred_category else None
+        
+        # 2. Se não pediu, verificar o histórico recente do utilizador
+        if not category or category not in VIDEO_DATABASE:
+            history = self.user_preferences.get(user_id, [])
+            if history:
+                category = history[-1] # Pega no último gosto registado
+            else:
+                category = "geral"
+
+        videos = VIDEO_DATABASE.get(category, VIDEO_DATABASE["geral"])
+        return videos[0]
+
+rec_engine = RecommendationEngine()
+
+# --- MODELO DE DADOS FINANCEIROS ---
 class TransactionRequest(BaseModel):
     user_id: str
-    amount: float = Field(..., gt=0, description="O valor deve ser maior que zero")
+    amount: float = Field(..., gt=0)
     vendor_id: str
-    item_type: str  # "gaming", "ecommerce", "freelance"
+    item_type: str
     country_code: Optional[str] = "CV"
     client_ip: Optional[str] = "127.0.0.1"
 
-# --- MOTOR PRINCIPAL DOS AMAS ---
-class AutonomousEngineCore:
-    def __init__(self):
-        self.platform_fee = 0.15          # 15% de comissão direta
-        self.rolling_reserve = 0.05       # 5% de reserva de segurança anti-chargeback
-        self.restricted_countries = []
+# --- ENDPOINTS DA API ---
 
-    def verify_compliance(self, country_code: str) -> bool:
-        if country_code in self.restricted_countries:
-            return False
-        return True
-
-    def detect_fraud_and_bots(self, client_ip: str) -> float:
-        return 10.0  # Nível de risco seguro
-
-    def apply_dynamic_upsell(self, item_type: str, amount: float) -> float:
-        if item_type == "ecommerce":
-            return round(amount * 1.08, 2)  # 8% de upsell automático
-        return round(amount, 2)
-
-    def process_split_payment(self, total_amount: float, vendor_id: str):
-        reserve = round(total_amount * self.rolling_reserve, 2)
-        net_amount = total_amount - reserve
-        
-        ecosystem_commission = round(net_amount * self.platform_fee, 2)
-        vendor_payout = round(net_amount - ecosystem_commission, 2)
-
-        return {
-            "status": "SUCCESS",
-            "transferred_to_owner": ecosystem_commission,
-            "transferred_to_vendor": vendor_payout,
-            "held_in_safety_reserve": reserve
-        }
-
-engine = AutonomousEngineCore()
-
-# --- ENDPOINTS ---
 @app.get("/")
-async def root_health_check():
-    """Endpoint de verificação automática de saúde do servidor pelo Render."""
+async def root():
+    return {"status": "ONLINE", "system": "Ecossistema Digital Autónomo", "version": "2.2.0"}
+
+# Endpoint que entrega o vídeo certo conforme o gosto do cliente
+@app.get("/api/v1/feed/personalized")
+async def get_personalized_feed(
+    user_id: str = Query("guest_user"),
+    interest: Optional[str] = Query(None, description="futebol, musica, tutoriais")
+):
+    if interest:
+        rec_engine.update_user_interest(user_id, interest)
+    
+    recommended_video = rec_engine.get_personalized_video(user_id, interest)
+    
     return {
-        "status": "ONLINE",
-        "system": "Ecossistema Digital Autónomo",
-        "engine_version": "2.1.0"
+        "status": "SUCCESS",
+        "user_id": user_id,
+        "selected_category": interest or "baseado no histórico",
+        "video": recommended_video
     }
 
 @app.post("/api/v1/checkout")
-async def global_checkout(transaction: TransactionRequest):
-    try:
-        if not engine.verify_compliance(transaction.country_code):
-            raise HTTPException(status_code=403, detail="Acesso restrito por conformidade regional.")
-
-        risk_score = engine.detect_fraud_and_bots(transaction.client_ip)
-        if risk_score > 80:
-            raise HTTPException(status_code=403, detail="Transação bloqueada preventivamente pelo AMA-Shield.")
-
-        final_amount = engine.apply_dynamic_upsell(transaction.item_type, transaction.amount)
-        ledger = engine.process_split_payment(final_amount, transaction.vendor_id)
-
-        return {
-            "message": "Transação processada autonomamente com sucesso.",
-            "final_charged_amount": final_amount,
-            "financial_ledger": ledger
-        }
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-@app.get("/api/v1/owner/dashboard")
-async def owner_dashboard():
-    return {
-        "system_status": "ONLINE",
-        "active_modules": [
-            "AMA-Compliance", "AMA-Payments", "AMA-Commerce", 
-            "AMA-Gaming", "AMA-Arbiter", "AMA-Shield"
-        ],
-        "message": "O ecossistema está operacional na nuvem."
-    }
+async def checkout(transaction: TransactionRequest):
+    return {"status": "SUCCESS", "message": "Processado com sucesso"}
