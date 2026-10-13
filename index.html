@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -11,6 +12,7 @@
             --accent-cyan: #00d2ff;
             --accent-purple: #8b5cf6;
             --accent-green: #22c55e;
+            --accent-orange: #f59e0b;
             --text-main: #ffffff;
             --text-muted: #94a3b8;
         }
@@ -28,8 +30,8 @@
 
         header {
             text-align: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -48,7 +50,7 @@
             margin-top: 4px;
         }
 
-        /* Grelha principal rica e organizada em volta do vídeo */
+        /* Grelha principal */
         .dashboard-grid {
             max-width: 600px;
             margin: 0 auto;
@@ -75,11 +77,50 @@
             gap: 6px;
         }
 
-        /* Leitor de vídeo compacto e em alta definição */
+        /* Barra de Pesquisa */
+        .search-box {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .search-input {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: #fff;
+            border: none;
+            padding: 0 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .search-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Leitor de vídeo compacto */
         #video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 HD */
+            padding-bottom: 56.25%;
             height: 0;
             background: #000;
             border-radius: 8px;
@@ -103,7 +144,7 @@
             margin-top: 8px;
         }
 
-        /* Grelha de Botões e Atalhos Coloridos */
+        /* Botões e Atalhos (com Arquitetura incluída) */
         .button-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -120,7 +161,6 @@
             font-weight: 600;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s ease;
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -133,7 +173,17 @@
             background: rgba(0, 210, 255, 0.1);
         }
 
-        /* Módulo de Rádio e Multimédia */
+        .hub-btn.arq {
+            border-color: rgba(245, 158, 11, 0.4);
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), #141d2f);
+        }
+
+        .hub-btn.arq:hover {
+            border-color: var(--accent-orange);
+            background: rgba(245, 158, 11, 0.25);
+        }
+
         .radio-box {
             display: flex;
             align-items: center;
@@ -141,7 +191,6 @@
             background: rgba(255, 255, 255, 0.03);
             padding: 8px 12px;
             border-radius: 8px;
-            margin-top: 6px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -168,10 +217,19 @@
 
     <header>
         <h1>ECOSSISTEMA.HUB</h1>
-        <div class="subtitle">Painel de Controlo Dinâmico & Multimédia</div>
+        <div class="subtitle">Painel Inteligente • Engenharia, Multimédia & Arquitetura</div>
     </header>
 
     <div class="dashboard-grid">
+
+        <!-- MÓDULO DE PESQUISA INTELIGENTE -->
+        <div class="card">
+            <div class="card-title">🔍 Pesquisa no Hub</div>
+            <div class="search-box">
+                <input type="text" id="campo-pesquisa" class="search-input" placeholder="Pesquisar projetos, dados, arquitetura...">
+                <button class="search-btn" onclick="executarPesquisa()">Procurar</button>
+            </div>
+        </div>
 
         <!-- BLOCO DO VÍDEO COMPACTO (Alta Definição) -->
         <div class="card">
@@ -190,14 +248,16 @@
             </div>
         </div>
 
-        <!-- MÓDULO DE BOTÕES E ATALHOS RÁPIDOS -->
+        <!-- MÓDULO DE ATALHOS RÁPIDOS & ARQUITETURA -->
         <div class="card">
             <div class="card-title">🎛️ Painel de Acesso Rápido</div>
             <div class="button-grid">
                 <a href="#" class="hub-btn">🛠️ Canalização</a>
-                <a href="#" class="hub-btn">📊 Tesouraria (40%)</a>
+                <a href="#" class="hub-btn">📊 Tesouraria</a>
                 <a href="#" class="hub-btn">🚜 Agricultura</a>
                 <a href="#" class="hub-btn">💡 IA & Projetos</a>
+                <!-- Vertente dedicada para Arquitetos -->
+                <a href="#" class="hub-btn arq">🏛️ Hub de Arquitetura & Simplificação de Projetos</a>
             </div>
         </div>
 
@@ -225,17 +285,25 @@
 
     </div>
 
-    <!-- SCRIPT DE LIGAÇÃO INTELIGENTE AO BACKEND -->
+    <!-- SCRIPTS DE FUNCIONALIDADE -->
     <script>
-      async function carregarVideoRecomendado() {
+      async function carregarVideoRecomendado(termo) {
         try {
-          const response = await fetch('/api/v1/feed/personalized');
+          const urlQuery = termo ? `/api/v1/feed/personalized?q=${encodeURIComponent(termo)}` : '/api/v1/feed/personalized';
+          const response = await fetch(urlQuery);
           const data = await response.json();
           if (data && data.video && data.video.url) {
             document.getElementById('video-destaque').src = data.video.url;
           }
         } catch (error) {
           console.log("A aguardar motor de feed...", error);
+        }
+      }
+
+      function executarPesquisa() {
+        const termo = document.getElementById('campo-pesquisa').value;
+        if (termo) {
+          carregarVideoRecomendado(termo);
         }
       }
 
