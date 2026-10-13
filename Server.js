@@ -1,63 +1,66 @@
-const http = require('http');
 
-// Configuração de Margens - Ecossistema Autónomo (Piso 10%)
-const CONFIG = {
-    MARGEM_EXCELENCIA: 0.40, // >= 40% (Excelência / Prioridade Máxima)
-    MARGEM_PADRAO: 0.20,     // 20% a 39.9% (Aval Padrão)
-    MARGEM_PISO: 0.10        // 10% a 19.9% (Aval Rígido - Novo Piso)
-};
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecossistema Autónomo - Painel de Controlo</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background: #0f172a; color: #f8fafc; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
+        .container { max-width: 500px; width: 100%; background: #1e293b; border-radius: 16px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .header { text-align: center; margin-bottom: 24px; }
+        .header h1 { font-size: 1.5rem; color: #38bdf8; margin-bottom: 6px; }
+        .status-badge { display: inline-block; background: #0284c7; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        .card { background: #0f172a; border-radius: 12px; padding: 16px; margin-bottom: 16px; border: 1px solid #334155; }
+        .card h2 { font-size: 1rem; color: #94a3b8; margin-bottom: 12px; }
+        .input-group { margin-bottom: 12px; }
+        .input-group label { display: block; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 4px; }
+        .input-group input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: white; font-size: 1rem; }
+        .btn { width: 100%; padding: 12px; background: #0284c7; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 8px; }
+        .btn:hover { background: #0369a1; }
+        .result-box { margin-top: 16px; padding: 16px; border-radius: 8px; text-align: center; font-weight: bold; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Ecossistema Autónomo</h1>
+            <span class="status-badge">SISTEMA ATIVO</span>
+        </div>
 
-function avaliarOportunidade(precoCusto, precoVenda) {
-    const lucroBruto = precoVenda - precoCusto;
-    const margemPercentual = lucroBruto / precoCusto;
+        <div class="card">
+            <h2>Simulador de Decisão Automática (Piso 10%)</h2>
+            <div class="input-group">
+                <label>Preço de Custo (€ / CVE):</label>
+                <input type="number" id="custo" value="100">
+            </div>
+            <div class="input-group">
+                <label>Preço de Venda (€ / CVE):</label>
+                <input type="number" id="venda" value="125">
+            </div>
+            <button class="btn" onclick="testarMargem()">Avaliar Oportunidade</button>
+            <div id="resultado" class="result-box"></div>
+        </div>
+    </div>
 
-    // 1. Rejeição Automática (Abaixo de 10%)
-    if (margemPercentual < CONFIG.MARGEM_PISO) {
-        return { 
-            estado: 'REJEITADO', 
-            motivo: 'Margem inferior ao piso de 10%' 
-        };
-    }
+    <script>
+        async function testarMargem() {
+            const custo = document.getElementById('custo').value;
+            const venda = document.getElementById('venda').value;
+            const resDiv = document.getElementById('resultado');
 
-    // 2. Zona Rígida (10% a 19.9%) - Requer Aprovação Humana Estrita
-    if (margemPercentual >= CONFIG.MARGEM_PISO && margemPercentual < CONFIG.MARGEM_PADRAO) {
-        return { 
-            estado: 'PENDENTE_APROVACAO_HUMANA', 
-            prioridade: 'MEDIA', 
-            alerta: 'Zona de Aval Rígido (10%-19.9%)' 
-        };
-    }
+            try {
+                const res = await fetch(`/api/avaliar?custo=${custo}&venda=${venda}`);
+                const data = await res.json();
 
-    // 3. Zona Padrão (20% a 39.9%) - Aprovação Padrão
-    if (margemPercentual >= CONFIG.MARGEM_PADRAO && margemPercentual < CONFIG.MARGEM_EXCELENCIA) {
-        return { 
-            estado: 'PENDENTE_APROVACAO_HUMANA', 
-            prioridade: 'ALTA',
-            alerta: 'Zona Padrão (20%-39.9%)'
-        };
-    }
-
-    // 4. Excelência (40% ou mais) - Prioridade Máxima
-    return { 
-        estado: 'EXCELENCIA', 
-        prioridade: 'MAXIMA',
-        alerta: 'Margem de Excelência (>= 40%)' 
-    };
-}
-
-// Servidor Web para manter a aplicação ativa no Render
-const PORT = process.env.PORT || 10000;
-const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ 
-        status: 'ONLINE', 
-        sistema: 'Ecossistema Autónomo',
-        piso_margem: '10%' 
-    }));
-});
-
-server.listen(PORT, () => {
-    console.log(`Servidor ativo na porta ${PORT}`);
-});
-
-module.exports = { avaliarOportunidade, CONFIG };
+                resDiv.style.display = 'block';
+                resDiv.style.backgroundColor = data.cor || '#334155';
+                resDiv.innerHTML = `<div>ESTADO: ${data.estado}</div><div style="font-size:0.85rem; margin-top:6px;">${data.motivo || data.alerta}</div>`;
+            } catch (e) {
+                alert('Erro ao ligar ao servidor');
+            }
+        }
+    </script>
+</body>
+</html>
