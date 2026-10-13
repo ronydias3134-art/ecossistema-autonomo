@@ -2,9 +2,12 @@
 {
   "name": "ecossistema-autonomo",
   "version": "1.0.0",
+  "description": "Ecossistema de Controlo e Intermediação",
   "main": "Server.js",
   "scripts": {
     "start": "node Server.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.19.2"
+  }
 }
