@@ -1,65 +1,164 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ecossistema Autónomo - Painel de Controlo</title>
-    <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-        body { background: #0f172a; color: #f8fafc; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
-        .container { max-width: 500px; width: 100%; background: #1e293b; border-radius: 16px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #334155; }
-        .header { text-align: center; margin-bottom: 24px; }
-        .header h1 { font-size: 1.5rem; color: #38bdf8; margin-bottom: 6px; }
-        .status-badge { display: inline-block; background: #0284c7; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
-        .card { background: #0f172a; border-radius: 12px; padding: 16px; margin-bottom: 16px; border: 1px solid #334155; }
-        .card h2 { font-size: 1rem; color: #94a3b8; margin-bottom: 12px; }
-        .input-group { margin-bottom: 12px; }
-        .input-group label { display: block; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 4px; }
-        .input-group input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: white; font-size: 1rem; }
-        .btn { width: 100%; padding: 12px; background: #0284c7; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 8px; }
-        .btn:hover { background: #0369a1; }
-        .result-box { margin-top: 16px; padding: 16px; border-radius: 8px; text-align: center; font-weight: bold; display: none; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecossistema Autónomo | Controlo Global de Negócios</title>
+  <style>
+    :root {
+      --bg-color: #080c14;
+      --card-bg: #111827;
+      --accent-color: #00ff88;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-color: #1f2937;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    header {
+      text-align: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    header h1 { font-size: 1.4rem; font-weight: 800; color: var(--text-main); }
+    header p { font-size: 0.8rem; color: var(--accent-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .card h2 { font-size: 1rem; margin-bottom: 14px; color: var(--text-main); }
+
+    .input-group { margin-bottom: 12px; }
+    .input-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
+    .input-group input {
+      width: 100%; padding: 12px; background-color: #080c14; border: 1px solid var(--border-color);
+      border-radius: 8px; color: #fff; font-size: 1rem; outline: none;
+    }
+
+    .btn {
+      width: 100%; padding: 14px; background: linear-gradient(135deg, #00ff88, #00cc6a);
+      color: #080c14; border: none; border-radius: 8px; font-size: 1rem; font-weight: 800;
+      cursor: pointer; margin-top: 6px;
+    }
+
+    .negocio-item {
+      padding: 12px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Ecossistema Autónomo</h1>
-            <span class="status-badge">SISTEMA ATIVO</span>
-        </div>
 
-        <div class="card">
-            <h2>Simulador de Decisão Automática (Piso 10%)</h2>
-            <div class="input-group">
-                <label>Preço de Custo (€ / CVE):</label>
-                <input type="number" id="custo" value="100">
-            </div>
-            <div class="input-group">
-                <label>Preço de Venda (€ / CVE):</label>
-                <input type="number" id="venda" value="125">
-            </div>
-            <button class="btn" onclick="testarMargem()">Avaliar Oportunidade</button>
-            <div id="resultado" class="result-box"></div>
-        </div>
+  <div class="container">
+    <header>
+      <h1>ECOSSISTEMA AUTÓNOMO</h1>
+      <p>● Controlo Remoto de Negócios & Ativos</p>
+    </header>
+
+    <div class="card">
+      <h2>🌍 Registar / Acompanhar Negócio</h2>
+      
+      <div class="input-group">
+        <label>Nome do Negócio / Projeto</label>
+        <input type="text" id="nomeNegocio" placeholder="Ex: Granja Casa do Meio">
+      </div>
+
+      <div class="input-group">
+        <label>Localização da Operação</label>
+        <input type="text" id="localizacao" placeholder="Ex: Santo Antão, Cabo Verde">
+      </div>
+
+      <div class="input-group">
+        <label>Gestor / Responsável Remoto</label>
+        <input type="text" id="gestor" placeholder="Ex: Irmão (França) / Equipa Local">
+      </div>
+
+      <div class="input-group">
+        <label>Estado ou Detalhe Operacional</label>
+        <input type="text" id="detalhe" placeholder="Ex: Produção e Irrigação Ativa">
+      </div>
+
+      <button class="btn" onclick="registarNegocio()">Adicionar ao Ecossistema</button>
     </div>
 
-    <script>
-        async function testarMargem() {
-            const custo = document.getElementById('custo').value;
-            const venda = document.getElementById('venda').value;
-            const resDiv = document.getElementById('resultado');
+    <div class="card">
+      <h2>📋 Negócios em Monitorização Ativa</h2>
+      <div id="listaNegocios">
+        <p style="font-size: 0.8rem; color: var(--text-muted);">Nenhum negócio registado para acompanhamento.</p>
+      </div>
+    </div>
+  </div>
 
-            try {
-                const res = await fetch(`/api/avaliar?custo=${custo}&venda=${venda}`);
-                const data = await res.json();
+  <script>
+    async function registarNegocio() {
+      const nomeNegocio = document.getElementById('nomeNegocio').value;
+      const localizacao = document.getElementById('localizacao').value;
+      const gestor = document.getElementById('gestor').value;
+      const detalhe = document.getElementById('detalhe').value;
 
-                resDiv.style.display = 'block';
-                resDiv.style.backgroundColor = data.cor || '#334155';
-                resDiv.innerHTML = `<div>ESTADO: ${data.estado}</div><div style="font-size:0.85rem; margin-top:6px;">${data.motivo || data.alerta}</div>`;
-            } catch (e) {
-                alert('Erro ao ligar ao servidor');
-            }
-        }
-    </script>
+      if (!nomeNegocio) {
+        alert('Insira o nome do negócio.');
+        return;
+      }
+
+      const response = await fetch('/api/negocio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nomeNegocio, localizacao, gestorRemoto: gestor, descricaoOperacao: detalhe })
+      });
+
+      const data = await response.json();
+
+      if (data.sucesso) {
+        document.getElementById('nomeNegocio').value = '';
+        document.getElementById('localizacao').value = '';
+        document.getElementById('gestor').value = '';
+        document.getElementById('detalhe').value = '';
+        atualizarLista(data.historico);
+      }
+    }
+
+    function atualizarLista(lista) {
+      const container = document.getElementById('listaNegocios');
+      if (!lista || lista.length === 0) return;
+
+      container.innerHTML = lista.map(n => `
+        <div class="negocio-item">
+          <div>
+            <strong>${n.nomeNegocio}</strong> (${n.localizacao})<br>
+            <span style="color: var(--text-muted); font-size: 0.75rem;">Gestão: ${n.gestorRemoto} | Detalhe: ${n.descricaoOperacao}</span>
+          </div>
+          <div style="color: var(--accent-color); font-weight: 700; font-size: 0.75rem; text-align: right;">
+            ${n.estado}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    fetch('/api/negocios').then(res => res.json()).then(data => atualizarLista(data));
+  </script>
 </body>
 </html>
