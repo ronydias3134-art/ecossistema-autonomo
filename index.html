@@ -154,7 +154,7 @@
             font-weight: 600;
         }
 
-        /* Grelha de botões otimizada */
+        /* Grelha de botões interativos */
         .button-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -184,7 +184,6 @@
             background: rgba(0, 210, 255, 0.1);
         }
 
-        /* Destaques principais no topo */
         .hub-btn.destaque-robos {
             grid-column: span 2;
             background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(0, 210, 255, 0.25));
@@ -194,32 +193,73 @@
             padding: 12px;
         }
 
-        .hub-btn.destaque-engenharia {
+        .hub-btn.destaque-eng-arq {
             grid-column: span 2;
-            background: linear-gradient(135deg, rgba(0, 210, 255, 0.25), rgba(139, 92, 246, 0.25));
+            background: linear-gradient(135deg, rgba(0, 210, 255, 0.25), rgba(245, 158, 11, 0.25));
             border: 1px solid var(--accent-cyan);
-            font-size: 13px;
-            font-weight: 600;
-            padding: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 12px;
         }
 
-        .hub-btn.destaque-arquitetura {
-            grid-column: span 2;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), #141d2f);
-            border: 1px solid rgba(245, 158, 11, 0.5);
-            font-size: 13px;
-            font-weight: 600;
-            padding: 10px;
-        }
-
-        .radio-box {
+        .transmission-box {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 8px;
             background: rgba(255, 255, 255, 0.03);
-            padding: 8px 12px;
+            padding: 10px 12px;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .transmission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .transmission-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .trans-btn {
+            background: #0f172a;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            color: #fff;
+            padding: 6px 4px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .trans-btn:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 210, 255, 0.15);
+        }
+
+        .bet-banner {
+            margin-top: 6px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(34, 197, 94, 0.2));
+            border: 1px dashed var(--accent-orange);
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent-orange);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .bet-banner:hover {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(34, 197, 94, 0.3));
         }
 
         .info-row {
@@ -245,27 +285,27 @@
 
     <header>
         <h1>ECOSSISTEMA.HUB</h1>
-        <div class="subtitle">Comando Central • 1 Milhão de Micro-Robôs & Automação</div>
+        <div class="subtitle">Comando Central • Automação, Streaming & Gestão Autónoma</div>
     </header>
 
     <div class="dashboard-grid">
 
-        <!-- MÓDULO DE PESQUISA -->
+        <!-- MÓDULO DE PESQUISA & JOGOS -->
         <div class="card">
-            <div class="card-title">🔍 Pesquisa no Hub</div>
+            <div class="card-title">🔍 Pesquisa & Jogos em Direto</div>
             <div class="search-box">
-                <input type="text" id="campo-pesquisa" class="search-input" placeholder="Pesquisar micro-robôs, vendas, projetos...">
-                <button class="search-btn" onclick="executarPesquisa()">Procurar</button>
+                <input type="text" id="campo-pesquisa" class="search-input" placeholder="Procurar equipa, Champions League, jogo X...">
+                <button class="search-btn" onclick="executarPesquisaDeJogos()">Ver Jogo</button>
             </div>
         </div>
 
         <!-- BLOCO DO VÍDEO UNIVERSAL -->
         <div class="card">
-            <div class="card-title">⚡ Feed Multimédia Universal</div>
+            <div class="card-title">⚡ Feed Multimédia & Futebol</div>
             <div id="video-container">
                 <iframe 
                     id="video-iframe" 
-                    src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=0" 
+                    src="https://www.youtube.com/embed/9bZkp7q19f0?autoplay=1&mute=0" 
                     title="Feed Ecossistema" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen>
@@ -273,37 +313,39 @@
                 <video id="video-nativo" controls autoplay></video>
             </div>
             <div class="video-caption" id="video-legenda">
-                ▶ Circuito de Venda Autónoma & Micro-Robôs Operacionais
+                ▶ Gestão Autónoma de Streams por Micro-Robôs
             </div>
         </div>
 
-        <!-- BOTÕES DE ACESSO RÁPIDO (COM OS MICRO-ROBÔS NO TOPO) -->
+        <!-- PAINEL DE COMANDO PRINCIPAL (TODOS OS BOTÕES RESPONSIVOS) -->
         <div class="card">
-            <div class="card-title">🎛️ Painel de Controlo Autónomo</div>
+            <div class="card-title">🎛️ Painel de Comando Principal</div>
             <div class="button-grid">
-                <!-- 1. MICRO-ROBÔS & VENDAS (O coração do sistema) -->
-                <a href="#robos" class="hub-btn destaque-robos" onclick="ativarModulo('robos', '1 Milhão de Micro-Robôs & Circuito de Venda Automática')">🤖 1M Micro-Robôs & Vendas Automáticas</a>
-                
-                <!-- 2. ENGENHARIA -->
-                <a href="#engenharia" class="hub-btn destaque-engenharia" onclick="ativarModulo('engenharia', 'Hub Principal de Engenharia & Hidráulica')">⚙️ Hub Principal de Engenharia & Hidráulica</a>
-                
-                <!-- 3. ARQUITETURA -->
-                <a href="#arquitetura" class="hub-btn destaque-arquitetura" onclick="ativarModulo('arquitetura', 'Hub de Arquitetura & Simplificação de Projetos')">🏛️ Hub de Arquitetura & Simplificação de Projetos</a>
-
-                <!-- 4. OUTROS MÓDULOS -->
-                <a href="#canalizacao" class="hub-btn" onclick="ativarModulo('canalizacao', 'Módulo Técnico de Canalização')">🛠️ Canalização</a>
-                <a href="#agricultura" class="hub-btn" onclick="ativarModulo('agricultura', 'Módulo Agrícola (Casa do Meio)')">🚜 Agricultura</a>
-                <a href="#tesouraria" class="hub-btn" onclick="ativarModulo('tesouraria', 'Módulo de Controlo & Tesouraria')">📊 Tesouraria</a>
-                <a href="#ia" class="hub-btn" onclick="ativarModulo('ia', 'Módulo de Inteligência Artificial')">💡 IA & Projetos</a>
+                <button class="hub-btn destaque-robos" onclick="ativarModulo('robos', '1 Milhão de Micro-Robôs & Gestão Autónoma')">🤖 1M Micro-Robôs & Gestão em Fundo</button>
+                <button class="hub-btn destaque-eng-arq" onclick="ativarModulo('eng-arq', 'Hub Unificado de Engenharia & Arquitetura')">⚙️🏛️ Engenharia & Arquitetura (Projetos)</button>
+                <button class="hub-btn" onclick="ativarModulo('hidraulica', 'Módulo Técnico de Hidráulica')">💧 Hidráulica</button>
+                <button class="hub-btn" onclick="ativarModulo('canalizacao', 'Módulo Técnico de Canalização')">🛠️ Canalização</button>
+                <button class="hub-btn" onclick="ativarModulo('agricultura', 'Módulo Agrícola (Casa do Meio)')">🚜 Agricultura</button>
+                <button class="hub-btn" onclick="ativarModulo('tesouraria', 'Módulo de Controlo & Tesouraria')">📊 Tesouraria</button>
             </div>
         </div>
 
-        <!-- MÓDULO DE RÁDIO -->
+        <!-- MÓDULO DE TRANSMISSÃO E MONETIZAÇÃO -->
         <div class="card">
-            <div class="card-title">📻 Rádio & Fluxo de Áudio</div>
-            <div class="radio-box">
-                <span style="font-size: 13px;">Canal de Transmissão Ativo</span>
-                <span style="color: var(--accent-cyan); font-size: 12px; font-weight: 600; cursor: pointer;" onclick="alert('Canal de áudio sincronizado com a frota autónoma.')">▶ Reproduzir Som</span>
+            <div class="card-title">⚽ Transmissões & Receitas (Gestão Robótica)</div>
+            <div class="transmission-box">
+                <div class="transmission-header">
+                    <span style="font-size: 13px; font-weight: 600;" id="trans-status">Canal Ativo: Desporto / Fundo Autónomo</span>
+                    <span class="status-badge">Auto</span>
+                </div>
+                <div class="transmission-options">
+                    <button class="trans-btn" onclick="mudarTransmissao('champions', '🏆 Liga dos Campeões (Gerido por Robôs)')">🏆 Champions</button>
+                    <button class="trans-btn" onclick="mudarTransmissao('futebol', '⚽ Futebol Global (Gerido por Robôs)')">⚽ Futebol Geral</button>
+                    <button class="trans-btn" onclick="mudarTransmissao('concertos', '🎵 Eventos (Gerido por Robôs)')">🎵 Concertos</button>
+                </div>
+                <div class="bet-banner" onclick="alert('Circuitos de afiliação e monetização geridos automaticamente pelos micro-robôs em fundo.')">
+                    🎯 Circuito de Receita & Apostas (Otimizado por IA)
+                </div>
             </div>
         </div>
 
@@ -315,8 +357,8 @@
                 <span class="status-badge">Up and Running</span>
             </div>
             <div class="info-row">
-                <span>Frota Autónoma (Micro-Robôs)</span>
-                <span style="color: var(--accent-green); font-weight: 700;">1.000.000 Ativos</span>
+                <span>Motor Inteligente</span>
+                <span style="color: var(--accent-cyan);">Ativo</span>
             </div>
         </div>
 
@@ -358,16 +400,23 @@
         }
       }
 
-      function executarPesquisa() {
-        const termo = document.getElementById('campo-pesquisa').value.trim();
+      function executarPesquisaDeJogos() {
+        const campo = document.getElementById('campo-pesquisa');
+        const termo = campo.value.trim();
         if (termo) {
-          reproduzirMedia("https://www.youtube.com/embed/jfKfPfyJRdk", "Resultados autónomos para: " + termo);
+          reproduzirMedia("https://www.youtube.com/embed/jfKfPfyJRdk", "Micro-robôs a sintonizar stream para: " + termo);
         }
+      }
+
+      function mudarTransmissao(tipo, descricao) {
+        document.getElementById('trans-status').innerText = "Canal Ativo: " + tipo.toUpperCase();
+        let linkTransmissao = "https://www.youtube.com/embed/jfKfPfyJRdk";
+        reproduzirMedia(linkTransmissao, descricao);
       }
 
       function ativarModulo(codigo, descricao) {
         document.getElementById('campo-pesquisa').value = codigo;
-        reproduzirMedia("https://www.youtube.com/embed/jfKfPfyJRdk", descricao);
+        reproduzirMedia("https://www.youtube.com/embed/9bZkp7q19f0", descricao);
       }
     </script>
 
