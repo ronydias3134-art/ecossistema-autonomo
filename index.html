@@ -6,43 +6,51 @@
     <title>ECOSSISTEMA.HUB</title>
     <style>
         :root {
-            --bg-base: #090d16;
-            --card-bg: #131b2e;
-            --accent: #00d2ff;
-            --accent-glow: rgba(0, 210, 255, 0.2);
-            --text-color: #ffffff;
+            --bg-primary: #0b0f19;
+            --card-bg: #141d2f;
+            --accent-cyan: #00d2ff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #22c55e;
+            --text-main: #ffffff;
             --text-muted: #94a3b8;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-base);
-            color: var(--text-color);
+            background-color: var(--bg-primary);
+            color: var(--text-main);
             margin: 0;
             padding: 12px;
+            background-image: radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.05) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
+            background-attachment: fixed;
         }
 
         header {
             text-align: center;
             margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         h1 {
-            font-size: 20px;
+            font-size: 22px;
             margin: 0;
-            color: var(--accent);
-            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
         }
 
         .subtitle {
             font-size: 12px;
             color: var(--text-muted);
-            margin-top: 3px;
+            margin-top: 4px;
         }
 
-        /* Contentor principal equilibrado para telemóvel e PC */
-        .main-container {
-            max-width: 500px;
+        /* Grelha principal rica e organizada em volta do vídeo */
+        .dashboard-grid {
+            max-width: 600px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -51,21 +59,32 @@
 
         .card {
             background: var(--card-bg);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 14px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Leitor de vídeo compacto, elegante e em alta definição */
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Leitor de vídeo compacto e em alta definição */
         #video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 HD ratio */
+            padding-bottom: 56.25%; /* 16:9 HD */
             height: 0;
             background: #000;
             border-radius: 8px;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         #video-destaque {
@@ -84,7 +103,48 @@
             margin-top: 8px;
         }
 
-        /* Estilo das restantes funções à volta */
+        /* Grelha de Botões e Atalhos Coloridos */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .hub-btn {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #f8fafc;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .hub-btn:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 210, 255, 0.1);
+        }
+
+        /* Módulo de Rádio e Multimédia */
+        .radio-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
         .info-row {
             display: flex;
             justify-content: space-between;
@@ -99,7 +159,7 @@
         }
 
         .status-badge {
-            color: #22c55e;
+            color: var(--accent-green);
             font-weight: 600;
         }
     </style>
@@ -108,13 +168,14 @@
 
     <header>
         <h1>ECOSSISTEMA.HUB</h1>
-        <div class="subtitle">Painel de Controlo Dinâmico</div>
+        <div class="subtitle">Painel de Controlo Dinâmico & Multimédia</div>
     </header>
 
-    <div class="main-container">
+    <div class="dashboard-grid">
 
-        <!-- BLOCO DO VÍDEO (Compacto, bonito e com alta definição) -->
+        <!-- BLOCO DO VÍDEO COMPACTO (Alta Definição) -->
         <div class="card">
+            <div class="card-title">⚡ Feed Dinâmico & Recomendado</div>
             <div id="video-container">
                 <iframe 
                     id="video-destaque" 
@@ -125,26 +186,46 @@
                 </iframe>
             </div>
             <div class="video-caption">
-                Reprodução otimizada • Toque em ecrã inteiro para expandir
+                Modo Compacto • Toque em ecrã inteiro para expandir
             </div>
         </div>
 
-        <!-- MÓDULOS E FUNÇÕES DO ECOSSISTEMA À VOLTA -->
+        <!-- MÓDULO DE BOTÕES E ATALHOS RÁPIDOS -->
         <div class="card">
-            <div style="font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--accent);">Estado do Sistema</div>
+            <div class="card-title">🎛️ Painel de Acesso Rápido</div>
+            <div class="button-grid">
+                <a href="#" class="hub-btn">🛠️ Canalização</a>
+                <a href="#" class="hub-btn">📊 Tesouraria (40%)</a>
+                <a href="#" class="hub-btn">🚜 Agricultura</a>
+                <a href="#" class="hub-btn">💡 IA & Projetos</a>
+            </div>
+        </div>
+
+        <!-- MÓDULO DE RÁDIO E ÁUDIO -->
+        <div class="card">
+            <div class="card-title">📻 Rádio & Fluxo de Áudio</div>
+            <div class="radio-box">
+                <span style="font-size: 13px;">Canal de Transmissão Ativo</span>
+                <span style="color: var(--accent-cyan); font-size: 12px; font-weight: 600;">▶ Reproduzir Som</span>
+            </div>
+        </div>
+
+        <!-- MÓDULO DE ESTADO DO SISTEMA -->
+        <div class="card">
+            <div class="card-title">🛡️ Estado dos Serviços</div>
             <div class="info-row">
                 <span>Servidor FastAPI</span>
                 <span class="status-badge">Up and Running</span>
             </div>
             <div class="info-row">
-                <span>Motor de Recomendação</span>
-                <span style="color: var(--text-muted);">Ativo (Futebol & Engenharia)</span>
+                <span>Motor Inteligente</span>
+                <span style="color: var(--accent-cyan);">Ativo</span>
             </div>
         </div>
 
     </div>
 
-    <!-- SCRIPT DE LIGAÇÃO AO BACKEND PARA O VÍDEO -->
+    <!-- SCRIPT DE LIGAÇÃO INTELIGENTE AO BACKEND -->
     <script>
       async function carregarVideoRecomendado() {
         try {
