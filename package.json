@@ -1,5 +1,5 @@
 
-  }{
+{
   "name": "ecossistema-autonomo",
   "version": "1.0.0",
   "main": "Server.js",
@@ -7,5 +7,4 @@
     "start": "node Server.js"
   },
   "dependencies": {}
-}
 }
