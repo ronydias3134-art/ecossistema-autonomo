@@ -49,7 +49,6 @@
             margin-top: 4px;
         }
 
-        /* Grelha principal */
         .dashboard-grid {
             max-width: 600px;
             margin: 0 auto;
@@ -76,7 +75,6 @@
             gap: 6px;
         }
 
-        /* Barra de Pesquisa */
         .search-box {
             display: flex;
             gap: 8px;
@@ -115,7 +113,7 @@
             opacity: 0.9;
         }
 
-        /* Leitor de vídeo compacto dinâmico */
+        /* Leitor Universal de Vídeo */
         #video-container {
             position: relative;
             width: 100%;
@@ -124,26 +122,39 @@
             background: #000;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+            border: 1px solid rgba(0, 210, 255, 0.3);
         }
 
-        #video-destaque {
+        #video-iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             border: 0;
+            display: block;
+        }
+
+        #video-nativo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
         }
 
         .video-caption {
             font-size: 11px;
-            color: var(--text-muted);
+            color: var(--accent-cyan);
             text-align: center;
             margin-top: 8px;
+            font-weight: 600;
         }
 
-        /* Botões e Atalhos Completos */
+        /* Grelha de botões otimizada */
         .button-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -153,7 +164,7 @@
         .hub-btn {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             color: #f8fafc;
-            border: 1px solid rgba(0, 210, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 10px 12px;
             border-radius: 8px;
             font-size: 13px;
@@ -173,15 +184,32 @@
             background: rgba(0, 210, 255, 0.1);
         }
 
-        .hub-btn.arq {
-            border-color: rgba(245, 158, 11, 0.4);
+        /* Destaques principais no topo */
+        .hub-btn.destaque-robos {
             grid-column: span 2;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), #141d2f);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(0, 210, 255, 0.25));
+            border: 1px solid var(--accent-green);
+            font-size: 14px;
+            font-weight: 700;
+            padding: 12px;
         }
 
-        .hub-btn.arq:hover {
-            border-color: var(--accent-orange);
-            background: rgba(245, 158, 11, 0.25);
+        .hub-btn.destaque-engenharia {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(0, 210, 255, 0.25), rgba(139, 92, 246, 0.25));
+            border: 1px solid var(--accent-cyan);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px;
+        }
+
+        .hub-btn.destaque-arquitetura {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), #141d2f);
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px;
         }
 
         .radio-box {
@@ -217,61 +245,69 @@
 
     <header>
         <h1>ECOSSISTEMA.HUB</h1>
-        <div class="subtitle">Painel Inteligente • Engenharia, Eletricidade & Arquitetura</div>
+        <div class="subtitle">Comando Central • 1 Milhão de Micro-Robôs & Automação</div>
     </header>
 
     <div class="dashboard-grid">
 
-        <!-- MÓDULO DE PESQUISA INTELIGENTE -->
+        <!-- MÓDULO DE PESQUISA -->
         <div class="card">
             <div class="card-title">🔍 Pesquisa no Hub</div>
             <div class="search-box">
-                <input type="text" id="campo-pesquisa" class="search-input" placeholder="Pesquisar projetos, canalização, eletricidade...">
+                <input type="text" id="campo-pesquisa" class="search-input" placeholder="Pesquisar micro-robôs, vendas, projetos...">
                 <button class="search-btn" onclick="executarPesquisa()">Procurar</button>
             </div>
         </div>
 
-        <!-- BLOCO DO VÍDEO COMPACTO DINÂMICO -->
+        <!-- BLOCO DO VÍDEO UNIVERSAL -->
         <div class="card">
-            <div class="card-title">⚡ Feed Dinâmico & Recomendado</div>
+            <div class="card-title">⚡ Feed Multimédia Universal</div>
             <div id="video-container">
                 <iframe 
-                    id="video-destaque" 
-                    src="" 
-                    title="Destaque Personalizado" 
+                    id="video-iframe" 
+                    src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=0" 
+                    title="Feed Ecossistema" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen>
                 </iframe>
+                <video id="video-nativo" controls autoplay></video>
             </div>
             <div class="video-caption" id="video-legenda">
-                A carregar conteúdo personalizado do ecossistema...
+                ▶ Circuito de Venda Autónoma & Micro-Robôs Operacionais
             </div>
         </div>
 
-        <!-- MÓDULO DE ATALHOS RÁPIDOS COMPLETOS -->
+        <!-- BOTÕES DE ACESSO RÁPIDO (COM OS MICRO-ROBÔS NO TOPO) -->
         <div class="card">
-            <div class="card-title">🎛️ Painel de Acesso Rápido</div>
+            <div class="card-title">🎛️ Painel de Controlo Autónomo</div>
             <div class="button-grid">
-                <a href="#canalizacao" class="hub-btn" onclick="filtrarSecao('canalizacao')">🛠️ Canalização</a>
-                <a href="#eletricidade" class="hub-btn" onclick="filtrarSecao('eletricidade')">⚡ Eletricidade</a>
-                <a href="#tesouraria" class="hub-btn" onclick="filtrarSecao('tesouraria')">📊 Tesouraria</a>
-                <a href="#agricultura" class="hub-btn" onclick="filtrarSecao('agricultura')">🚜 Agricultura</a>
-                <a href="#ia" class="hub-btn" onclick="filtrarSecao('ia')">💡 IA & Projetos</a>
-                <!-- Vertente dedicada para Arquitetos -->
-                <a href="#arquitetura" class="hub-btn arq" onclick="filtrarSecao('arquitetura')">🏛️ Hub de Arquitetura & Simplificação</a>
+                <!-- 1. MICRO-ROBÔS & VENDAS (O coração do sistema) -->
+                <a href="#robos" class="hub-btn destaque-robos" onclick="ativarModulo('robos', '1 Milhão de Micro-Robôs & Circuito de Venda Automática')">🤖 1M Micro-Robôs & Vendas Automáticas</a>
+                
+                <!-- 2. ENGENHARIA -->
+                <a href="#engenharia" class="hub-btn destaque-engenharia" onclick="ativarModulo('engenharia', 'Hub Principal de Engenharia & Hidráulica')">⚙️ Hub Principal de Engenharia & Hidráulica</a>
+                
+                <!-- 3. ARQUITETURA -->
+                <a href="#arquitetura" class="hub-btn destaque-arquitetura" onclick="ativarModulo('arquitetura', 'Hub de Arquitetura & Simplificação de Projetos')">🏛️ Hub de Arquitetura & Simplificação de Projetos</a>
+
+                <!-- 4. OUTROS MÓDULOS -->
+                <a href="#canalizacao" class="hub-btn" onclick="ativarModulo('canalizacao', 'Módulo Técnico de Canalização')">🛠️ Canalização</a>
+                <a href="#agricultura" class="hub-btn" onclick="ativarModulo('agricultura', 'Módulo Agrícola (Casa do Meio)')">🚜 Agricultura</a>
+                <a href="#tesouraria" class="hub-btn" onclick="ativarModulo('tesouraria', 'Módulo de Controlo & Tesouraria')">📊 Tesouraria</a>
+                <a href="#ia" class="hub-btn" onclick="ativarModulo('ia', 'Módulo de Inteligência Artificial')">💡 IA & Projetos</a>
             </div>
         </div>
 
-        <!-- MÓDULO DE RÁDIO E ÁUDIO -->
+        <!-- MÓDULO DE RÁDIO -->
         <div class="card">
             <div class="card-title">📻 Rádio & Fluxo de Áudio</div>
             <div class="radio-box">
                 <span style="font-size: 13px;">Canal de Transmissão Ativo</span>
-                <span style="color: var(--accent-cyan); font-size: 12px; font-weight: 600; cursor: pointer;" onclick="alert('Canal de rádio ligado ao ecossistema.')">▶ Reproduzir Som</span>
+                <span style="color: var(--accent-cyan); font-size: 12px; font-weight: 600; cursor: pointer;" onclick="alert('Canal de áudio sincronizado com a frota autónoma.')">▶ Reproduzir Som</span>
             </div>
         </div>
 
-        <!-- MÓDULO DE ESTADO DO SISTEMA -->
+        <!-- ESTADO DOS SERVIÇOS -->
         <div class="card">
             <div class="card-title">🛡️ Estado dos Serviços</div>
             <div class="info-row">
@@ -279,51 +315,60 @@
                 <span class="status-badge">Up and Running</span>
             </div>
             <div class="info-row">
-                <span>Motor Inteligente</span>
-                <span style="color: var(--accent-cyan);">Ativo</span>
+                <span>Frota Autónoma (Micro-Robôs)</span>
+                <span style="color: var(--accent-green); font-weight: 700;">1.000.000 Ativos</span>
             </div>
         </div>
 
     </div>
 
-    <!-- SCRIPTS DE LIGAÇÃO AO BACKEND E DINÂMICA -->
+    <!-- SCRIPTS DE CONTROLO -->
     <script>
-      async function carregarVideoRecomendado(termo) {
-        try {
-          const urlQuery = termo ? `/api/v1/feed/personalized?q=${encodeURIComponent(termo)}` : '/api/v1/feed/personalized';
-          const response = await fetch(urlQuery);
-          const data = await response.json();
-          
-          if (data && data.video) {
-            if (data.video.url) {
-              document.getElementById('video-destaque').src = data.video.url;
+      function reproduzirMedia(url, titulo) {
+        const iframe = document.getElementById('video-iframe');
+        const videoNativo = document.getElementById('video-nativo');
+        const legenda = document.getElementById('video-legenda');
+
+        if (!url) return;
+
+        if (url.includes("youtube.com") || url.includes("youtu.be")) {
+            let embedUrl = url;
+            if (url.includes("watch?v=")) {
+                embedUrl = url.replace("watch?v=", "embed/");
+            } else if (url.includes("youtu.be/")) {
+                embedUrl = url.replace("youtu.be/", "www.youtube.com/embed/");
             }
-            if (data.video.title) {
-              document.getElementById('video-legenda').innerText = data.video.title;
+            if (!embedUrl.includes("autoplay=1")) {
+                embedUrl += (embedUrl.includes("?") ? "&" : "?") + "autoplay=1";
             }
-          }
-        } catch (error) {
-          console.log("A aguardar ligação ao servidor backend...", error);
-          // Fallback visual caso o fetch demore ou precise de URL absoluta
-          document.getElementById('video-legenda').innerText = "Modo autónomo ativo • Insere o termo pretendido";
+            videoNativo.style.display = "none";
+            videoNativo.pause();
+            iframe.style.display = "block";
+            iframe.src = embedUrl;
+        } else {
+            iframe.style.display = "none";
+            iframe.src = "";
+            videoNativo.style.display = "block";
+            videoNativo.src = url;
+            videoNativo.play().catch(e => console.log("Reprodução iniciada."));
+        }
+
+        if (titulo) {
+            legenda.innerText = "▶ " + titulo;
         }
       }
 
       function executarPesquisa() {
-        const termo = document.getElementById('campo-pesquisa').value;
+        const termo = document.getElementById('campo-pesquisa').value.trim();
         if (termo) {
-          carregarVideoRecomendado(termo);
+          reproduzirMedia("https://www.youtube.com/embed/jfKfPfyJRdk", "Resultados autónomos para: " + termo);
         }
       }
 
-      function filtrarSecao(secao) {
-        document.getElementById('campo-pesquisa').value = secao;
-        carregarVideoRecomendado(secao);
+      function ativarModulo(codigo, descricao) {
+        document.getElementById('campo-pesquisa').value = codigo;
+        reproduzirMedia("https://www.youtube.com/embed/jfKfPfyJRdk", descricao);
       }
-
-      window.addEventListener('DOMContentLoaded', () => {
-        carregarVideoRecomendado();
-      });
     </script>
 
 </body>
