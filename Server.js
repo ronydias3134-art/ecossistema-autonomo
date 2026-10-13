@@ -1,66 +1,61 @@
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
 
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ecossistema Autónomo - Painel de Controlo</title>
-    <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-        body { background: #0f172a; color: #f8fafc; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
-        .container { max-width: 500px; width: 100%; background: #1e293b; border-radius: 16px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #334155; }
-        .header { text-align: center; margin-bottom: 24px; }
-        .header h1 { font-size: 1.5rem; color: #38bdf8; margin-bottom: 6px; }
-        .status-badge { display: inline-block; background: #0284c7; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
-        .card { background: #0f172a; border-radius: 12px; padding: 16px; margin-bottom: 16px; border: 1px solid #334155; }
-        .card h2 { font-size: 1rem; color: #94a3b8; margin-bottom: 12px; }
-        .input-group { margin-bottom: 12px; }
-        .input-group label { display: block; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 4px; }
-        .input-group input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: white; font-size: 1rem; }
-        .btn { width: 100%; padding: 12px; background: #0284c7; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 8px; }
-        .btn:hover { background: #0369a1; }
-        .result-box { margin-top: 16px; padding: 16px; border-radius: 8px; text-align: center; font-weight: bold; display: none; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Ecossistema Autónomo</h1>
-            <span class="status-badge">SISTEMA ATIVO</span>
-        </div>
+// O Render define automaticamente a variável PORT no ambiente
+const PORT = process.env.PORT || 10000;
 
-        <div class="card">
-            <h2>Simulador de Decisão Automática (Piso 10%)</h2>
-            <div class="input-group">
-                <label>Preço de Custo (€ / CVE):</label>
-                <input type="number" id="custo" value="100">
-            </div>
-            <div class="input-group">
-                <label>Preço de Venda (€ / CVE):</label>
-                <input type="number" id="venda" value="125">
-            </div>
-            <button class="btn" onclick="testarMargem()">Avaliar Oportunidade</button>
-            <div id="resultado" class="result-box"></div>
-        </div>
-    </div>
+const server = http.createServer((req, res) => {
+  // Define o caminho para o ficheiro index.html na raiz do projeto
+  let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
+  
+  // Obtém a extensão do ficheiro para definir o Content-Type correto
+  let extname = path.extname(filePath);
+  let contentType = 'text/html';
 
-    <script>
-        async function testarMargem() {
-            const custo = document.getElementById('custo').value;
-            const venda = document.getElementById('venda').value;
-            const resDiv = document.getElementById('resultado');
+  switch (extname) {
+    case '.js':
+      contentType = 'text/javascript';
+      break;
+    case '.css':
+      contentType = 'text/css';
+      break;
+    case '.json':
+      contentType = 'application/json';
+      break;
+    case '.png':
+      contentType = 'image/png';
+      break;
+    case '.jpg':
+      contentType = 'image/jpg';
+      break;
+  }
 
-            try {
-                const res = await fetch(`/api/avaliar?custo=${custo}&venda=${venda}`);
-                const data = await res.json();
+  // Lê o ficheiro e envia a resposta ao navegador
+  fs.readFile(filePath, (err, content) => {
+    if (err) {
+      if (err.code === 'ENOENT') {
+        // Se o ficheiro não for encontrado, tenta servir o index.html por padrão
+        fs.readFile(path.join(__dirname, 'index.html'), (error, defaultContent) => {
+          if (error) {
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end('Ficheiro não encontrado');
+          } else {
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(defaultContent, 'utf-8');
+          }
+        });
+      } else {
+        res.writeHead(500);
+        res.end(`Erro no servidor: ${err.code}`);
+      }
+    } else {
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(content, 'utf-8');
+    }
+  });
+});
 
-                resDiv.style.display = 'block';
-                resDiv.style.backgroundColor = data.cor || '#334155';
-                resDiv.innerHTML = `<div>ESTADO: ${data.estado}</div><div style="font-size:0.85rem; margin-top:6px;">${data.motivo || data.alerta}</div>`;
-            } catch (e) {
-                alert('Erro ao ligar ao servidor');
-            }
-        }
-    </script>
-</body>
-</html>
+server.listen(PORT, () => {
+  console.log(`Servidor a correr na porta ${PORT}`);
+});
