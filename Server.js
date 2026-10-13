@@ -1,8 +1,6 @@
-// ==========================================
-// ECOSSISTEMA AUTÓNOMO - MOTOR DE MARGENS
-// Atualização: Piso de 10% (Zero Tolerância)
-// ==========================================
+const http = require('http');
 
+// Configuração de Margens - Ecossistema Autónomo (Piso 10%)
 const CONFIG = {
     MARGEM_EXCELENCIA: 0.40, // >= 40% (Excelência / Prioridade Máxima)
     MARGEM_PADRAO: 0.20,     // 20% a 39.9% (Aval Padrão)
@@ -46,5 +44,20 @@ function avaliarOportunidade(precoCusto, precoVenda) {
         alerta: 'Margem de Excelência (>= 40%)' 
     };
 }
+
+// Servidor Web para manter a aplicação ativa no Render
+const PORT = process.env.PORT || 10000;
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ 
+        status: 'ONLINE', 
+        sistema: 'Ecossistema Autónomo',
+        piso_margem: '10%' 
+    }));
+});
+
+server.listen(PORT, () => {
+    console.log(`Servidor ativo na porta ${PORT}`);
+});
 
 module.exports = { avaliarOportunidade, CONFIG };
