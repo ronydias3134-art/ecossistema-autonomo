@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -116,7 +115,7 @@
             opacity: 0.9;
         }
 
-        /* Leitor de vídeo compacto */
+        /* Leitor de vídeo compacto dinâmico */
         #video-container {
             position: relative;
             width: 100%;
@@ -144,7 +143,7 @@
             margin-top: 8px;
         }
 
-        /* Botões e Atalhos (com Arquitetura incluída) */
+        /* Botões e Atalhos Completos */
         .button-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -166,6 +165,7 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
+            transition: all 0.2s ease;
         }
 
         .hub-btn:hover {
@@ -217,7 +217,7 @@
 
     <header>
         <h1>ECOSSISTEMA.HUB</h1>
-        <div class="subtitle">Painel Inteligente • Engenharia, Multimédia & Arquitetura</div>
+        <div class="subtitle">Painel Inteligente • Engenharia, Eletricidade & Arquitetura</div>
     </header>
 
     <div class="dashboard-grid">
@@ -226,38 +226,39 @@
         <div class="card">
             <div class="card-title">🔍 Pesquisa no Hub</div>
             <div class="search-box">
-                <input type="text" id="campo-pesquisa" class="search-input" placeholder="Pesquisar projetos, dados, arquitetura...">
+                <input type="text" id="campo-pesquisa" class="search-input" placeholder="Pesquisar projetos, canalização, eletricidade...">
                 <button class="search-btn" onclick="executarPesquisa()">Procurar</button>
             </div>
         </div>
 
-        <!-- BLOCO DO VÍDEO COMPACTO (Alta Definição) -->
+        <!-- BLOCO DO VÍDEO COMPACTO DINÂMICO -->
         <div class="card">
             <div class="card-title">⚡ Feed Dinâmico & Recomendado</div>
             <div id="video-container">
                 <iframe 
                     id="video-destaque" 
                     src="" 
-                    title="Destaque" 
+                    title="Destaque Personalizado" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen>
                 </iframe>
             </div>
-            <div class="video-caption">
-                Modo Compacto • Toque em ecrã inteiro para expandir
+            <div class="video-caption" id="video-legenda">
+                A carregar conteúdo personalizado do ecossistema...
             </div>
         </div>
 
-        <!-- MÓDULO DE ATALHOS RÁPIDOS & ARQUITETURA -->
+        <!-- MÓDULO DE ATALHOS RÁPIDOS COMPLETOS -->
         <div class="card">
             <div class="card-title">🎛️ Painel de Acesso Rápido</div>
             <div class="button-grid">
-                <a href="#" class="hub-btn">🛠️ Canalização</a>
-                <a href="#" class="hub-btn">📊 Tesouraria</a>
-                <a href="#" class="hub-btn">🚜 Agricultura</a>
-                <a href="#" class="hub-btn">💡 IA & Projetos</a>
+                <a href="#canalizacao" class="hub-btn" onclick="filtrarSecao('canalizacao')">🛠️ Canalização</a>
+                <a href="#eletricidade" class="hub-btn" onclick="filtrarSecao('eletricidade')">⚡ Eletricidade</a>
+                <a href="#tesouraria" class="hub-btn" onclick="filtrarSecao('tesouraria')">📊 Tesouraria</a>
+                <a href="#agricultura" class="hub-btn" onclick="filtrarSecao('agricultura')">🚜 Agricultura</a>
+                <a href="#ia" class="hub-btn" onclick="filtrarSecao('ia')">💡 IA & Projetos</a>
                 <!-- Vertente dedicada para Arquitetos -->
-                <a href="#" class="hub-btn arq">🏛️ Hub de Arquitetura & Simplificação de Projetos</a>
+                <a href="#arquitetura" class="hub-btn arq" onclick="filtrarSecao('arquitetura')">🏛️ Hub de Arquitetura & Simplificação</a>
             </div>
         </div>
 
@@ -266,7 +267,7 @@
             <div class="card-title">📻 Rádio & Fluxo de Áudio</div>
             <div class="radio-box">
                 <span style="font-size: 13px;">Canal de Transmissão Ativo</span>
-                <span style="color: var(--accent-cyan); font-size: 12px; font-weight: 600;">▶ Reproduzir Som</span>
+                <span style="color: var(--accent-cyan); font-size: 12px; font-weight: 600; cursor: pointer;" onclick="alert('Canal de rádio ligado ao ecossistema.')">▶ Reproduzir Som</span>
             </div>
         </div>
 
@@ -285,18 +286,26 @@
 
     </div>
 
-    <!-- SCRIPTS DE FUNCIONALIDADE -->
+    <!-- SCRIPTS DE LIGAÇÃO AO BACKEND E DINÂMICA -->
     <script>
       async function carregarVideoRecomendado(termo) {
         try {
           const urlQuery = termo ? `/api/v1/feed/personalized?q=${encodeURIComponent(termo)}` : '/api/v1/feed/personalized';
           const response = await fetch(urlQuery);
           const data = await response.json();
-          if (data && data.video && data.video.url) {
-            document.getElementById('video-destaque').src = data.video.url;
+          
+          if (data && data.video) {
+            if (data.video.url) {
+              document.getElementById('video-destaque').src = data.video.url;
+            }
+            if (data.video.title) {
+              document.getElementById('video-legenda').innerText = data.video.title;
+            }
           }
         } catch (error) {
-          console.log("A aguardar motor de feed...", error);
+          console.log("A aguardar ligação ao servidor backend...", error);
+          // Fallback visual caso o fetch demore ou precise de URL absoluta
+          document.getElementById('video-legenda').innerText = "Modo autónomo ativo • Insere o termo pretendido";
         }
       }
 
@@ -305,6 +314,11 @@
         if (termo) {
           carregarVideoRecomendado(termo);
         }
+      }
+
+      function filtrarSecao(secao) {
+        document.getElementById('campo-pesquisa').value = secao;
+        carregarVideoRecomendado(secao);
       }
 
       window.addEventListener('DOMContentLoaded', () => {
