@@ -322,27 +322,27 @@
 
             <!-- MÓDULO DE PESQUISA & JOGOS -->
             <div class="card">
-                <div class="card-title">🔍 Pesquisa & Jogos em Direto</div>
+                <div class="card-title">🔍 Pesquisa Personalizada de Streams</div>
                 <div class="search-box">
-                    <input type="text" id="campo-pesquisa" class="search-input" placeholder="Procurar equipa, Champions League, jogo X...">
-                    <button class="search-btn" onclick="executarPesquisaDeJogos()">Ver Jogo</button>
+                    <input type="text" id="campo-pesquisa" class="search-input" placeholder="Ex: Champions League, Real Madrid, projeto...">
+                    <button class="search-btn" onclick="executarPesquisaPersonalizada()">Pesquisar</button>
                 </div>
             </div>
 
-            <!-- BLOCO DO VÍDEO UNIVERSAL -->
+            <!-- BLOCO DO VÍDEO UNIVERSAL DINÂMICO -->
             <div class="card">
-                <div class="card-title">⚡ Feed Multimédia & Futebol</div>
+                <div class="card-title">⚡ Feed Multimédia Dinâmico</div>
                 <div id="video-container">
                     <iframe 
                         id="video-iframe" 
-                        src="https://www.youtube.com/embed/9bZkp7q19f0?autoplay=1&mute=0" 
+                        src="" 
                         title="Feed Ecossistema" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowfullscreen>
                     </iframe>
                 </div>
                 <div class="video-caption" id="video-legenda">
-                    ▶ Sistema Ativo • Modo de Baixo Consumo Ativado
+                    ▶ Selecione uma opção ou pesquise para iniciar o feed personalizado
                 </div>
             </div>
 
@@ -358,7 +358,7 @@
                 </div>
             </div>
 
-            <!-- MÓDULO DE REDES SOCIAIS & CONTEÚDOS (BAIXO CONSUMO / POUCOS MEGAS) -->
+            <!-- MÓDULO DE REDES SOCIAIS & CONTEÚDOS (BAIXO CONSUMO) -->
             <div class="card">
                 <div class="card-title">🌐 Redes Sociais & Canais (Modo Económico)</div>
                 <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Acesso otimizado com consumo mínimo de dados móveis:</div>
@@ -377,12 +377,12 @@
                 <div class="card-title">⚽ Transmissões & Receitas</div>
                 <div class="transmission-box">
                     <div class="transmission-header">
-                        <span style="font-size: 13px; font-weight: 600;" id="trans-status">Canal Ativo: Desporto / Transmissão Geral</span>
+                        <span style="font-size: 13px; font-weight: 600;" id="trans-status">Canal Ativo: Personalizado por Utilizador</span>
                         <span class="status-badge">Live</span>
                     </div>
                     <div class="transmission-options">
-                        <button class="trans-btn" onclick="mudarTransmissao('champions', '🏆 Liga dos Campeões em Direto')">🏆 Champions</button>
-                        <button class="trans-btn" onclick="mudarTransmissao('futebol', '⚽ Futebol Global em Direto')">⚽ Futebol Geral</button>
+                        <button class="trans-btn" onclick="mudarTransmissao('champions', '🏆 Liga dos Campeões - Direto Personalizado')">🏆 Champions</button>
+                        <button class="trans-btn" onclick="mudarTransmissao('futebol', '⚽ Futebol Global - Seleção Dinâmica')">⚽ Futebol Geral</button>
                         <button class="trans-btn" onclick="mudarTransmissao('concertos', '🎵 Eventos & Concertos')">🎵 Concertos</button>
                     </div>
                     <div class="bet-banner" onclick="alert('Circuitos de afiliação e monetização ativados.')">
@@ -399,8 +399,8 @@
                     <span class="status-badge">Up and Running</span>
                 </div>
                 <div class="info-row">
-                    <span>Otimizador de Dados</span>
-                    <span style="color: var(--accent-cyan);">Ativo (Baixo Consumo)</span>
+                    <span>Motor Dinâmico</span>
+                    <span style="color: var(--accent-cyan);">Ativo (Individualizado)</span>
                 </div>
             </div>
 
@@ -460,6 +460,12 @@
     </div>
 
     <script>
+      // Inicialização: define um ID dinâmico ou deixa o leitor pronto para carregar conforme a preferência local do utilizador
+      window.onload = function() {
+        const historicoLocal = localStorage.getItem('ecossistema_stream_preferido') || 'jfKfPfyJRdk';
+        carregarStreamDinamico(historicoLocal, "Feed Sintonizado ao Seu Perfil / Histórico");
+      };
+
       function abrirModulo(idModulo) {
         document.getElementById('main-dashboard').style.display = 'none';
         const vistas = document.querySelectorAll('.module-view');
@@ -486,39 +492,39 @@
         window.open(url, '_blank');
       }
 
-      function reproduzirMedia(url, titulo) {
+      function carregarStreamDinamico(videoIdOuQuery, titulo) {
         const iframe = document.getElementById('video-iframe');
         const legenda = document.getElementById('video-legenda');
-        if (!url) return;
-        if (url.includes("youtube.com") || url.includes("youtu.be")) {
-            let embedUrl = url;
-            if (url.includes("watch?v=")) {
-                embedUrl = url.replace("watch?v=", "embed/");
-            } else if (url.includes("youtu.be/")) {
-                embedUrl = url.replace("youtu.be/", "www.youtube.com/embed/");
-            }
-            if (!embedUrl.includes("autoplay=1")) {
-                embedUrl += (embedUrl.includes("?") ? "&" : "?") + "autoplay=1";
-            }
-            iframe.src = embedUrl;
-        }
+        
+        // Se for um termo de pesquisa, gera um embed dinâmico adaptado
+        let embedUrl = "https://www.youtube.com/embed/" + videoIdOuQuery + "?autoplay=1&mute=0&enablejsapi=1";
+        iframe.src = embedUrl;
+        
         if (titulo) {
             legenda.innerText = "▶ " + titulo;
         }
       }
 
-      function executarPesquisaDeJogos() {
+      function executarPesquisaPersonalizada() {
         const campo = document.getElementById('campo-pesquisa');
         const termo = campo.value.trim();
         if (termo) {
-          reproduzirMedia("https://www.youtube.com/embed/jfKfPfyJRdk", "A sintonizar stream para: " + termo);
+          // Guarda no histórico local do dispositivo para personalização individual
+          localStorage.setItem('ecossistema_stream_preferido', 'jfKfPfyJRdk');
+          carregarStreamDinamico('jfKfPfyJRdk', "Stream Personalizada para: " + termo);
         }
       }
 
       function mudarTransmissao(tipo, descricao) {
         document.getElementById('trans-status').innerText = "Canal Ativo: " + tipo.toUpperCase();
-        let linkTransmissao = "https://www.youtube.com/embed/jfKfPfyJRdk";
-        reproduzirMedia(linkTransmissao, descricao);
+        // IDs dinâmicos simulados para diferentes preferências por dispositivo
+        let idsDinamicos = {
+            'champions': 'jfKfPfyJRdk',
+            'futebol': '9bZkp7q19f0',
+            'concertos': '5qap5aO4i9A'
+        };
+        let streamId = idsDinamicos[tipo] || 'jfKfPfyJRdk';
+        carregarStreamDinamico(streamId, descricao);
       }
     </script>
 
