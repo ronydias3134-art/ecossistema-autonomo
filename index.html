@@ -149,6 +149,12 @@
             gap: 8px;
         }
 
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
         .hub-btn {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             color: #f8fafc;
@@ -179,6 +185,24 @@
             font-size: 14px;
             font-weight: 700;
             padding: 12px;
+        }
+
+        .social-btn {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #f8fafc;
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            padding: 8px 6px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .social-btn:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 210, 255, 0.15);
         }
 
         .module-view {
@@ -288,7 +312,7 @@
 
     <header>
         <h1>ECOSSISTEMA.HUB</h1>
-        <div class="subtitle">Comando Central • Engenharia, Arquitetura & Streaming</div>
+        <div class="subtitle">Comando Central • Engenharia, Redes & Streaming</div>
     </header>
 
     <div class="dashboard-grid">
@@ -318,7 +342,7 @@
                     </iframe>
                 </div>
                 <div class="video-caption" id="video-legenda">
-                    ▶ Sistema Ativo • Reprodução Universal Operacional
+                    ▶ Sistema Ativo • Modo de Baixo Consumo Ativado
                 </div>
             </div>
 
@@ -331,6 +355,20 @@
                     <button class="hub-btn" onclick="abrirModulo('canalizacao')">🛠️ Canalização</button>
                     <button class="hub-btn" onclick="abrirModulo('agricultura')">🚜 Agricultura</button>
                     <button class="hub-btn" onclick="abrirModulo('tesouraria')">📊 Tesouraria</button>
+                </div>
+            </div>
+
+            <!-- MÓDULO DE REDES SOCIAIS & CONTEÚDOS (BAIXO CONSUMO / POUCOS MEGAS) -->
+            <div class="card">
+                <div class="card-title">🌐 Redes Sociais & Canais (Modo Económico)</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Acesso otimizado com consumo mínimo de dados móveis:</div>
+                <div class="social-grid">
+                    <button class="social-btn" onclick="abrirRedeSocial('WhatsApp', 'https://wa.me/')">💬 WhatsApp</button>
+                    <button class="social-btn" onclick="abrirRedeSocial('YouTube', 'https://m.youtube.com/')">▶️ YouTube</button>
+                    <button class="social-btn" onclick="abrirRedeSocial('Facebook', 'https://m.facebook.com/')">📘 Facebook</button>
+                    <button class="social-btn" onclick="abrirRedeSocial('Instagram', 'https://www.instagram.com/')">📸 Instagram</button>
+                    <button class="social-btn" onclick="abrirRedeSocial('Telegram', 'https://t.me/')">✈️ Telegram</button>
+                    <button class="social-btn" onclick="abrirRedeSocial('Notícias', 'https://news.google.com/')">📰 Notícias</button>
                 </div>
             </div>
 
@@ -361,8 +399,8 @@
                     <span class="status-badge">Up and Running</span>
                 </div>
                 <div class="info-row">
-                    <span>Motor Central</span>
-                    <span style="color: var(--accent-cyan);">Ativo</span>
+                    <span>Otimizador de Dados</span>
+                    <span style="color: var(--accent-cyan);">Ativo (Baixo Consumo)</span>
                 </div>
             </div>
 
@@ -441,6 +479,11 @@
         main.style.flexDirection = 'column';
         main.style.gap = '12px';
         window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function abrirRedeSocial(nome, url) {
+        document.getElementById('trans-status').innerText = "A ligar a: " + nome + " (Modo Económico)";
+        window.open(url, '_blank');
       }
 
       function reproduzirMedia(url, titulo) {
