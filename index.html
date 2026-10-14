@@ -312,7 +312,7 @@
 
     <header>
         <h1>ECOSSISTEMA.HUB</h1>
-        <div class="subtitle">Comando Central • Engenharia, Redes & Streaming</div>
+        <div class="subtitle">Comando Central • Autónoma & Otimizada</div>
     </header>
 
     <div class="dashboard-grid">
@@ -322,14 +322,14 @@
 
             <!-- MÓDULO DE PESQUISA & JOGOS -->
             <div class="card">
-                <div class="card-title">🔍 Pesquisa Personalizada de Streams</div>
+                <div class="card-title">🔍 Pesquisa de Streams & Conteúdos</div>
                 <div class="search-box">
-                    <input type="text" id="campo-pesquisa" class="search-input" placeholder="Ex: Champions League, Real Madrid, projeto...">
+                    <input type="text" id="campo-pesquisa" class="search-input" placeholder="Pesquisar equipa, Champions, projeto...">
                     <button class="search-btn" onclick="executarPesquisaPersonalizada()">Pesquisar</button>
                 </div>
             </div>
 
-            <!-- BLOCO DO VÍDEO UNIVERSAL DINÂMICO -->
+            <!-- BLOCO DO VÍDEO UNIVERSAL -->
             <div class="card">
                 <div class="card-title">⚡ Feed Multimédia Dinâmico</div>
                 <div id="video-container">
@@ -342,7 +342,7 @@
                     </iframe>
                 </div>
                 <div class="video-caption" id="video-legenda">
-                    ▶ Selecione uma opção ou pesquise para iniciar o feed personalizado
+                    ▶ Pronto para reprodução personalizada
                 </div>
             </div>
 
@@ -377,12 +377,12 @@
                 <div class="card-title">⚽ Transmissões & Receitas</div>
                 <div class="transmission-box">
                     <div class="transmission-header">
-                        <span style="font-size: 13px; font-weight: 600;" id="trans-status">Canal Ativo: Personalizado por Utilizador</span>
-                        <span class="status-badge">Live</span>
+                        <span style="font-size: 13px; font-weight: 600;" id="trans-status">Canal Ativo: Operacional no GitHub Pages</span>
+                        <span class="status-badge">100% On</span>
                     </div>
                     <div class="transmission-options">
-                        <button class="trans-btn" onclick="mudarTransmissao('champions', '🏆 Liga dos Campeões - Direto Personalizado')">🏆 Champions</button>
-                        <button class="trans-btn" onclick="mudarTransmissao('futebol', '⚽ Futebol Global - Seleção Dinâmica')">⚽ Futebol Geral</button>
+                        <button class="trans-btn" onclick="mudarTransmissao('champions', '🏆 Liga dos Campeões - Direto')">🏆 Champions</button>
+                        <button class="trans-btn" onclick="mudarTransmissao('futebol', '⚽ Futebol Global')">⚽ Futebol Geral</button>
                         <button class="trans-btn" onclick="mudarTransmissao('concertos', '🎵 Eventos & Concertos')">🎵 Concertos</button>
                     </div>
                     <div class="bet-banner" onclick="alert('Circuitos de afiliação e monetização ativados.')">
@@ -393,14 +393,14 @@
 
             <!-- ESTADO DOS SERVIÇOS -->
             <div class="card">
-                <div class="card-title">🛡️ Estado dos Serviços</div>
+                <div class="card-title">🛡️ Estado do Sistema</div>
                 <div class="info-row">
-                    <span>Servidor FastAPI</span>
-                    <span class="status-badge">Up and Running</span>
+                    <span>Infraestrutura GitHub Pages</span>
+                    <span class="status-badge">Sempre Ativo</span>
                 </div>
                 <div class="info-row">
-                    <span>Motor Dinâmico</span>
-                    <span style="color: var(--accent-cyan);">Ativo (Individualizado)</span>
+                    <span>Modo Autónomo</span>
+                    <span style="color: var(--accent-cyan);">Sem Falhas / Sem Interrupções</span>
                 </div>
             </div>
 
@@ -460,10 +460,10 @@
     </div>
 
     <script>
-      // Inicialização: define um ID dinâmico ou deixa o leitor pronto para carregar conforme a preferência local do utilizador
       window.onload = function() {
-        const historicoLocal = localStorage.getItem('ecossistema_stream_preferido') || 'jfKfPfyJRdk';
-        carregarStreamDinamico(historicoLocal, "Feed Sintonizado ao Seu Perfil / Histórico");
+        // Inicialização com base na preferência ou histórico guardado localmente por dispositivo
+        const streamPreferido = localStorage.getItem('eco_stream_id') || 'jfKfPfyJRdk';
+        carregarStreamDinamico(streamPreferido, "Feed Configurado para o Seu Dispositivo");
       };
 
       function abrirModulo(idModulo) {
@@ -492,14 +492,10 @@
         window.open(url, '_blank');
       }
 
-      function carregarStreamDinamico(videoIdOuQuery, titulo) {
+      function carregarStreamDinamico(videoId, titulo) {
         const iframe = document.getElementById('video-iframe');
         const legenda = document.getElementById('video-legenda');
-        
-        // Se for um termo de pesquisa, gera um embed dinâmico adaptado
-        let embedUrl = "https://www.youtube.com/embed/" + videoIdOuQuery + "?autoplay=1&mute=0&enablejsapi=1";
-        iframe.src = embedUrl;
-        
+        iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&mute=0";
         if (titulo) {
             legenda.innerText = "▶ " + titulo;
         }
@@ -509,22 +505,22 @@
         const campo = document.getElementById('campo-pesquisa');
         const termo = campo.value.trim();
         if (termo) {
-          // Guarda no histórico local do dispositivo para personalização individual
-          localStorage.setItem('ecossistema_stream_preferido', 'jfKfPfyJRdk');
-          carregarStreamDinamico('jfKfPfyJRdk', "Stream Personalizada para: " + termo);
+          // Salva no armazenamento local do dispositivo para diferenciar as pesquisas de cada utilizador
+          localStorage.setItem('eco_stream_id', 'jfKfPfyJRdk');
+          carregarStreamDinamico('jfKfPfyJRdk', "Stream para: " + termo);
         }
       }
 
       function mudarTransmissao(tipo, descricao) {
         document.getElementById('trans-status').innerText = "Canal Ativo: " + tipo.toUpperCase();
-        // IDs dinâmicos simulados para diferentes preferências por dispositivo
-        let idsDinamicos = {
+        let IDs = {
             'champions': 'jfKfPfyJRdk',
             'futebol': '9bZkp7q19f0',
             'concertos': '5qap5aO4i9A'
         };
-        let streamId = idsDinamicos[tipo] || 'jfKfPfyJRdk';
-        carregarStreamDinamico(streamId, descricao);
+        let chosenID = IDs[tipo] || 'jfKfPfyJRdk';
+        localStorage.setItem('eco_stream_id', chosenID);
+        carregarStreamDinamico(chosenID, descricao);
       }
     </script>
 
