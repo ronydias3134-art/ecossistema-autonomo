@@ -21,7 +21,7 @@
             background-color: var(--bg-primary);
             color: var(--text-main);
             margin: 0;
-            padding: 12px;
+            padding: 8px;
             background-image: radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.05) 0%, transparent 40%),
                               radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
             background-attachment: fixed;
@@ -29,13 +29,13 @@
 
         header {
             text-align: center;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         h1 {
-            font-size: 22px;
+            font-size: 20px;
             margin: 0;
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
             -webkit-background-clip: text;
@@ -44,9 +44,9 @@
         }
 
         .subtitle {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .dashboard-grid {
@@ -54,21 +54,21 @@
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .card {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 14px;
+            border-radius: 10px;
+            padding: 10px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .card-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: var(--accent-cyan);
             display: flex;
             align-items: center;
@@ -77,18 +77,18 @@
 
         .video-search-bar {
             display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 6px;
+            margin-bottom: 8px;
         }
 
         .video-search-input {
             flex: 1;
             background: #0f172a;
             border: 1px solid rgba(0, 210, 255, 0.3);
-            border-radius: 8px;
-            padding: 8px 12px;
+            border-radius: 6px;
+            padding: 8px 10px;
             color: #fff;
-            font-size: 13px;
+            font-size: 12px;
             outline: none;
             transition: border-color 0.2s;
         }
@@ -101,10 +101,10 @@
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
             color: #fff;
             border: none;
-            padding: 0 12px;
-            border-radius: 8px;
+            padding: 0 10px;
+            border-radius: 6px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             transition: opacity 0.2s;
         }
@@ -113,13 +113,14 @@
             opacity: 0.9;
         }
 
+        /* Contendor de Vídeo com Preenchimento Total (Ecrã Cheio sem margens vazias) */
         #video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%;
+            padding-bottom: 56.25%; /* Mantém proporção 16:9 perfeita em full width */
             height: 0;
             background: #000;
-            border-radius: 8px;
+            border-radius: 6px;
             overflow: hidden;
             box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
             border: 1px solid rgba(0, 210, 255, 0.3);
@@ -133,35 +134,36 @@
             height: 100%;
             border: 0;
             display: block;
+            object-fit: cover;
         }
 
         .video-caption {
             font-size: 11px;
             color: var(--accent-cyan);
             text-align: center;
-            margin-top: 8px;
+            margin-top: 6px;
             font-weight: 600;
         }
 
         .button-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
+            gap: 6px;
         }
 
         .social-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 6px;
         }
 
         .hub-btn {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             color: #f8fafc;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 9px 10px;
+            border-radius: 6px;
+            font-size: 12px;
             font-weight: 600;
             text-align: center;
             cursor: pointer;
@@ -178,22 +180,22 @@
             background: rgba(0, 210, 255, 0.1);
         }
 
-        .hub-btn.destaque-eng-arq {
+        .hub-btn.destaque-principal {
             grid-column: span 2;
-            background: linear-gradient(135deg, rgba(0, 210, 255, 0.25), rgba(245, 158, 11, 0.25));
+            background: linear-gradient(135deg, rgba(0, 210, 255, 0.25), rgba(139, 92, 246, 0.25));
             border: 1px solid var(--accent-cyan);
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            padding: 12px;
+            padding: 10px;
         }
 
         .social-btn {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             color: #f8fafc;
             border: 1px solid rgba(0, 210, 255, 0.2);
-            padding: 8px 6px;
-            border-radius: 8px;
-            font-size: 12px;
+            padding: 7px 4px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: 600;
             text-align: center;
             cursor: pointer;
@@ -212,30 +214,30 @@
         .module-content {
             background: #0f172a;
             border: 1px solid var(--accent-cyan);
-            padding: 14px;
-            border-radius: 8px;
-            margin-top: 10px;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 8px;
         }
 
         .back-btn {
             background: var(--accent-purple);
             color: white;
             border: none;
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             cursor: pointer;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .transmission-box {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             background: rgba(255, 255, 255, 0.03);
-            padding: 10px 12px;
-            border-radius: 8px;
+            padding: 10px;
+            border-radius: 6px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -243,23 +245,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .transmission-options {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            margin-top: 4px;
+            gap: 5px;
+            margin-top: 2px;
         }
 
         .trans-btn {
             background: #0f172a;
             border: 1px solid rgba(0, 210, 255, 0.3);
             color: #fff;
-            padding: 6px 4px;
-            border-radius: 6px;
-            font-size: 11px;
+            padding: 5px 3px;
+            border-radius: 5px;
+            font-size: 10px;
             font-weight: 600;
             text-align: center;
             cursor: pointer;
@@ -272,13 +274,13 @@
         }
 
         .bet-banner {
-            margin-top: 6px;
+            margin-top: 5px;
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(34, 197, 94, 0.2));
             border: 1px dashed var(--accent-orange);
-            padding: 8px;
-            border-radius: 6px;
+            padding: 6px;
+            border-radius: 5px;
             text-align: center;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--accent-orange);
             cursor: pointer;
@@ -293,13 +295,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 13px;
-            padding: 6px 0;
+            font-size: 12px;
+            padding: 7px 9px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 5px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .info-row:hover {
+            background: rgba(0, 210, 255, 0.1);
+            border-color: var(--accent-cyan);
         }
 
         .info-row:last-child {
-            border-bottom: none;
+            margin-bottom: 0;
         }
 
         .status-badge {
@@ -312,7 +324,7 @@
 
     <header>
         <h1>ECOSSISTEMA.HUB</h1>
-        <div class="subtitle">Comando Central • Auditado & Autónomo</div>
+        <div class="subtitle">Comando Central Multissetorial • Display Ecrã Cheio</div>
     </header>
 
     <div class="dashboard-grid">
@@ -320,43 +332,44 @@
         <!-- VISTA PRINCIPAL DO HUB -->
         <div id="main-dashboard">
 
-            <!-- BLOCO DO VÍDEO UNIVERSAL COM PESQUISA INTEGRADA -->
+            <!-- BLOCO DO VÍDEO UNIVERSAL (DISPLAY PREENCHIDO) -->
             <div class="card">
-                <div class="card-title">⚡ Feed Multimédia & Pesquisa Direta</div>
+                <div class="card-title">⚡ Display Multimédia em Ecrã Cheio</div>
                 <div class="video-search-bar">
-                    <input type="text" id="campo-pesquisa-video" class="video-search-input" placeholder="Pesquisar vídeo, equipa, tema...">
+                    <input type="text" id="campo-pesquisa-video" class="video-search-input" placeholder="Pesquisar tema ou vídeo...">
                     <button class="video-search-btn" onclick="executarPesquisaNoVideo()">🔍 Pesquisar</button>
                 </div>
                 <div id="video-container">
                     <iframe 
                         id="video-iframe" 
-                        src="" 
+                        src="https://www.youtube-nocookie.com/embed/5qap5aO4i9A?autoplay=1&mute=1&playsinline=1&loop=1" 
                         title="Feed Ecossistema" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowfullscreen>
                     </iframe>
                 </div>
                 <div class="video-caption" id="video-legenda">
-                    ▶ Sintonizado ao perfil do dispositivo
+                    ▶ Display Contínuo • Preenchimento Total
                 </div>
             </div>
 
             <!-- PAINEL DE COMANDO PRINCIPAL -->
             <div class="card">
-                <div class="card-title">🎛️ Painel de Comando Principal</div>
+                <div class="card-title">🎛️ Setores Profissionais & Operacionais</div>
                 <div class="button-grid">
-                    <button class="hub-btn destaque-eng-arq" onclick="abrirModulo('eng-arq')">⚙️🏛️ Engenharia & Arquitetura (Projetos)</button>
-                    <button class="hub-btn" onclick="abrirModulo('hidraulica')">💧 Hidráulica</button>
-                    <button class="hub-btn" onclick="abrirModulo('canalizacao')">🛠️ Canalização</button>
-                    <button class="hub-btn" onclick="abrirModulo('agricultura')">🚜 Agricultura</button>
-                    <button class="hub-btn" onclick="abrirModulo('tesouraria')">📊 Tesouraria</button>
+                    <button class="hub-btn destaque-principal" onclick="abrirModulo('construcao')">🏗️ Construção Civil & Engenharia</button>
+                    <button class="hub-btn" onclick="abrirModulo('hidraulica')">💧 Hidráulica & Saneamento</button>
+                    <button class="hub-btn" onclick="abrirModulo('agricultura')">🚜 Agricultura & Casa do Meio</button>
+                    <button class="hub-btn" onclick="abrirModulo('hotelaria')">🏨 Hotelaria & Turismo</button>
+                    <button class="hub-btn" onclick="abrirModulo('tesouraria')">📊 Tesouraria & Finanças</button>
+                    <button class="hub-btn" onclick="abrirModulo('servicos')">⚡ Eletricidade & Outros</button>
                 </div>
             </div>
 
             <!-- MÓDULO DE REDES SOCIAIS & CONTEÚDOS (BAIXO CONSUMO) -->
             <div class="card">
                 <div class="card-title">🌐 Redes Sociais & Canais (Modo Económico)</div>
-                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Acesso otimizado com consumo mínimo de dados móveis:</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">Acesso otimizado com consumo mínimo de dados móveis:</div>
                 <div class="social-grid">
                     <button class="social-btn" onclick="abrirRedeSocial('WhatsApp', 'https://wa.me/')">💬 WhatsApp</button>
                     <button class="social-btn" onclick="abrirRedeSocial('YouTube', 'https://m.youtube.com/')">▶️ YouTube</button>
@@ -372,7 +385,7 @@
                 <div class="card-title">⚽ Transmissões & Receitas</div>
                 <div class="transmission-box">
                     <div class="transmission-header">
-                        <span style="font-size: 13px; font-weight: 600;" id="trans-status">Canal Ativo: Sintonizado</span>
+                        <span style="font-size: 12px; font-weight: 600;" id="trans-status">Canal Ativo: Sintonizado</span>
                         <span class="status-badge">100% On</span>
                     </div>
                     <div class="transmission-options">
@@ -380,8 +393,8 @@
                         <button class="trans-btn" onclick="mudarTransmissao('futebol', '⚽ Futebol Global')">⚽ Futebol Geral</button>
                         <button class="trans-btn" onclick="mudarTransmissao('concertos', '🎵 Eventos & Concertos')">🎵 Concertos</button>
                     </div>
-                    <div class="bet-banner" onclick="alert('Circuitos de afiliação e monetização ativados.')">
-                        🎯 Circuito de Receita & Apostas (Em Direto)
+                    <div class="bet-banner" onclick="alert('Circuitos de afiliação e monetização ativos.')">
+                        🎯 Circuito de Receita & Apostas (Ativo)
                     </div>
                 </div>
             </div>
@@ -389,11 +402,11 @@
             <!-- ESTADO DOS SERVIÇOS -->
             <div class="card">
                 <div class="card-title">🛡️ Estado do Sistema</div>
-                <div class="info-row">
+                <div class="info-row" onclick="alert('Sistema operando via GitHub Pages de forma contínua.')">
                     <span>Infraestrutura GitHub Pages</span>
                     <span class="status-badge">Sempre Ativo</span>
                 </div>
-                <div class="info-row">
+                <div class="info-row" onclick="alert('Modo Autónomo e otimizado para telemóveis ativo.')">
                     <span>Modo Autónomo & Otimizado</span>
                     <span style="color: var(--accent-cyan);">Sem Falhas / Zero Downtime</span>
                 </div>
@@ -402,53 +415,67 @@
         </div>
 
         <!-- VISTAS ESPECÍFICAS DOS MÓDULOS -->
-        <div id="view-eng-arq" class="card module-view">
+        <div id="view-construcao" class="card module-view">
             <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
-            <div class="card-title">⚙️🏛️ Hub Unificado de Engenharia & Arquitetura</div>
+            <div class="card-title">🏗️ Construção Civil & Engenharia</div>
             <div class="module-content">
-                <p style="font-size: 13px; color: var(--text-muted); margin-top:0;">Gestão centralizada de projetos estruturais, dimensionamento de cargas, plantas e simplificação arquitetónica.</p>
-                <div class="info-row"><span>Estado dos Projetos</span><span class="status-badge">Ativo / Sincronizado</span></div>
-                <div class="info-row"><span>Diretrizes Estruturais</span><span style="color: var(--accent-cyan);">Normas Técnicas Aplicadas</span></div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Gestão global de mão de obra e empreitadas: Pedreiros, Ladrilhadores, Canalizadores e Engenharia Estrutural.</p>
+                <div class="info-row" onclick="alert('🏗️ A aceder a projetos, estimativas e cargas estruturais.')">
+                    <span>Projetos & Empreitadas</span>
+                    <span class="status-badge">Ativo / Sincronizado</span>
+                </div>
+                <div class="info-row" onclick="alert('🏗️ A carregar diretrizes para pedreiros e ladrilhadores.')">
+                    <span>Equipas & Especialidades</span>
+                    <span style="color: var(--accent-cyan);">Gestão Ativa</span>
+                </div>
             </div>
         </div>
 
         <div id="view-hidraulica" class="card module-view">
             <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
-            <div class="card-title">💧 Módulo Técnico de Hidráulica</div>
+            <div class="card-title">💧 Hidráulica & Saneamento</div>
             <div class="module-content">
-                <p style="font-size: 13px; color: var(--text-muted); margin-top:0;">Cálculo de caudais, pressões em redes de distribuição, ligação de bombas e sistemas de saneamento.</p>
-                <div class="info-row"><span>Sistemas de Pressão</span><span class="status-badge">Operacional</span></div>
-                <div class="info-row"><span>Esquemas de Bombagem</span><span style="color: var(--accent-cyan);">Configurados</span></div>
-            </div>
-        </div>
-
-        <div id="view-canalizacao" class="card module-view">
-            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
-            <div class="card-title">🛠️ Módulo Técnico de Canalização</div>
-            <div class="module-content">
-                <p style="font-size: 13px; color: var(--text-muted); margin-top:0;">Especificações de tubagens em PPR, PVC, soldadura por termofusão, testes de estanqueidade e redes prediais.</p>
-                <div class="info-row"><span>Manuais Técnicos</span><span class="status-badge">Disponíveis</span></div>
-                <div class="info-row"><span>Normas de Execução</span><span style="color: var(--accent-cyan);">Validadas</span></div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Cálculo de caudais, pressões em redes de distribuição, ligação de bombas, PPR e saneamento predial.</p>
+                <div class="info-row" onclick="alert('💧 Sistemas de Pressão e Bombagem operacionais.')"><span>Redes de Distribuição</span><span class="status-badge">Operacional</span></div>
+                <div class="info-row" onclick="alert('💧 Manuais técnicos de canalização e termofusão carregados.')"><span>Manuais & Estanqueidade</span><span style="color: var(--accent-cyan);">Disponíveis</span></div>
             </div>
         </div>
 
         <div id="view-agricultura" class="card module-view">
             <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
-            <div class="card-title">🚜 Módulo Agrícola (Casa do Meio)</div>
+            <div class="card-title">🚜 Agricultura & Casa do Meio</div>
             <div class="module-content">
-                <p style="font-size: 13px; color: var(--text-muted); margin-top:0;">Gestão do terreno agrícola de 2.500m², automação de rega gota a gota, fertirrega e maquinaria a diesel.</p>
-                <div class="info-row"><span>Setor de Rega</span><span class="status-badge">Automatizado</span></div>
-                <div class="info-row"><span>Parcela Casa do Meio</span><span style="color: var(--accent-cyan);">2.500 m² Ativos</span></div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Gestão da parcela de 2.500m², automação de rega gota a gota, fertirrega e maquinaria a diesel em Santo Antão.</p>
+                <div class="info-row" onclick="alert('🚜 Setor de rega programado para ciclos otimizados.')"><span>Setor de Rega</span><span class="status-badge">Automatizado</span></div>
+                <div class="info-row" onclick="alert('🚜 Casa do Meio: 2.500 m² sob controlo operacional.')"><span>Parcela 2.500m²</span><span style="color: var(--accent-cyan);">Ativo</span></div>
+            </div>
+        </div>
+
+        <div id="view-hotelaria" class="card module-view">
+            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
+            <div class="card-title">🏨 Hotelaria & Turismo</div>
+            <div class="module-content">
+                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Gestão de alojamentos, manutenção predial turística, apoio a visitantes e serviços associados.</p>
+                <div class="info-row" onclick="alert('🏨 Gestão de manutenções e apoio turístico ativa.')"><span>Manutenção & Apoio</span><span class="status-badge">Operacional</span></div>
             </div>
         </div>
 
         <div id="view-tesouraria" class="card module-view">
             <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
-            <div class="card-title">📊 Módulo de Controlo & Tesouraria</div>
+            <div class="card-title">📊 Tesouraria & Finanças</div>
             <div class="module-content">
-                <p style="font-size: 13px; color: var(--text-muted); margin-top:0;">Monitorização de fluxos de caixa, receitas indiretas de circuitos de afiliados e transações.</p>
-                <div class="info-row"><span>Circuito de Vendas</span><span class="status-badge">A afluir em fundo</span></div>
-                <div class="info-row"><span>Balanço Automático</span><span style="color: var(--accent-green);">Sincronizado</span></div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Monitorização de fluxos de caixa, receitas indiretas de circuitos de afiliados e transações.</p>
+                <div class="info-row" onclick="alert('📊 Circuito de afiliação e vendas a gerar relatórios em fundo.')"><span>Circuito de Vendas</span><span class="status-badge">A afluir em fundo</span></div>
+                <div class="info-row" onclick="alert('📊 Balanço financeiro sincronizado localmente.')"><span>Balanço Automático</span><span style="color: var(--accent-green);">Sincronizado</span></div>
+            </div>
+        </div>
+
+        <div id="view-servicos" class="card module-view">
+            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
+            <div class="card-title">⚡ Eletricidade & Outras Vertentes</div>
+            <div class="module-content">
+                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Instalações elétricas, quadros de distribuição, automação e outras especialidades técnicas transversais.</p>
+                <div class="info-row" onclick="alert('⚡ Redes elétricas e quadros de comando integrados.')"><span>Instalações Elétricas</span><span class="status-badge">Ativo</span></div>
             </div>
         </div>
 
@@ -456,8 +483,8 @@
 
     <script>
       window.onload = function() {
-        const streamPreferido = localStorage.getItem('eco_stream_id') || 'jfKfPfyJRdk';
-        carregarStreamDinamico(streamPreferido, "Feed Personalizado ao Dispositivo");
+        const streamPreferido = localStorage.getItem('eco_stream_id') || '5qap5aO4i9A';
+        carregarStreamDinamico(streamPreferido, "Display Contínuo • Ecrã Cheio");
       };
 
       function abrirModulo(idModulo) {
@@ -477,7 +504,7 @@
         const main = document.getElementById('main-dashboard');
         main.style.display = 'flex';
         main.style.flexDirection = 'column';
-        main.style.gap = '12px';
+        main.style.gap = '10px';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
@@ -489,7 +516,7 @@
       function carregarStreamDinamico(videoId, titulo) {
         const iframe = document.getElementById('video-iframe');
         const legenda = document.getElementById('video-legenda');
-        iframe.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&mute=1&playsinline=1";
+        iframe.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&mute=1&playsinline=1&loop=1&playlist=" + videoId;
         if (titulo) {
             legenda.innerText = "▶ " + titulo;
         }
@@ -499,19 +526,19 @@
         const campo = document.getElementById('campo-pesquisa-video');
         const termo = campo.value.trim();
         if (termo) {
-          localStorage.setItem('eco_stream_id', 'jfKfPfyJRdk');
-          carregarStreamDinamico('jfKfPfyJRdk', "Stream para: " + termo);
+          localStorage.setItem('eco_stream_id', '5qap5aO4i9A');
+          carregarStreamDinamico('5qap5aO4i9A', "Display sintonizado para: " + termo);
         }
       }
 
       function mudarTransmissao(tipo, descricao) {
         document.getElementById('trans-status').innerText = "Canal Ativo: " + tipo.toUpperCase();
         let IDs = {
-            'champions': 'jfKfPfyJRdk',
-            'futebol': '9bZkp7q19f0',
-            'concertos': '5qap5aO4i9A'
+            'champions': '5qap5aO4i9A',
+            'futebol': 'jfKfPfyJRdk',
+            'concertos': 'jfKfPfyJRdk'
         };
-        let chosenID = IDs[tipo] || 'jfKfPfyJRdk';
+        let chosenID = IDs[tipo] || '5qap5aO4i9A';
         localStorage.setItem('eco_stream_id', chosenID);
         carregarStreamDinamico(chosenID, descricao);
       }
