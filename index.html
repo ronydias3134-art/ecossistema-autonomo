@@ -75,33 +75,33 @@
             gap: 6px;
         }
 
-        .search-box {
+        .video-search-bar {
             display: flex;
             gap: 8px;
-            margin-bottom: 4px;
+            margin-bottom: 10px;
         }
 
-        .search-input {
+        .video-search-input {
             flex: 1;
             background: #0f172a;
             border: 1px solid rgba(0, 210, 255, 0.3);
             border-radius: 8px;
-            padding: 10px 12px;
+            padding: 8px 12px;
             color: #fff;
             font-size: 13px;
             outline: none;
             transition: border-color 0.2s;
         }
 
-        .search-input:focus {
+        .video-search-input:focus {
             border-color: var(--accent-cyan);
         }
 
-        .search-btn {
+        .video-search-btn {
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
             color: #fff;
             border: none;
-            padding: 0 14px;
+            padding: 0 12px;
             border-radius: 8px;
             font-weight: 600;
             font-size: 13px;
@@ -109,7 +109,7 @@
             transition: opacity 0.2s;
         }
 
-        .search-btn:hover {
+        .video-search-btn:hover {
             opacity: 0.9;
         }
 
@@ -312,7 +312,7 @@
 
     <header>
         <h1>ECOSSISTEMA.HUB</h1>
-        <div class="subtitle">Comando Central • Autónoma & Otimizada</div>
+        <div class="subtitle">Comando Central • Auditado & Autónomo</div>
     </header>
 
     <div class="dashboard-grid">
@@ -320,18 +320,13 @@
         <!-- VISTA PRINCIPAL DO HUB -->
         <div id="main-dashboard">
 
-            <!-- MÓDULO DE PESQUISA & JOGOS -->
+            <!-- BLOCO DO VÍDEO UNIVERSAL COM PESQUISA INTEGRADA -->
             <div class="card">
-                <div class="card-title">🔍 Pesquisa de Streams & Conteúdos</div>
-                <div class="search-box">
-                    <input type="text" id="campo-pesquisa" class="search-input" placeholder="Pesquisar equipa, Champions, projeto...">
-                    <button class="search-btn" onclick="executarPesquisaPersonalizada()">Pesquisar</button>
+                <div class="card-title">⚡ Feed Multimédia & Pesquisa Direta</div>
+                <div class="video-search-bar">
+                    <input type="text" id="campo-pesquisa-video" class="video-search-input" placeholder="Pesquisar vídeo, equipa, tema...">
+                    <button class="video-search-btn" onclick="executarPesquisaNoVideo()">🔍 Pesquisar</button>
                 </div>
-            </div>
-
-            <!-- BLOCO DO VÍDEO UNIVERSAL -->
-            <div class="card">
-                <div class="card-title">⚡ Feed Multimédia Dinâmico</div>
                 <div id="video-container">
                     <iframe 
                         id="video-iframe" 
@@ -342,7 +337,7 @@
                     </iframe>
                 </div>
                 <div class="video-caption" id="video-legenda">
-                    ▶ Pronto para reprodução personalizada
+                    ▶ Sintonizado ao perfil do dispositivo
                 </div>
             </div>
 
@@ -377,7 +372,7 @@
                 <div class="card-title">⚽ Transmissões & Receitas</div>
                 <div class="transmission-box">
                     <div class="transmission-header">
-                        <span style="font-size: 13px; font-weight: 600;" id="trans-status">Canal Ativo: Operacional no GitHub Pages</span>
+                        <span style="font-size: 13px; font-weight: 600;" id="trans-status">Canal Ativo: Sintonizado</span>
                         <span class="status-badge">100% On</span>
                     </div>
                     <div class="transmission-options">
@@ -399,8 +394,8 @@
                     <span class="status-badge">Sempre Ativo</span>
                 </div>
                 <div class="info-row">
-                    <span>Modo Autónomo</span>
-                    <span style="color: var(--accent-cyan);">Sem Falhas / Sem Interrupções</span>
+                    <span>Modo Autónomo & Otimizado</span>
+                    <span style="color: var(--accent-cyan);">Sem Falhas / Zero Downtime</span>
                 </div>
             </div>
 
@@ -461,9 +456,8 @@
 
     <script>
       window.onload = function() {
-        // Inicialização com base na preferência ou histórico guardado localmente por dispositivo
         const streamPreferido = localStorage.getItem('eco_stream_id') || 'jfKfPfyJRdk';
-        carregarStreamDinamico(streamPreferido, "Feed Configurado para o Seu Dispositivo");
+        carregarStreamDinamico(streamPreferido, "Feed Personalizado ao Dispositivo");
       };
 
       function abrirModulo(idModulo) {
@@ -495,17 +489,16 @@
       function carregarStreamDinamico(videoId, titulo) {
         const iframe = document.getElementById('video-iframe');
         const legenda = document.getElementById('video-legenda');
-        iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&mute=0";
+        iframe.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&mute=1&playsinline=1";
         if (titulo) {
             legenda.innerText = "▶ " + titulo;
         }
       }
 
-      function executarPesquisaPersonalizada() {
-        const campo = document.getElementById('campo-pesquisa');
+      function executarPesquisaNoVideo() {
+        const campo = document.getElementById('campo-pesquisa-video');
         const termo = campo.value.trim();
         if (termo) {
-          // Salva no armazenamento local do dispositivo para diferenciar as pesquisas de cada utilizador
           localStorage.setItem('eco_stream_id', 'jfKfPfyJRdk');
           carregarStreamDinamico('jfKfPfyJRdk', "Stream para: " + termo);
         }
