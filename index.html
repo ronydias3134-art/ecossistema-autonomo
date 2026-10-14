@@ -113,11 +113,10 @@
             opacity: 0.9;
         }
 
-        /* Contendor de Vídeo com Preenchimento Total (Ecrã Cheio sem margens vazias) */
         #video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* Mantém proporção 16:9 perfeita em full width */
+            padding-bottom: 56.25%;
             height: 0;
             background: #000;
             border-radius: 6px;
@@ -342,7 +341,7 @@
                 <div id="video-container">
                     <iframe 
                         id="video-iframe" 
-                        src="https://www.youtube-nocookie.com/embed/5qap5aO4i9A?autoplay=1&mute=1&playsinline=1&loop=1" 
+                        src="https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=1&mute=1&playsinline=1&loop=1&playlist=jfKfPfyJRdk" 
                         title="Feed Ecossistema" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowfullscreen>
@@ -359,7 +358,7 @@
                 <div class="button-grid">
                     <button class="hub-btn destaque-principal" onclick="abrirModulo('construcao')">🏗️ Construção Civil & Engenharia</button>
                     <button class="hub-btn" onclick="abrirModulo('hidraulica')">💧 Hidráulica & Saneamento</button>
-                    <button class="hub-btn" onclick="abrirModulo('agricultura')">🚜 Agricultura & Casa do Meio</button>
+                    <button class="hub-btn" onclick="abrirModulo('agricultura')">🚜 Agricultura</button>
                     <button class="hub-btn" onclick="abrirModulo('hotelaria')">🏨 Hotelaria & Turismo</button>
                     <button class="hub-btn" onclick="abrirModulo('tesouraria')">📊 Tesouraria & Finanças</button>
                     <button class="hub-btn" onclick="abrirModulo('servicos')">⚡ Eletricidade & Outros</button>
@@ -443,11 +442,11 @@
 
         <div id="view-agricultura" class="card module-view">
             <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
-            <div class="card-title">🚜 Agricultura & Casa do Meio</div>
+            <div class="card-title">🚜 Agricultura</div>
             <div class="module-content">
-                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Gestão da parcela de 2.500m², automação de rega gota a gota, fertirrega e maquinaria a diesel em Santo Antão.</p>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Gestão agrícola, automação de rega gota a gota, fertirrega e maquinaria a diesel para qualquer exploração.</p>
                 <div class="info-row" onclick="alert('🚜 Setor de rega programado para ciclos otimizados.')"><span>Setor de Rega</span><span class="status-badge">Automatizado</span></div>
-                <div class="info-row" onclick="alert('🚜 Casa do Meio: 2.500 m² sob controlo operacional.')"><span>Parcela 2.500m²</span><span style="color: var(--accent-cyan);">Ativo</span></div>
+                <div class="info-row" onclick="alert('🚜 Controlo operacional agrícola ativo.')"><span>Controlo de Cultivos</span><span style="color: var(--accent-cyan);">Ativo</span></div>
             </div>
         </div>
 
@@ -483,7 +482,7 @@
 
     <script>
       window.onload = function() {
-        const streamPreferido = localStorage.getItem('eco_stream_id') || '5qap5aO4i9A';
+        const streamPreferido = localStorage.getItem('eco_stream_id') || 'jfKfPfyJRdk';
         carregarStreamDinamico(streamPreferido, "Display Contínuo • Ecrã Cheio");
       };
 
@@ -526,19 +525,19 @@
         const campo = document.getElementById('campo-pesquisa-video');
         const termo = campo.value.trim();
         if (termo) {
-          localStorage.setItem('eco_stream_id', '5qap5aO4i9A');
-          carregarStreamDinamico('5qap5aO4i9A', "Display sintonizado para: " + termo);
+          localStorage.setItem('eco_stream_id', 'jfKfPfyJRdk');
+          carregarStreamDinamico('jfKfPfyJRdk', "Display sintonizado para: " + termo);
         }
       }
 
       function mudarTransmissao(tipo, descricao) {
         document.getElementById('trans-status').innerText = "Canal Ativo: " + tipo.toUpperCase();
         let IDs = {
-            'champions': '5qap5aO4i9A',
+            'champions': 'jfKfPfyJRdk',
             'futebol': 'jfKfPfyJRdk',
             'concertos': 'jfKfPfyJRdk'
         };
-        let chosenID = IDs[tipo] || '5qap5aO4i9A';
+        let chosenID = IDs[tipo] || 'jfKfPfyJRdk';
         localStorage.setItem('eco_stream_id', chosenID);
         carregarStreamDinamico(chosenID, descricao);
       }
