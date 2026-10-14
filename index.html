@@ -3,545 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECOSSISTEMA.HUB</title>
+    <title>Ecossistema Autónomo - Macro Portal</title>
     <style>
         :root {
-            --bg-primary: #0b0f19;
-            --card-bg: #141d2f;
-            --accent-cyan: #00d2ff;
-            --accent-purple: #8b5cf6;
-            --accent-green: #22c55e;
-            --accent-orange: #f59e0b;
-            --text-main: #ffffff;
+            --bg-dark: #090d16;
+            --card-bg: #111827;
+            --accent-eng: #06b6d4; /* Ciano vivo */
+            --accent-saude: #ec4899; /* Rosa vivo */
+            --accent-edu: #8b5cf6; /* Roxo vivo */
+            --accent-pol: #f59e0b; /* Amarelo/Laranja vivo */
+            --accent-ai: #10b981; /* Verde vivo */
+            --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-primary);
+            background-color: var(--bg-dark);
             color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 8px;
-            background-image: radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.05) 0%, transparent 40%),
-                              radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
-            background-attachment: fixed;
+            padding: 20px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 8px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 40px;
         }
 
-        h1 {
-            font-size: 20px;
-            margin: 0;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #06b6d4, #ec4899, #10b981);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 800;
+            margin-bottom: 10px;
         }
 
-        .subtitle {
-            font-size: 11px;
+        header p {
             color: var(--text-muted);
-            margin-top: 2px;
+            font-size: 1.1rem;
         }
 
-        .dashboard-grid {
-            max-width: 600px;
+        /* Grelha de Módulos Macro */
+        .macro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
         }
 
-        .card {
+        .macro-card {
             background: var(--card-bg);
-            border-radius: 10px;
-            padding: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .card-title {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--accent-cyan);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .video-search-bar {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 8px;
-        }
-
-        .video-search-input {
-            flex: 1;
-            background: #0f172a;
-            border: 1px solid rgba(0, 210, 255, 0.3);
-            border-radius: 6px;
-            padding: 8px 10px;
-            color: #fff;
-            font-size: 12px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .video-search-input:focus {
-            border-color: var(--accent-cyan);
-        }
-
-        .video-search-btn {
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-            color: #fff;
-            border: none;
-            padding: 0 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 12px;
+            border-radius: 16px;
+            padding: 25px;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         }
 
-        .video-search-btn:hover {
-            opacity: 0.9;
+        .macro-card:hover {
+            transform: translateY(-5px);
         }
 
-        #video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            height: 0;
-            background: #000;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
-            border: 1px solid rgba(0, 210, 255, 0.3);
+        /* Cores específicas para cada Módulo Macro */
+        .card-eng { border-color: var(--accent-eng); }
+        .card-eng:hover { background: rgba(6, 182, 212, 0.08); box-shadow: 0 0 20px rgba(6, 182, 212, 0.4); }
+
+        .card-saude { border-color: var(--accent-saude); }
+        .card-saude:hover { background: rgba(236, 72, 153, 0.08); box-shadow: 0 0 20px rgba(236, 72, 153, 0.4); }
+
+        .card-edu { border-color: var(--accent-edu); }
+        .card-edu:hover { background: rgba(139, 92, 246, 0.08); box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
+
+        .card-pol { border-color: var(--accent-pol); }
+        .card-pol:hover { background: rgba(245, 158, 11, 0.08); box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
+
+        .card-ai { border-color: var(--accent-ai); }
+        .card-ai:hover { background: rgba(16, 185, 129, 0.08); box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+
+        .macro-card h3 {
+            margin-top: 0;
+            font-size: 1.4rem;
         }
 
-        #video-iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-            display: block;
-            object-fit: cover;
-        }
-
-        .video-caption {
-            font-size: 11px;
-            color: var(--accent-cyan);
-            text-align: center;
-            margin-top: 6px;
-            font-weight: 600;
-        }
-
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 6px;
-        }
-
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-        }
-
-        .hub-btn {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            color: #f8fafc;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 9px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .hub-btn:hover {
-            border-color: var(--accent-cyan);
-            background: rgba(0, 210, 255, 0.1);
-        }
-
-        .hub-btn.destaque-principal {
-            grid-column: span 2;
-            background: linear-gradient(135deg, rgba(0, 210, 255, 0.25), rgba(139, 92, 246, 0.25));
-            border: 1px solid var(--accent-cyan);
-            font-size: 13px;
-            font-weight: 700;
-            padding: 10px;
-        }
-
-        .social-btn {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            color: #f8fafc;
-            border: 1px solid rgba(0, 210, 255, 0.2);
-            padding: 7px 4px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .social-btn:hover {
-            border-color: var(--accent-cyan);
-            background: rgba(0, 210, 255, 0.15);
-        }
-
-        .module-view {
+        /* Área de Profundidade / Sub-vertentes */
+        #painel-detalhe {
+            max-width: 1200px;
+            margin: 40px auto;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            border: 2px solid #334155;
             display: none;
         }
 
-        .module-content {
-            background: #0f172a;
-            border: 1px solid var(--accent-cyan);
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 8px;
-        }
-
-        .back-btn {
-            background: var(--accent-purple);
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 8px;
-        }
-
-        .transmission-box {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .transmission-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-        }
-
-        .transmission-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
-            margin-top: 2px;
-        }
-
-        .trans-btn {
-            background: #0f172a;
-            border: 1px solid rgba(0, 210, 255, 0.3);
+        .sub-btn {
+            background: #1e293b;
             color: #fff;
-            padding: 5px 3px;
-            border-radius: 5px;
-            font-size: 10px;
-            font-weight: 600;
-            text-align: center;
+            border: 1px solid #475569;
+            padding: 12px 20px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s;
+            margin: 5px;
+            transition: 0.2s;
+            font-weight: bold;
         }
 
-        .trans-btn:hover {
-            border-color: var(--accent-cyan);
-            background: rgba(0, 210, 255, 0.15);
+        .sub-btn:hover {
+            background: #334155;
+            border-color: #06b6d4;
         }
 
-        .bet-banner {
-            margin-top: 5px;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(34, 197, 94, 0.2));
-            border: 1px dashed var(--accent-orange);
-            padding: 6px;
-            border-radius: 5px;
-            text-align: center;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--accent-orange);
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .bet-banner:hover {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(34, 197, 94, 0.3));
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            padding: 7px 9px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 5px;
-            margin-bottom: 5px;
-            cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
-        }
-
-        .info-row:hover {
-            background: rgba(0, 210, 255, 0.1);
-            border-color: var(--accent-cyan);
-        }
-
-        .info-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .status-badge {
-            color: var(--accent-green);
-            font-weight: 600;
+        .output-ia {
+            margin-top: 20px;
+            background: #020617;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #10b981;
+            font-size: 1rem;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>ECOSSISTEMA.HUB</h1>
-        <div class="subtitle">Comando Central Multissetorial • Display Ecrã Cheio</div>
+        <h1>Ecossistema Autónomo</h1>
+        <p>Plataforma Macro de Conhecimento, Engenharia, Governação e Inteligência Aplicada</p>
     </header>
 
-    <div class="dashboard-grid">
-
-        <!-- VISTA PRINCIPAL DO HUB -->
-        <div id="main-dashboard">
-
-            <!-- BLOCO DO VÍDEO UNIVERSAL (DISPLAY PREENCHIDO) -->
-            <div class="card">
-                <div class="card-title">⚡ Display Multimédia em Ecrã Cheio</div>
-                <div class="video-search-bar">
-                    <input type="text" id="campo-pesquisa-video" class="video-search-input" placeholder="Pesquisar tema ou vídeo...">
-                    <button class="video-search-btn" onclick="executarPesquisaNoVideo()">🔍 Pesquisar</button>
-                </div>
-                <div id="video-container">
-                    <iframe 
-                        id="video-iframe" 
-                        src="https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=1&mute=1&playsinline=1&loop=1&playlist=jfKfPfyJRdk" 
-                        title="Feed Ecossistema" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
-                </div>
-                <div class="video-caption" id="video-legenda">
-                    ▶ Display Contínuo • Preenchimento Total
-                </div>
-            </div>
-
-            <!-- PAINEL DE COMANDO PRINCIPAL -->
-            <div class="card">
-                <div class="card-title">🎛️ Setores Profissionais & Operacionais</div>
-                <div class="button-grid">
-                    <button class="hub-btn destaque-principal" onclick="abrirModulo('construcao')">🏗️ Construção Civil & Engenharia</button>
-                    <button class="hub-btn" onclick="abrirModulo('hidraulica')">💧 Hidráulica & Saneamento</button>
-                    <button class="hub-btn" onclick="abrirModulo('agricultura')">🚜 Agricultura</button>
-                    <button class="hub-btn" onclick="abrirModulo('hotelaria')">🏨 Hotelaria & Turismo</button>
-                    <button class="hub-btn" onclick="abrirModulo('tesouraria')">📊 Tesouraria & Finanças</button>
-                    <button class="hub-btn" onclick="abrirModulo('servicos')">⚡ Eletricidade & Outros</button>
-                </div>
-            </div>
-
-            <!-- MÓDULO DE REDES SOCIAIS & CONTEÚDOS (BAIXO CONSUMO) -->
-            <div class="card">
-                <div class="card-title">🌐 Redes Sociais & Canais (Modo Económico)</div>
-                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">Acesso otimizado com consumo mínimo de dados móveis:</div>
-                <div class="social-grid">
-                    <button class="social-btn" onclick="abrirRedeSocial('WhatsApp', 'https://wa.me/')">💬 WhatsApp</button>
-                    <button class="social-btn" onclick="abrirRedeSocial('YouTube', 'https://m.youtube.com/')">▶️ YouTube</button>
-                    <button class="social-btn" onclick="abrirRedeSocial('Facebook', 'https://m.facebook.com/')">📘 Facebook</button>
-                    <button class="social-btn" onclick="abrirRedeSocial('Instagram', 'https://www.instagram.com/')">📸 Instagram</button>
-                    <button class="social-btn" onclick="abrirRedeSocial('Telegram', 'https://t.me/')">✈️ Telegram</button>
-                    <button class="social-btn" onclick="abrirRedeSocial('Notícias', 'https://news.google.com/')">📰 Notícias</button>
-                </div>
-            </div>
-
-            <!-- MÓDULO DE TRANSMISSÃO E MONETIZAÇÃO -->
-            <div class="card">
-                <div class="card-title">⚽ Transmissões & Receitas</div>
-                <div class="transmission-box">
-                    <div class="transmission-header">
-                        <span style="font-size: 12px; font-weight: 600;" id="trans-status">Canal Ativo: Sintonizado</span>
-                        <span class="status-badge">100% On</span>
-                    </div>
-                    <div class="transmission-options">
-                        <button class="trans-btn" onclick="mudarTransmissao('champions', '🏆 Liga dos Campeões - Direto')">🏆 Champions</button>
-                        <button class="trans-btn" onclick="mudarTransmissao('futebol', '⚽ Futebol Global')">⚽ Futebol Geral</button>
-                        <button class="trans-btn" onclick="mudarTransmissao('concertos', '🎵 Eventos & Concertos')">🎵 Concertos</button>
-                    </div>
-                    <div class="bet-banner" onclick="alert('Circuitos de afiliação e monetização ativos.')">
-                        🎯 Circuito de Receita & Apostas (Ativo)
-                    </div>
-                </div>
-            </div>
-
-            <!-- ESTADO DOS SERVIÇOS -->
-            <div class="card">
-                <div class="card-title">🛡️ Estado do Sistema</div>
-                <div class="info-row" onclick="alert('Sistema operando via GitHub Pages de forma contínua.')">
-                    <span>Infraestrutura GitHub Pages</span>
-                    <span class="status-badge">Sempre Ativo</span>
-                </div>
-                <div class="info-row" onclick="alert('Modo Autónomo e otimizado para telemóveis ativo.')">
-                    <span>Modo Autónomo & Otimizado</span>
-                    <span style="color: var(--accent-cyan);">Sem Falhas / Zero Downtime</span>
-                </div>
-            </div>
-
+    <div class="macro-grid">
+        <!-- Engenharia -->
+        <div class="macro-card card-eng" onclick="abrirModulo('engenharia')">
+            <h3 style="color: var(--accent-eng);">⚙️ Engenharia & Tecnologias</h3>
+            <p>Hidráulica, Civil, Eletrotécnica, Mecânica, Redes de Água, Saneamento e Bombagem.</p>
         </div>
 
-        <!-- VISTAS ESPECÍFICAS DOS MÓDULOS -->
-        <div id="view-construcao" class="card module-view">
-            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
-            <div class="card-title">🏗️ Construção Civil & Engenharia</div>
-            <div class="module-content">
-                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Gestão global de mão de obra e empreitadas: Pedreiros, Ladrilhadores, Canalizadores e Engenharia Estrutural.</p>
-                <div class="info-row" onclick="alert('🏗️ A aceder a projetos, estimativas e cargas estruturais.')">
-                    <span>Projetos & Empreitadas</span>
-                    <span class="status-badge">Ativo / Sincronizado</span>
-                </div>
-                <div class="info-row" onclick="alert('🏗️ A carregar diretrizes para pedreiros e ladrilhadores.')">
-                    <span>Equipas & Especialidades</span>
-                    <span style="color: var(--accent-cyan);">Gestão Ativa</span>
-                </div>
-            </div>
+        <!-- Saúde -->
+        <div class="macro-card card-saude" onclick="abrirModulo('saude')">
+            <h3 style="color: var(--accent-saude);">🏥 Saúde & Bem-Estar</h3>
+            <p>Sistemas de suporte clínico, prevenção, protocolos de emergência e gestão sanitária.</p>
         </div>
 
-        <div id="view-hidraulica" class="card module-view">
-            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
-            <div class="card-title">💧 Hidráulica & Saneamento</div>
-            <div class="module-content">
-                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Cálculo de caudais, pressões em redes de distribuição, ligação de bombas, PPR e saneamento predial.</p>
-                <div class="info-row" onclick="alert('💧 Sistemas de Pressão e Bombagem operacionais.')"><span>Redes de Distribuição</span><span class="status-badge">Operacional</span></div>
-                <div class="info-row" onclick="alert('💧 Manuais técnicos de canalização e termofusão carregados.')"><span>Manuais & Estanqueidade</span><span style="color: var(--accent-cyan);">Disponíveis</span></div>
-            </div>
+        <!-- Educação -->
+        <div class="macro-card card-edu" onclick="abrirModulo('educacao')">
+            <h3 style="color: var(--accent-edu);">📚 Educação & Formação</h3>
+            <p>Módulos de estudo guiado, tutorias técnicas e capacitação continuada.</p>
         </div>
 
-        <div id="view-agricultura" class="card module-view">
-            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
-            <div class="card-title">🚜 Agricultura</div>
-            <div class="module-content">
-                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Gestão agrícola, automação de rega gota a gota, fertirrega e maquinaria a diesel para qualquer exploração.</p>
-                <div class="info-row" onclick="alert('🚜 Setor de rega programado para ciclos otimizados.')"><span>Setor de Rega</span><span class="status-badge">Automatizado</span></div>
-                <div class="info-row" onclick="alert('🚜 Controlo operacional agrícola ativo.')"><span>Controlo de Cultivos</span><span style="color: var(--accent-cyan);">Ativo</span></div>
-            </div>
+        <!-- Forças Políticas / Inorgânicas -->
+        <div class="macro-card card-pol" onclick="abrirModulo('forcas')">
+            <h3 style="color: var(--accent-pol);">🏛️ Forças Políticas & Inorgânicas</h3>
+            <p>Análise de estruturas sociais, governação, dinâmicas institucionais e sistemas organizados.</p>
         </div>
 
-        <div id="view-hotelaria" class="card module-view">
-            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
-            <div class="card-title">🏨 Hotelaria & Turismo</div>
-            <div class="module-content">
-                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Gestão de alojamentos, manutenção predial turística, apoio a visitantes e serviços associados.</p>
-                <div class="info-row" onclick="alert('🏨 Gestão de manutenções e apoio turístico ativa.')"><span>Manutenção & Apoio</span><span class="status-badge">Operacional</span></div>
-            </div>
+        <!-- Outros Módulos / IA Livre -->
+        <div class="macro-card card-ai" onclick="abrirModulo('outros')">
+            <h3 style="color: var(--accent-ai);">⚡ Outros Módulos & IA Universal</h3>
+            <p>Insere qualquer especialidade de campo (ex: Frio, AVAC) e gera soluções instantâneas.</p>
         </div>
+    </div>
 
-        <div id="view-tesouraria" class="card module-view">
-            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
-            <div class="card-title">📊 Tesouraria & Finanças</div>
-            <div class="module-content">
-                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Monitorização de fluxos de caixa, receitas indiretas de circuitos de afiliados e transações.</p>
-                <div class="info-row" onclick="alert('📊 Circuito de afiliação e vendas a gerar relatórios em fundo.')"><span>Circuito de Vendas</span><span class="status-badge">A afluir em fundo</span></div>
-                <div class="info-row" onclick="alert('📊 Balanço financeiro sincronizado localmente.')"><span>Balanço Automático</span><span style="color: var(--accent-green);">Sincronizado</span></div>
-            </div>
-        </div>
-
-        <div id="view-servicos" class="card module-view">
-            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
-            <div class="card-title">⚡ Eletricidade & Outras Vertentes</div>
-            <div class="module-content">
-                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Instalações elétricas, quadros de distribuição, automação e outras especialidades técnicas transversais.</p>
-                <div class="info-row" onclick="alert('⚡ Redes elétricas e quadros de comando integrados.')"><span>Instalações Elétricas</span><span class="status-badge">Ativo</span></div>
-            </div>
-        </div>
-
+    <!-- Painel de Profundidade Dinâmico -->
+    <div id="painel-detalhe">
+        <h2 id="titulo-modulo" style="margin-top:0;"></h2>
+        <div id="lista-vertentes"></div>
+        <div id="conteudo-variante" style="display:none;" class="output-ia"></div>
     </div>
 
     <script>
-      window.onload = function() {
-        const streamPreferido = localStorage.getItem('eco_stream_id') || 'jfKfPfyJRdk';
-        carregarStreamDinamico(streamPreferido, "Display Contínuo • Ecrã Cheio");
-      };
-
-      function abrirModulo(idModulo) {
-        document.getElementById('main-dashboard').style.display = 'none';
-        const vistas = document.querySelectorAll('.module-view');
-        vistas.forEach(v => v.style.display = 'none');
-        const moduloAlvo = document.getElementById('view-' + idModulo);
-        if (moduloAlvo) {
-            moduloAlvo.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      }
-
-      function voltarDashboard() {
-        const vistas = document.querySelectorAll('.module-view');
-        vistas.forEach(v => v.style.display = 'none');
-        const main = document.getElementById('main-dashboard');
-        main.style.display = 'flex';
-        main.style.flexDirection = 'column';
-        main.style.gap = '10px';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-
-      function abrirRedeSocial(nome, url) {
-        document.getElementById('trans-status').innerText = "A ligar a: " + nome + " (Modo Económico)";
-        window.open(url, '_blank');
-      }
-
-      function carregarStreamDinamico(videoId, titulo) {
-        const iframe = document.getElementById('video-iframe');
-        const legenda = document.getElementById('video-legenda');
-        iframe.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&mute=1&playsinline=1&loop=1&playlist=" + videoId;
-        if (titulo) {
-            legenda.innerText = "▶ " + titulo;
-        }
-      }
-
-      function executarPesquisaNoVideo() {
-        const campo = document.getElementById('campo-pesquisa-video');
-        const termo = campo.value.trim();
-        if (termo) {
-          localStorage.setItem('eco_stream_id', 'jfKfPfyJRdk');
-          carregarStreamDinamico('jfKfPfyJRdk', "Display sintonizado para: " + termo);
-        }
-      }
-
-      function mudarTransmissao(tipo, descricao) {
-        document.getElementById('trans-status').innerText = "Canal Ativo: " + tipo.toUpperCase();
-        let IDs = {
-            'champions': 'jfKfPfyJRdk',
-            'futebol': 'jfKfPfyJRdk',
-            'concertos': 'jfKfPfyJRdk'
+        const dadosModulos = {
+            engenharia: {
+                titulo: "⚙️ Engenharia & Tecnologias (Profundidade)",
+                vertentes: [
+                    { nome: "Engenharia Hidráulica", desc: "Dimensionamento de tubagens (PPR, PEAD, PVC), estações de bombagem, piscinas e redes prediais." },
+                    { nome: "Engenharia Civil", desc: "Estruturas de betão, cofragens, estimativas de materiais e bancadas de trabalho." },
+                    { nome: "Engenharia Eletrotécnica", desc: "Quadros elétricos, proteção de motores, automação e distribuição de energia." }
+                ]
+            },
+            saude: {
+                titulo: "🏥 Saúde & Sistemas de Bem-Estar (Profundidade)",
+                vertentes: [
+                    { nome: "Protocolos de Urgência", desc: "Primeiros socorros, suporte básico de vida e triagem rápida em campo." },
+                    { nome: "Gestão Sanitária", desc: "Higiene, segurança alimentar e desinfestação de redes." }
+                ]
+            },
+            educacao: {
+                titulo: "📚 Educação & Formação Contínua (Profundidade)",
+                vertentes: [
+                    { nome: "Apoio Escolar Infanto-Juvenil", desc: "Leitura, escrita e matemática guiada para o desenvolvimento educativo." },
+                    { nome: "Formação Técnica Profissional", desc: "Manuais de instrução para canalizadores, técnicos de frio e mecânicos." }
+                ]
+            },
+            forcas: {
+                titulo: "🏛️ Forças Políticas & Inorgânicas (Profundidade)",
+                vertentes: [
+                    { nome: "Estruturas Organizacionais", desc: "Gestão associativa, planeamento comunitário e dinâmicas de liderança." },
+                    { nome: "Sistemas Inorgânicos e Sociais", desc: "Interação entre infraestruturas físicas e estruturas de governação local." }
+                ]
+            },
+            outros: {
+                titulo: "⚡ Outros Módulos & Especialidades Livres",
+                vertentes: [
+                    { nome: "Módulo Frio & AVAC", desc: "Refrigeração, circuitos de gases fluorados, compressores e climatização." },
+                    { nome: "Outra Especialidade Personalizada", desc: "Insere qualquer tema para processamento autónomo via IA." }
+                ]
+            }
         };
-        let chosenID = IDs[tipo] || 'jfKfPfyJRdk';
-        localStorage.setItem('eco_stream_id', chosenID);
-        carregarStreamDinamico(chosenID, descricao);
-      }
-    </script>
 
+        function abrirModulo(tipo) {
+            const painel = document.getElementById('painel-detalhe');
+            const titulo = document.getElementById('titulo-modulo');
+            const lista = document.getElementById('lista-vertentes');
+            const varianteBox = document.getElementById('conteudo-variante');
+            
+            const mod = dadosModulos[tipo];
+            titulo.innerHTML = mod.titulo;
+            varianteBox.style.display = 'none';
+
+            let htmlBotoes = '<p style="color:var(--text-muted);">Seleciona a vertente para entrar em profundidade:</p><div style="display:flex; flex-wrap:wrap; gap:10px;">';
+            
+            mod.vertentes.forEach((v, index) => {
+                htmlBotoes += `<button class="sub-btn" onclick="executarVariante('${tipo}', ${index})">${v.nome}</button>`;
+            });
+            htmlBotoes += '</div>';
+
+            lista.innerHTML = htmlBotoes;
+            painel.style.display = 'block';
+            painel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function executarVariante(tipo, index) {
+            const v = dadosModulos[tipo].vertentes[index];
+            const varianteBox = document.getElementById('conteudo-variante');
+            
+            varianteBox.style.display = 'block';
+            varianteBox.innerHTML = `✅ <strong>Acedeste à variante: ${v.nome}</strong><br><br>
+            <em>Contexto Técnico:</em> ${v.desc}<br><br>
+            <strong>Estado do Módulo:</strong> Ativo em profundidade. A IA está pronta para calcular parâmetros, gerar listas de materiais, relatórios ou guiões operacionais para esta vertente. Podes expandir com novos dados a qualquer momento!`;
+            varianteBox.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
