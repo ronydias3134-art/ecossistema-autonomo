@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: ecossistema-autonomo-site
+    env: static
+    buildCommand: ""
+    staticPublishPath: "."
