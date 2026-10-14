@@ -113,7 +113,6 @@
             opacity: 0.9;
         }
 
-        /* Leitor Universal de Vídeo */
         #video-container {
             position: relative;
             width: 100%;
@@ -136,16 +135,6 @@
             display: block;
         }
 
-        #video-nativo {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
-        }
-
         .video-caption {
             font-size: 11px;
             color: var(--accent-cyan);
@@ -154,7 +143,6 @@
             font-weight: 600;
         }
 
-        /* Grelha de botões interativos */
         .button-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -184,15 +172,6 @@
             background: rgba(0, 210, 255, 0.1);
         }
 
-        .hub-btn.destaque-robos {
-            grid-column: span 2;
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(0, 210, 255, 0.25));
-            border: 1px solid var(--accent-green);
-            font-size: 14px;
-            font-weight: 700;
-            padding: 12px;
-        }
-
         .hub-btn.destaque-eng-arq {
             grid-column: span 2;
             background: linear-gradient(135deg, rgba(0, 210, 255, 0.25), rgba(245, 158, 11, 0.25));
@@ -200,6 +179,30 @@
             font-size: 14px;
             font-weight: 700;
             padding: 12px;
+        }
+
+        .module-view {
+            display: none;
+        }
+
+        .module-content {
+            background: #0f172a;
+            border: 1px solid var(--accent-cyan);
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .back-btn {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 10px;
         }
 
         .transmission-box {
@@ -285,94 +288,165 @@
 
     <header>
         <h1>ECOSSISTEMA.HUB</h1>
-        <div class="subtitle">Comando Central • Automação, Streaming & Gestão Autónoma</div>
+        <div class="subtitle">Comando Central • Engenharia, Arquitetura & Streaming</div>
     </header>
 
     <div class="dashboard-grid">
 
-        <!-- MÓDULO DE PESQUISA & JOGOS -->
-        <div class="card">
-            <div class="card-title">🔍 Pesquisa & Jogos em Direto</div>
-            <div class="search-box">
-                <input type="text" id="campo-pesquisa" class="search-input" placeholder="Procurar equipa, Champions League, jogo X...">
-                <button class="search-btn" onclick="executarPesquisaDeJogos()">Ver Jogo</button>
-            </div>
-        </div>
+        <!-- VISTA PRINCIPAL DO HUB -->
+        <div id="main-dashboard">
 
-        <!-- BLOCO DO VÍDEO UNIVERSAL -->
-        <div class="card">
-            <div class="card-title">⚡ Feed Multimédia & Futebol</div>
-            <div id="video-container">
-                <iframe 
-                    id="video-iframe" 
-                    src="https://www.youtube.com/embed/9bZkp7q19f0?autoplay=1&mute=0" 
-                    title="Feed Ecossistema" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-                <video id="video-nativo" controls autoplay></video>
-            </div>
-            <div class="video-caption" id="video-legenda">
-                ▶ Gestão Autónoma de Streams por Micro-Robôs
-            </div>
-        </div>
-
-        <!-- PAINEL DE COMANDO PRINCIPAL (TODOS OS BOTÕES RESPONSIVOS) -->
-        <div class="card">
-            <div class="card-title">🎛️ Painel de Comando Principal</div>
-            <div class="button-grid">
-                <button class="hub-btn destaque-robos" onclick="ativarModulo('robos', '1 Milhão de Micro-Robôs & Gestão Autónoma')">🤖 1M Micro-Robôs & Gestão em Fundo</button>
-                <button class="hub-btn destaque-eng-arq" onclick="ativarModulo('eng-arq', 'Hub Unificado de Engenharia & Arquitetura')">⚙️🏛️ Engenharia & Arquitetura (Projetos)</button>
-                <button class="hub-btn" onclick="ativarModulo('hidraulica', 'Módulo Técnico de Hidráulica')">💧 Hidráulica</button>
-                <button class="hub-btn" onclick="ativarModulo('canalizacao', 'Módulo Técnico de Canalização')">🛠️ Canalização</button>
-                <button class="hub-btn" onclick="ativarModulo('agricultura', 'Módulo Agrícola (Casa do Meio)')">🚜 Agricultura</button>
-                <button class="hub-btn" onclick="ativarModulo('tesouraria', 'Módulo de Controlo & Tesouraria')">📊 Tesouraria</button>
-            </div>
-        </div>
-
-        <!-- MÓDULO DE TRANSMISSÃO E MONETIZAÇÃO -->
-        <div class="card">
-            <div class="card-title">⚽ Transmissões & Receitas (Gestão Robótica)</div>
-            <div class="transmission-box">
-                <div class="transmission-header">
-                    <span style="font-size: 13px; font-weight: 600;" id="trans-status">Canal Ativo: Desporto / Fundo Autónomo</span>
-                    <span class="status-badge">Auto</span>
-                </div>
-                <div class="transmission-options">
-                    <button class="trans-btn" onclick="mudarTransmissao('champions', '🏆 Liga dos Campeões (Gerido por Robôs)')">🏆 Champions</button>
-                    <button class="trans-btn" onclick="mudarTransmissao('futebol', '⚽ Futebol Global (Gerido por Robôs)')">⚽ Futebol Geral</button>
-                    <button class="trans-btn" onclick="mudarTransmissao('concertos', '🎵 Eventos (Gerido por Robôs)')">🎵 Concertos</button>
-                </div>
-                <div class="bet-banner" onclick="alert('Circuitos de afiliação e monetização geridos automaticamente pelos micro-robôs em fundo.')">
-                    🎯 Circuito de Receita & Apostas (Otimizado por IA)
+            <!-- MÓDULO DE PESQUISA & JOGOS -->
+            <div class="card">
+                <div class="card-title">🔍 Pesquisa & Jogos em Direto</div>
+                <div class="search-box">
+                    <input type="text" id="campo-pesquisa" class="search-input" placeholder="Procurar equipa, Champions League, jogo X...">
+                    <button class="search-btn" onclick="executarPesquisaDeJogos()">Ver Jogo</button>
                 </div>
             </div>
+
+            <!-- BLOCO DO VÍDEO UNIVERSAL -->
+            <div class="card">
+                <div class="card-title">⚡ Feed Multimédia & Futebol</div>
+                <div id="video-container">
+                    <iframe 
+                        id="video-iframe" 
+                        src="https://www.youtube.com/embed/9bZkp7q19f0?autoplay=1&mute=0" 
+                        title="Feed Ecossistema" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-caption" id="video-legenda">
+                    ▶ Sistema Ativo • Reprodução Universal Operacional
+                </div>
+            </div>
+
+            <!-- PAINEL DE COMANDO PRINCIPAL -->
+            <div class="card">
+                <div class="card-title">🎛️ Painel de Comando Principal</div>
+                <div class="button-grid">
+                    <button class="hub-btn destaque-eng-arq" onclick="abrirModulo('eng-arq')">⚙️🏛️ Engenharia & Arquitetura (Projetos)</button>
+                    <button class="hub-btn" onclick="abrirModulo('hidraulica')">💧 Hidráulica</button>
+                    <button class="hub-btn" onclick="abrirModulo('canalizacao')">🛠️ Canalização</button>
+                    <button class="hub-btn" onclick="abrirModulo('agricultura')">🚜 Agricultura</button>
+                    <button class="hub-btn" onclick="abrirModulo('tesouraria')">📊 Tesouraria</button>
+                </div>
+            </div>
+
+            <!-- MÓDULO DE TRANSMISSÃO E MONETIZAÇÃO -->
+            <div class="card">
+                <div class="card-title">⚽ Transmissões & Receitas</div>
+                <div class="transmission-box">
+                    <div class="transmission-header">
+                        <span style="font-size: 13px; font-weight: 600;" id="trans-status">Canal Ativo: Desporto / Transmissão Geral</span>
+                        <span class="status-badge">Live</span>
+                    </div>
+                    <div class="transmission-options">
+                        <button class="trans-btn" onclick="mudarTransmissao('champions', '🏆 Liga dos Campeões em Direto')">🏆 Champions</button>
+                        <button class="trans-btn" onclick="mudarTransmissao('futebol', '⚽ Futebol Global em Direto')">⚽ Futebol Geral</button>
+                        <button class="trans-btn" onclick="mudarTransmissao('concertos', '🎵 Eventos & Concertos')">🎵 Concertos</button>
+                    </div>
+                    <div class="bet-banner" onclick="alert('Circuitos de afiliação e monetização ativados.')">
+                        🎯 Circuito de Receita & Apostas (Em Direto)
+                    </div>
+                </div>
+            </div>
+
+            <!-- ESTADO DOS SERVIÇOS -->
+            <div class="card">
+                <div class="card-title">🛡️ Estado dos Serviços</div>
+                <div class="info-row">
+                    <span>Servidor FastAPI</span>
+                    <span class="status-badge">Up and Running</span>
+                </div>
+                <div class="info-row">
+                    <span>Motor Central</span>
+                    <span style="color: var(--accent-cyan);">Ativo</span>
+                </div>
+            </div>
+
         </div>
 
-        <!-- ESTADO DOS SERVIÇOS -->
-        <div class="card">
-            <div class="card-title">🛡️ Estado dos Serviços</div>
-            <div class="info-row">
-                <span>Servidor FastAPI</span>
-                <span class="status-badge">Up and Running</span>
+        <!-- VISTAS ESPECÍFICAS DOS MÓDULOS -->
+        <div id="view-eng-arq" class="card module-view">
+            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
+            <div class="card-title">⚙️🏛️ Hub Unificado de Engenharia & Arquitetura</div>
+            <div class="module-content">
+                <p style="font-size: 13px; color: var(--text-muted); margin-top:0;">Gestão centralizada de projetos estruturais, dimensionamento de cargas, plantas e simplificação arquitetónica.</p>
+                <div class="info-row"><span>Estado dos Projetos</span><span class="status-badge">Ativo / Sincronizado</span></div>
+                <div class="info-row"><span>Diretrizes Estruturais</span><span style="color: var(--accent-cyan);">Normas Técnicas Aplicadas</span></div>
             </div>
-            <div class="info-row">
-                <span>Motor Inteligente</span>
-                <span style="color: var(--accent-cyan);">Ativo</span>
+        </div>
+
+        <div id="view-hidraulica" class="card module-view">
+            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
+            <div class="card-title">💧 Módulo Técnico de Hidráulica</div>
+            <div class="module-content">
+                <p style="font-size: 13px; color: var(--text-muted); margin-top:0;">Cálculo de caudais, pressões em redes de distribuição, ligação de bombas e sistemas de saneamento.</p>
+                <div class="info-row"><span>Sistemas de Pressão</span><span class="status-badge">Operacional</span></div>
+                <div class="info-row"><span>Esquemas de Bombagem</span><span style="color: var(--accent-cyan);">Configurados</span></div>
+            </div>
+        </div>
+
+        <div id="view-canalizacao" class="card module-view">
+            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
+            <div class="card-title">🛠️ Módulo Técnico de Canalização</div>
+            <div class="module-content">
+                <p style="font-size: 13px; color: var(--text-muted); margin-top:0;">Especificações de tubagens em PPR, PVC, soldadura por termofusão, testes de estanqueidade e redes prediais.</p>
+                <div class="info-row"><span>Manuais Técnicos</span><span class="status-badge">Disponíveis</span></div>
+                <div class="info-row"><span>Normas de Execução</span><span style="color: var(--accent-cyan);">Validadas</span></div>
+            </div>
+        </div>
+
+        <div id="view-agricultura" class="card module-view">
+            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
+            <div class="card-title">🚜 Módulo Agrícola (Casa do Meio)</div>
+            <div class="module-content">
+                <p style="font-size: 13px; color: var(--text-muted); margin-top:0;">Gestão do terreno agrícola de 2.500m², automação de rega gota a gota, fertirrega e maquinaria a diesel.</p>
+                <div class="info-row"><span>Setor de Rega</span><span class="status-badge">Automatizado</span></div>
+                <div class="info-row"><span>Parcela Casa do Meio</span><span style="color: var(--accent-cyan);">2.500 m² Ativos</span></div>
+            </div>
+        </div>
+
+        <div id="view-tesouraria" class="card module-view">
+            <button class="back-btn" onclick="voltarDashboard()">← Voltar ao Hub</button>
+            <div class="card-title">📊 Módulo de Controlo & Tesouraria</div>
+            <div class="module-content">
+                <p style="font-size: 13px; color: var(--text-muted); margin-top:0;">Monitorização de fluxos de caixa, receitas indiretas de circuitos de afiliados e transações.</p>
+                <div class="info-row"><span>Circuito de Vendas</span><span class="status-badge">A afluir em fundo</span></div>
+                <div class="info-row"><span>Balanço Automático</span><span style="color: var(--accent-green);">Sincronizado</span></div>
             </div>
         </div>
 
     </div>
 
-    <!-- SCRIPTS DE CONTROLO -->
     <script>
+      function abrirModulo(idModulo) {
+        document.getElementById('main-dashboard').style.display = 'none';
+        const vistas = document.querySelectorAll('.module-view');
+        vistas.forEach(v => v.style.display = 'none');
+        const moduloAlvo = document.getElementById('view-' + idModulo);
+        if (moduloAlvo) {
+            moduloAlvo.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+
+      function voltarDashboard() {
+        const vistas = document.querySelectorAll('.module-view');
+        vistas.forEach(v => v.style.display = 'none');
+        const main = document.getElementById('main-dashboard');
+        main.style.display = 'flex';
+        main.style.flexDirection = 'column';
+        main.style.gap = '12px';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
       function reproduzirMedia(url, titulo) {
         const iframe = document.getElementById('video-iframe');
-        const videoNativo = document.getElementById('video-nativo');
         const legenda = document.getElementById('video-legenda');
-
         if (!url) return;
-
         if (url.includes("youtube.com") || url.includes("youtu.be")) {
             let embedUrl = url;
             if (url.includes("watch?v=")) {
@@ -383,18 +457,8 @@
             if (!embedUrl.includes("autoplay=1")) {
                 embedUrl += (embedUrl.includes("?") ? "&" : "?") + "autoplay=1";
             }
-            videoNativo.style.display = "none";
-            videoNativo.pause();
-            iframe.style.display = "block";
             iframe.src = embedUrl;
-        } else {
-            iframe.style.display = "none";
-            iframe.src = "";
-            videoNativo.style.display = "block";
-            videoNativo.src = url;
-            videoNativo.play().catch(e => console.log("Reprodução iniciada."));
         }
-
         if (titulo) {
             legenda.innerText = "▶ " + titulo;
         }
@@ -404,7 +468,7 @@
         const campo = document.getElementById('campo-pesquisa');
         const termo = campo.value.trim();
         if (termo) {
-          reproduzirMedia("https://www.youtube.com/embed/jfKfPfyJRdk", "Micro-robôs a sintonizar stream para: " + termo);
+          reproduzirMedia("https://www.youtube.com/embed/jfKfPfyJRdk", "A sintonizar stream para: " + termo);
         }
       }
 
@@ -412,11 +476,6 @@
         document.getElementById('trans-status').innerText = "Canal Ativo: " + tipo.toUpperCase();
         let linkTransmissao = "https://www.youtube.com/embed/jfKfPfyJRdk";
         reproduzirMedia(linkTransmissao, descricao);
-      }
-
-      function ativarModulo(codigo, descricao) {
-        document.getElementById('campo-pesquisa').value = codigo;
-        reproduzirMedia("https://www.youtube.com/embed/9bZkp7q19f0", descricao);
       }
     </script>
 
