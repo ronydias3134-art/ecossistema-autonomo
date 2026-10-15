@@ -1,102 +1,77 @@
+# -*- coding: utf-8 -*-
+import os
+import pytz
+from datetime import datetime
+from flask import Flask, request, jsonify
+from whitenoise import WhiteNoise
 
-from fastapi import FastAPI, HTTPException, Query
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
-from typing import Optional, List
+app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
+app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/', prefix='static/')
 
-app = FastAPI(
-    title="Ecossistema Autónomo Global - Core Engine & Recommendation",
-    version="2.2.0"
-)
+CVT_TZ = pytz.timezone('Atlantic/Cape_Verde')
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# --- BASE DE DADOS SIMULADA DE VÍDEOS POR CATEGORIA ---
-VIDEO_DATABASE = {
-    "futebol": [
-        {"title": "Melhores Momentos e Lances de Futebol", "url": "https://www.youtube.com/embed/5qap5aO4i9A"},
-        {"title": "Resumo de Desporto ao Vivo", "url": "https://www.youtube.com/embed/2g811Ko778U"}
-    ],
-    "musica": [
-        {"title": "Transmissão de Música Ao Vivo 24/7", "url": "https://www.youtube.com/embed/jfKfPfyJRdk"},
-        {"title": "Playlist Hits do Momento", "url": "https://www.youtube.com/embed/DWuZE6mgV2A"}
-    ],
-    "tutoriais": [
-        {"title": "Curso Prático de Programação e Tecnologia", "url": "https://www.youtube.com/embed/rfscVS0vtbw"},
-        {"title": "Guia Prático Passo a Passo", "url": "https://www.youtube.com/embed/Dp6lbdopr80"}
-    ],
-    "geral": [
-        {"title": "Bem-vindo ao ECOSSISTEMA.HUB", "url": "https://www.youtube.com/embed/dQw4w9WgXcQ"}
-    ]
+MODULES = {
+    'tecnologia': 'Tecnologia & Inteligência Artificial',
+    'construcao': 'Construção, Engenharia & Arquitetura',
+    'negocios': 'Negócios & Empreendedorismo',
+    'ensino': 'Ensino & Educação',
+    'saude': 'Saúde & Bem-Estar',
+    'desporto': 'Desporto & Desempenho',
+    'outros': 'Outros & Geral'
 }
 
-# --- MOTOR DE RECOMENDAÇÃO INTELIGENTE ---
-class RecommendationEngine:
-    def __init__(self):
-        # Guardar histórico de preferências por utilizador
-        self.user_preferences = {}
+def get_current_time():
+    return datetime.now(CVT_TZ).strftime('%Y-%m-%d %H:%M:%S')
 
-    def update_user_interest(self, user_id: str, category: str):
-        if user_id not in self.user_preferences:
-            self.user_preferences[user_id] = []
-        self.user_preferences[user_id].append(category)
+@app.route('/')
+def home():
+    return jsonify({
+        "status": "online",
+        "plataforma": "Ecossistema Autónomo",
+        "hora_local": get_current_time(),
+        "modulos": MODULES
+    })
 
-    def get_personalized_video(self, user_id: str, preferred_category: Optional[str] = None):
-        # 1. Se o utilizador pediu uma categoria direta
-        category = preferred_category.lower() if preferred_category else None
-        
-        # 2. Se não pediu, verificar o histórico recente do utilizador
-        if not category or category not in VIDEO_DATABASE:
-            history = self.user_preferences.get(user_id, [])
-            if history:
-                category = history[-1] # Pega no último gosto registado
-            else:
-                category = "geral"
+@app.route('/modulo/<nome_modulo>')
+def ver_modulo(nome_modulo):
+    modulo_key = nome_modulo.lower() if nome_modulo.lower() in MODULES else 'outros'
+    return jsonify({
+        "modulo_id": modulo_key,
+        "titulo": MODULES[modulo_key],
+        "mensagem": f"Bem-vindo ao módulo de {MODULES[modulo_key]}",
+        "data_acesso": get_current_time()
+    })
 
-        videos = VIDEO_DATABASE.get(category, VIDEO_DATABASE["geral"])
-        return videos[0]
+@app.route('/anuncie')
+def anuncie_connosco():
+    return jsonify({
+        "pagina": "Anuncie Connosco",
+        "modulos_disponiveis": list(MODULES.values()),
+        "tabela_precos": [
+            {"opcao": "Artigo Patrocinado Simples", "preco": "3.500$00 - 6.000$00 CVE"},
+            {"opcao": "Destaque Mensal (Banner + Artigos)", "preco": "12.000$00 - 20.000$00 CVE/mês"},
+            {"opcao": "Patrocínio Exclusivo de Módulo", "preco": "30.000$00 - 50.000$00 CVE/mês"}
+        ]
+    })
 
-rec_engine = RecommendationEngine()
+@app.route('/sitemap.xml')
+def sitemap():
+    pages = ['/', '/anuncie'] + [f'/modulo/{m}' for m in MODULES.keys()]
+    xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for page in pages:
+        xml += f'  <url><loc>https://{request.host}{page}</loc></url>\n'
+    xml += '</urlset>'
+    return xml, 200, {'Content-Type': 'application/xml; charset=utf-8'}
 
-# --- MODELO DE DADOS FINANCEIROS ---
-class TransactionRequest(BaseModel):
-    user_id: str
-    amount: float = Field(..., gt=0)
-    vendor_id: str
-    item_type: str
-    country_code: Optional[str] = "CV"
-    client_ip: Optional[str] = "127.0.0.1"
+@app.errorhandler(404)
+def page_not_found(e):
+    return jsonify({
+        "erro": 404,
+        "mensagem": "Página não encontrada.",
+        "modulos_disponiveis": MODULES
+    }), 404
 
-# --- ENDPOINTS DA API ---
-
-@app.get("/")
-async def root():
-    return {"status": "ONLINE", "system": "Ecossistema Digital Autónomo", "version": "2.2.0"}
-
-# Endpoint que entrega o vídeo certo conforme o gosto do cliente
-@app.get("/api/v1/feed/personalized")
-async def get_personalized_feed(
-    user_id: str = Query("guest_user"),
-    interest: Optional[str] = Query(None, description="futebol, musica, tutoriais")
-):
-    if interest:
-        rec_engine.update_user_interest(user_id, interest)
-    
-    recommended_video = rec_engine.get_personalized_video(user_id, interest)
-    
-    return {
-        "status": "SUCCESS",
-        "user_id": user_id,
-        "selected_category": interest or "baseado no histórico",
-        "video": recommended_video
-    }
-
-@app.post("/api/v1/checkout")
-async def checkout(transaction: TransactionRequest):
-    return {"status": "SUCCESS", "message": "Processado com sucesso"}
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port, debug=False)
