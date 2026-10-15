@@ -257,23 +257,23 @@ def mod_engenharia():
 
 @app.route('/modulo/canalizacao', methods=['GET', 'POST'])
 def mod_canalizacao():
-    resultado_bloco = ""
+    resultado_html = ""
     if request.method == 'POST':
         try:
-            caudal_lps = float(request.form.get('caudal', 1.0))
+            caudal_lps = float(request.form.get('caudal', 1.5))
             velocidade = 1.5
             q_m3s = caudal_lps / 1000.0
             d_metros = math.sqrt((4 * q_m3s) / (math.pi * velocidade))
             d_mm = d_metros * 1000.0
-            resultado_bloco = f"""
-                <div class="res">
+            resultado_html = f"""
+                <div class="res" style="margin-top: 10px; padding: 10px; background: #1e293b; color: #38bdf8; font-weight: bold; border-radius: 6px; font-size: 0.85rem; border-left: 4px solid #10b981;">
                     <div>Caudal de {caudal_lps} L/s</div>
                     <div style="margin-top: 5px; color: #34d399;">Diâmetro Interior Mínimo: {d_mm:.1f} mm (V: {velocidade} m/s)</div>
                 </div>
             """
         except Exception:
-            resultado_bloco = """
-                <div class="res" style="border-left: 4px solid #ef4444; color: #f87171;">
+            resultado_html = """
+                <div class="res" style="margin-top: 10px; padding: 10px; background: #1e293b; color: #f87171; font-weight: bold; border-radius: 6px; font-size: 0.85rem; border-left: 4px solid #ef4444;">
                     Erro no cálculo. Verifique os valores inseridos.
                 </div>
             """
@@ -292,7 +292,6 @@ def mod_canalizacao():
             .box {{ background: #030712; padding: 12px; border-radius: 8px; border: 1px solid #1f2937; margin-bottom: 12px; }}
             input {{ width: 100%; padding: 8px; margin: 6px 0; background: #111827; border: 1px solid #374151; color: white; border-radius: 6px; outline: none; }}
             button {{ background: #3b82f6; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }}
-            .res {{ margin-top: 10px; padding: 10px; background: #1e293b; color: #38bdf8; font-weight: bold; border-radius: 6px; font-size: 0.85rem; border-left: 4px solid #10b981; }}
             a.back {{ display: inline-block; color: #60a5fa; text-decoration: none; margin-top: 10px; font-weight: 600; font-size: 0.85rem; }}
         </style>
     </head>
@@ -305,7 +304,7 @@ def mod_canalizacao():
                     <input type="number" step="0.1" name="caudal" value="1.5" required>
                     <button type="submit">Calcular Tubagem (PPR / PEAD / PVC)</button>
                 </form>
-                {resultado_bloco}
+                {resultado_html}
             </div>
             <a href="/" class="back">&larr; Voltar ao Hub</a>
         </div>
