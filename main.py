@@ -13,9 +13,6 @@ CVT_TZ = pytz.timezone('Atlantic/Cape_Verde')
 def get_current_time():
     return datetime.now(CVT_TZ).strftime('%Y-%m-%d %H:%M:%S')
 
-# ---------------------------------------------------------
-# ECOSSISTEMA.HUB - ESTRUTURA VISUAL E DISPLAY INTELIGENTE
-# ---------------------------------------------------------
 HUB_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="pt">
@@ -25,154 +22,163 @@ HUB_TEMPLATE = """
     <title>ECOSSISTEMA.HUB - Comando Central</title>
     <style>
         :root {
-            --bg-main: #0b0f19;
-            --card-bg: #121826;
-            --card-border: #1e293b;
+            --bg-main: #070913;
+            --card-bg: #111827;
+            --card-border: #1f2937;
             --accent-blue: #3b82f6;
             --accent-cyan: #06b6d4;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --accent-glow: rgba(59, 130, 246, 0.15);
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
             --success: #10b981;
         }
         * { box-sizing: border-box; }
         body {
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-main);
             color: var(--text-main);
             margin: 0;
-            padding: 15px;
-            line-height: 1.5;
+            padding: 16px;
+            line-height: 1.6;
         }
         .container { max-width: 900px; margin: 0 auto; }
-        header { text-align: center; margin-bottom: 20px; }
-        h1 { font-size: 1.8rem; margin: 0 0 5px 0; background: linear-gradient(90deg, #60a5fa, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .subtitle { color: var(--text-muted); font-size: 0.85rem; }
+        header { text-align: center; margin-bottom: 24px; padding-top: 10px; }
+        h1 { font-size: 2rem; margin: 0 0 6px 0; background: linear-gradient(135deg, #60a5fa, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; letter-spacing: -0.5px; }
+        .subtitle { color: var(--text-muted); font-size: 0.9rem; font-weight: 400; }
         
         .section-box {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.2s;
         }
+        .section-box:hover { border-color: rgba(59, 130, 246, 0.4); }
+        
         .section-title {
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 700;
             color: #60a5fa;
-            margin-bottom: 10px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
         
-        /* 1. Buscador no Topo */
-        .search-container { display: flex; gap: 8px; }
+        /* Buscador */
+        .search-container { display: flex; gap: 10px; }
         .search-container input {
             flex: 1;
-            background: #090d16;
+            background: #030712;
             border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 10px 14px;
+            border-radius: 10px;
+            padding: 12px 16px;
             color: var(--text-main);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             outline: none;
+            transition: all 0.2s;
         }
-        .search-container input:focus { border-color: var(--accent-blue); }
+        .search-container input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px var(--accent-glow); }
         .search-container button {
-            background: var(--accent-blue);
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 0 16px;
+            border-radius: 10px;
+            padding: 0 20px;
             font-weight: 600;
             cursor: pointer;
+            transition: opacity 0.2s;
         }
+        .search-container button:hover { opacity: 0.9; }
 
-        /* 2. Display / Feed Dinâmico Logo Abaixo */
+        /* Display Multimédia */
         .video-container {
             position: relative;
             width: 100%;
             padding-bottom: 56.25%;
             height: 0;
-            background: #000;
-            border-radius: 8px;
+            background: #030712;
+            border-radius: 12px;
             overflow: hidden;
+            border: 1px solid var(--card-border);
         }
         .video-container iframe {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%; border: 0;
         }
 
-        /* 3. Módulos Principais */
+        /* Módulos */
         .grid-buttons {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 10px;
+            gap: 12px;
         }
         @media(min-width: 600px) {
             .grid-buttons { grid-template-columns: 1fr 1fr; }
         }
         .btn-card {
-            background: #1a2234;
-            border: 1px solid #2a374a;
-            border-radius: 8px;
-            padding: 12px 16px;
+            background: #182235;
+            border: 1px solid #283548;
+            border-radius: 12px;
+            padding: 16px;
             color: var(--text-main);
             text-decoration: none;
-            font-weight: 500;
             display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.2s;
+            align-items: flex-start;
+            gap: 14px;
+            transition: all 0.25s ease;
         }
         .btn-card:hover {
             border-color: var(--accent-blue);
-            transform: translateY(-2px);
-            background: #222d44;
+            transform: translateY(-3px);
+            background: #1e293b;
+            box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.3);
         }
         .btn-card.main-full {
             grid-column: 1 / -1;
-            background: linear-gradient(135deg, #1e3a8a, #1e293b);
+            background: linear-gradient(135deg, #1e3a8a 0%, #111827 100%);
             border-color: #3b82f6;
         }
 
-        /* 4. Secção de IA */
+        /* IA Box */
         .ia-box {
-            background: linear-gradient(135deg, #0f172a, #1e1b4b);
-            border: 1px solid #312e81;
+            background: linear-gradient(135deg, #111827 0%, #1e1b4b 100%);
+            border-color: #312e81;
         }
 
-        /* 5. Redes Sociais Embaixo de Tudo */
+        /* Redes Sociais */
         .social-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 10px;
         }
         .social-btn {
-            background: #1a2234;
-            border: 1px solid #2a374a;
+            background: #182235;
+            border: 1px solid #283548;
             color: var(--text-main);
-            padding: 8px 10px;
-            border-radius: 6px;
+            padding: 10px 12px;
+            border-radius: 10px;
             text-align: center;
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 500;
             transition: all 0.2s;
         }
-        .social-btn:hover { border-color: var(--accent-blue); background: #222d44; }
+        .social-btn:hover { border-color: var(--accent-blue); background: #1e293b; }
 
         .status-row {
             display: flex;
             justify-content: space-between;
             font-size: 0.85rem;
-            padding: 6px 0;
+            padding: 8px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .status-row:last-child { border-bottom: none; }
         .status-ok { color: var(--success); font-weight: 600; }
         
-        footer { text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-top: 25px; }
+        footer { text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 30px; }
     </style>
 </head>
 <body>
@@ -191,14 +197,13 @@ HUB_TEMPLATE = """
             </div>
         </div>
 
-        <!-- 2. DISPLAY / FEED DINÂMICO BASEADO NO HISTÓRICO -->
+        <!-- 2. DISPLAY / FEED MULTIMÉDIA LOGO ABAIXO -->
         <div class="section-box">
-            <div class="section-title">⚡ Display Multimédia & Feed Personalizado (Engenharia & Campo)</div>
+            <div class="section-title">⚡ Display Multimédia & Feed Operacional</div>
             <div class="video-container">
-                <!-- Vídeo dinâmico associado aos interesses técnicos do ecossistema -->
-                <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=PL1234567890&autoplay=0" id="dynDisplay" allowfullscreen></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/9bZkp7q19f0" allowfullscreen></iframe>
             </div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 6px;">
+            <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 8px;">
                 Fuso Horário (CVT): {{ hora_atual }} &bull; Sincronizado com Perfil Técnico
             </div>
         </div>
@@ -208,31 +213,31 @@ HUB_TEMPLATE = """
             <div class="section-title">🎛️ Módulos Operacionais de Engenharia</div>
             <div class="grid-buttons">
                 <a href="/modulo/engenharia" class="btn-card main-full">
-                    <span>⚙️</span>
+                    <span style="font-size: 1.8rem;">⚙️</span>
                     <div>
-                        <div style="font-weight:600; color:#60a5fa;">Engenharia & Tecnologias (Profundidade Total)</div>
-                        <div style="font-size:0.75rem; color:var(--text-muted);">Cálculos reais de eletrotecnia, betão e tubagens</div>
+                        <div style="font-weight:700; color:#60a5fa; font-size: 1.05rem;">Engenharia & Tecnologias (Profundidade Total)</div>
+                        <div style="font-size:0.82rem; color:var(--text-muted); margin-top: 4px;">Cálculos reais de eletrotecnia, betão e tubagens estruturais.</div>
                     </div>
                 </a>
                 <a href="/modulo/canalizacao" class="btn-card">
-                    <span>🔧</span>
+                    <span style="font-size: 1.5rem;">🔧</span>
                     <div>
-                        <div>Canalização & Hidráulica</div>
-                        <div style="font-size:0.75rem; color:var(--text-muted);">PPR, PEAD, PVC & Bombas</div>
+                        <div style="font-weight:600; color:#38bdf8;">Canalização & Hidráulica</div>
+                        <div style="font-size:0.78rem; color:var(--text-muted); margin-top: 2px;">PPR, PEAD, PVC & Bombas.</div>
                     </div>
                 </a>
                 <a href="/modulo/agricultura" class="btn-card">
-                    <span>🌱</span>
+                    <span style="font-size: 1.5rem;">🌱</span>
                     <div>
-                        <div>Agricultura Autónoma</div>
-                        <div style="font-size:0.75rem; color:var(--text-muted);">Casa de Meio & Rega por Gotejamento</div>
+                        <div style="font-weight:600; color:#34d399;">Agricultura Autónoma</div>
+                        <div style="font-size:0.78rem; color:var(--text-muted); margin-top: 2px;">Casa de Meio & Rega por Gotejamento.</div>
                     </div>
                 </a>
                 <a href="/modulo/tesouraria" class="btn-card">
-                    <span>📊</span>
+                    <span style="font-size: 1.5rem;">📊</span>
                     <div>
-                        <div>Tesouraria & Orçamentos</div>
-                        <div style="font-size:0.75rem; color:var(--text-muted);">Custos em CVE & Listas de Materiais</div>
+                        <div style="font-weight:600; color:#f472b6;">Tesouraria & Orçamentos</div>
+                        <div style="font-size:0.78rem; color:var(--text-muted); margin-top: 2px;">Custos em CVE & Listas de Materiais.</div>
                     </div>
                 </a>
             </div>
@@ -241,14 +246,14 @@ HUB_TEMPLATE = """
         <!-- 4. SECÇÃO DE IA MAIS ABAIXO -->
         <div class="section-box ia-box">
             <div class="section-title" style="color: #a78bfa;">💡 Módulo de IA & Gestão de Projetos</div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
                 Assistência autónoma para relatórios técnicos, memórias descritivas e otimização de fluxos sem margem para erro.
             </div>
             <a href="/modulo/ia_projetos" class="btn-card" style="background: #1e1b4b; border-color: #4338ca;">
-                <span>🤖</span>
+                <span style="font-size: 1.5rem;">🤖</span>
                 <div>
                     <div style="font-weight: 600; color: #c084fc;">Aceder à Central de IA & Relatórios</div>
-                    <div style="font-size: 0.75rem; color: var(--text-muted);">Documentação técnica e suporte avançado</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted);">Documentação técnica e suporte avançado.</div>
                 </div>
             </a>
         </div>
@@ -298,6 +303,7 @@ HUB_TEMPLATE = """
 </html>
 """
 
+# Rotas funcionais limpas
 @app.route('/')
 def home():
     return render_template_string(HUB_TEMPLATE, hora_atual=get_current_time())
@@ -306,40 +312,40 @@ def home():
 def mod_engenharia():
     return render_template_string("""
     <!DOCTYPE html><html lang="pt"><head><meta charset="UTF-8"><title>Engenharia - ECOSSISTEMA.HUB</title>
-    <style>body{font-family:system-ui;background:#0b0f19;color:#f8fafc;padding:20px;} .box{background:#121826;padding:20px;border-radius:12px;max-width:800px;margin:0 auto;border:1px solid #1e293b;}</style></head>
-    <body><div class="box"><h1>⚙️ Engenharia & Tecnologias</h1><p>Módulo de cálculo de condutores e estruturas ativo.</p><a href="/" style="color:#60a5fa;">&larr; Voltar ao Hub</a></div></body></html>
+    <style>body{font-family:system-ui;background:#070913;color:#f9fafb;padding:20px;} .box{background:#111827;padding:25px;border-radius:16px;max-width:800px;margin:0 auto;border:1px solid #1f2937;}</style></head>
+    <body><div class="box"><h1 style="color:#60a5fa;margin-top:0;">⚙️ Engenharia & Tecnologias</h1><p>Módulo de cálculo de condutores e estruturas ativo e operacional.</p><a href="/" style="color:#60a5fa;text-decoration:none;font-weight:600;">&larr; Voltar ao Hub</a></div></body></html>
     """)
 
 @app.route('/modulo/canalizacao')
 def mod_canalizacao():
     return render_template_string("""
     <!DOCTYPE html><html lang="pt"><head><meta charset="UTF-8"><title>Canalização - ECOSSISTEMA.HUB</title>
-    <style>body{font-family:system-ui;background:#0b0f19;color:#f8fafc;padding:20px;} .box{background:#121826;padding:20px;border-radius:12px;max-width:800px;margin:0 auto;border:1px solid #1e293b;}</style></head>
-    <body><div class="box"><h1>🔧 Canalização & Hidráulica</h1><p>Dimensionador de PPR, PEAD e PVC operacional.</p><a href="/" style="color:#60a5fa;">&larr; Voltar ao Hub</a></div></body></html>
+    <style>body{font-family:system-ui;background:#070913;color:#f9fafb;padding:20px;} .box{background:#111827;padding:25px;border-radius:16px;max-width:800px;margin:0 auto;border:1px solid #1f2937;}</style></head>
+    <body><div class="box"><h1 style="color:#38bdf8;margin-top:0;">🔧 Canalização & Hidráulica</h1><p>Dimensionador de PPR, PEAD e PVC operacional.</p><a href="/" style="color:#60a5fa;text-decoration:none;font-weight:600;">&larr; Voltar ao Hub</a></div></body></html>
     """)
 
 @app.route('/modulo/agricultura')
 def mod_agricultura():
     return render_template_string("""
     <!DOCTYPE html><html lang="pt"><head><meta charset="UTF-8"><title>Agricultura - ECOSSISTEMA.HUB</title>
-    <style>body{font-family:system-ui;background:#0b0f19;color:#f8fafc;padding:20px;} .box{background:#121826;padding:20px;border-radius:12px;max-width:800px;margin:0 auto;border:1px solid #1e293b;}</style></head>
-    <body><div class="box"><h1>🌱 Agricultura Autónoma (Casa de Meio)</h1><p>Gestão de rega por gotejamento e 2.500 m².</p><a href="/" style="color:#60a5fa;">&larr; Voltar ao Hub</a></div></body></html>
+    <style>body{font-family:system-ui;background:#070913;color:#f9fafb;padding:20px;} .box{background:#111827;padding:25px;border-radius:16px;max-width:800px;margin:0 auto;border:1px solid #1f2937;}</style></head>
+    <body><div class="box"><h1 style="color:#34d399;margin-top:0;">🌱 Agricultura Autónoma (Casa de Meio)</h1><p>Gestão de rega por gotejamento e 2.500 m².</p><a href="/" style="color:#60a5fa;text-decoration:none;font-weight:600;">&larr; Voltar ao Hub</a></div></body></html>
     """)
 
 @app.route('/modulo/tesouraria')
 def mod_tesouraria():
     return render_template_string("""
     <!DOCTYPE html><html lang="pt"><head><meta charset="UTF-8"><title>Tesouraria - ECOSSISTEMA.HUB</title>
-    <style>body{font-family:system-ui;background:#0b0f19;color:#f8fafc;padding:20px;} .box{background:#121826;padding:20px;border-radius:12px;max-width:800px;margin:0 auto;border:1px solid #1e293b;}</style></head>
-    <body><div class="box"><h1>📊 Tesouraria & Orçamentos (CVE)</h1><p>Tabela de custos de materiais ativa.</p><a href="/" style="color:#60a5fa;">&larr; Voltar ao Hub</a></div></body></html>
+    <style>body{font-family:system-ui;background:#070913;color:#f9fafb;padding:20px;} .box{background:#111827;padding:25px;border-radius:16px;max-width:800px;margin:0 auto;border:1px solid #1f2937;}</style></head>
+    <body><div class="box"><h1 style="color:#f472b6;margin-top:0;">📊 Tesouraria & Orçamentos (CVE)</h1><p>Tabela de custos de materiais ativa.</p><a href="/" style="color:#60a5fa;text-decoration:none;font-weight:600;">&larr; Voltar ao Hub</a></div></body></html>
     """)
 
 @app.route('/modulo/ia_projetos')
 def mod_ia_projetos():
     return render_template_string("""
     <!DOCTYPE html><html lang="pt"><head><meta charset="UTF-8"><title>IA - ECOSSISTEMA.HUB</title>
-    <style>body{font-family:system-ui;background:#0b0f19;color:#f8fafc;padding:20px;} .box{background:#121826;padding:20px;border-radius:12px;max-width:800px;margin:0 auto;border:1px solid #1e293b;}</style></head>
-    <body><div class="box"><h1>💡 IA & Gestão de Projetos</h1><p>Assistência autónoma e relatórios técnicos.</p><a href="/" style="color:#60a5fa;">&larr; Voltar ao Hub</a></div></body></html>
+    <style>body{font-family:system-ui;background:#070913;color:#f9fafb;padding:20px;} .box{background:#111827;padding:25px;border-radius:16px;max-width:800px;margin:0 auto;border:1px solid #1f2937;}</style></head>
+    <body><div class="box"><h1 style="color:#c084fc;margin-top:0;">💡 IA & Gestão de Projetos</h1><p>Assistência autónoma e relatórios técnicos.</p><a href="/" style="color:#60a5fa;text-decoration:none;font-weight:600;">&larr; Voltar ao Hub</a></div></body></html>
     """)
 
 @app.errorhandler(404)
