@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ # -*- coding: utf-8 -*-
 import os
 import math
 import pytz
@@ -19,15 +19,13 @@ HUB_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECOSSISTEMA.HUB - Global Command Center</title>
+    <title>ECOSSISTEMA.HUB</title>
     <style>
         :root {
             --bg-main: #070913;
             --card-bg: #111827;
             --card-border: #1f2937;
             --accent-blue: #3b82f6;
-            --accent-cyan: #06b6d4;
-            --accent-glow: rgba(59, 130, 246, 0.15);
             --text-main: #f9fafb;
             --text-muted: #9ca3af;
             --success: #10b981;
@@ -38,87 +36,80 @@ HUB_TEMPLATE = """
             background-color: var(--bg-main);
             color: var(--text-main);
             margin: 0;
-            padding: 16px;
-            line-height: 1.6;
+            padding: 8px;
+            line-height: 1.3;
         }
-        .container { max-width: 900px; margin: 0 auto; }
-        
+        .container { 
+            width: 100%;
+            max-width: 480px; 
+            margin: 0 auto; 
+        }
         header { 
             text-align: center; 
-            margin-bottom: 25px; 
-            padding: 18px 10px;
+            margin-bottom: 12px; 
+            padding: 10px 8px;
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-radius: 12px;
         }
         h1 { 
-            font-size: 1.9rem; 
-            margin: 0 0 8px 0; 
-            background: linear-gradient(135deg, #60a5fa, #38bdf8, #818cf8); 
+            font-size: 1.4rem; 
+            margin: 0 0 4px 0; 
+            background: linear-gradient(135deg, #60a5fa, #38bdf8); 
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
             font-weight: 800; 
-            letter-spacing: -0.5px; 
         }
         .subtitle { 
             color: var(--text-muted); 
-            font-size: 0.85rem; 
+            font-size: 0.75rem; 
             font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
-        
         .section-box {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
         }
-        
         .section-title {
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 700;
             color: #60a5fa;
-            margin-bottom: 14px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
         }
-        
-        /* Buscador no Topo */
-        .search-container { display: flex; gap: 10px; }
+        .search-container { display: flex; gap: 6px; }
         .search-container input {
             flex: 1;
             background: #030712;
             border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 12px 16px;
+            border-radius: 8px;
+            padding: 8px 10px;
             color: var(--text-main);
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             outline: none;
         }
-        .search-container input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px var(--accent-glow); }
         .search-container button {
             background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
             border: none;
-            border-radius: 10px;
-            padding: 0 20px;
+            border-radius: 8px;
+            padding: 0 12px;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
         }
-
-        /* Display Multimédia Logo Abaixo */
         .video-container {
             position: relative;
             width: 100%;
             padding-bottom: 56.25%;
             height: 0;
             background: #030712;
-            border-radius: 12px;
+            border-radius: 8px;
             overflow: hidden;
             border: 1px solid var(--card-border);
         }
@@ -126,157 +117,132 @@ HUB_TEMPLATE = """
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%; border: 0;
         }
-
-        /* Módulos Operacionais */
         .grid-buttons {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
-        }
-        @media(min-width: 600px) {
-            .grid-buttons { grid-template-columns: 1fr 1fr; }
+            gap: 8px;
         }
         .btn-card {
             background: #182235;
             border: 1px solid #283548;
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 10px;
+            padding: 10px 12px;
             color: var(--text-main);
             text-decoration: none;
             display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            transition: all 0.25s ease;
+            align-items: center;
+            gap: 10px;
         }
         .btn-card:hover {
             border-color: var(--accent-blue);
-            transform: translateY(-3px);
             background: #1e293b;
         }
         .btn-card.main-full {
-            grid-column: 1 / -1;
             background: linear-gradient(135deg, #1e3a8a 0%, #111827 100%);
             border-color: #3b82f6;
         }
-
-        /* IA Mais Abaixo */
         .ia-box {
             background: linear-gradient(135deg, #111827 0%, #1e1b4b 100%);
             border-color: #312e81;
         }
-
-        /* Redes Sociais no Fundo */
         .social-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 6px;
         }
         .social-btn {
             background: #182235;
             border: 1px solid #283548;
             color: var(--text-main);
-            padding: 10px 12px;
-            border-radius: 10px;
+            padding: 8px;
+            border-radius: 8px;
             text-align: center;
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 500;
         }
-        .social-btn:hover { border-color: var(--accent-blue); background: #1e293b; }
-
         .status-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.75rem;
+            padding: 4px 0;
         }
-        .status-row:last-child { border-bottom: none; }
         .status-ok { color: var(--success); font-weight: 600; }
-        
-        footer { text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 30px; }
+        footer { text-align: center; color: var(--text-muted); font-size: 0.7rem; margin-top: 15px; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>ECOSSISTEMA.HUB</h1>
-            <div class="subtitle">Global Command Center &bull; Engineering, Automation & Applied AI</div>
+            <div class="subtitle">Global Command Center &bull; High Performance</div>
         </header>
 
-        <!-- 1. BUSCADOR NO TOPO -->
         <div class="section-box">
-            <div class="section-title">🔍 Buscador Inteligente do Hub</div>
+            <div class="section-title">🔍 Buscador do Hub</div>
             <div class="search-container">
-                <input type="text" id="searchInput" placeholder="O que procuras? (ex: hidráulica, betão, rega, custos...)">
-                <button onclick="executarPesquisa()">Pesquisar</button>
+                <input type="text" id="searchInput" placeholder="O que procuras? (ex: hidráulica, betão, custos...)">
+                <button onclick="executarPesquisa()">Buscar</button>
             </div>
         </div>
 
-        <!-- 2. DISPLAY MULTIMÉDIA LOGO ABAIXO -->
         <div class="section-box">
-            <div class="section-title">⚡ Display Multimédia & Feed Global</div>
+            <div class="section-title">⚡ Display Multimédia</div>
             <div class="video-container">
-                <iframe src="https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=0&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/L_LUpnjgPso?playsinline=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 8px;">
-                Fuso Horário (CVT): {{ hora_atual }} &bull; High-Performance Cloud Architecture
+            <div style="font-size: 0.7rem; color: var(--text-muted); text-align: center; margin-top: 6px;">
+                CVT: {{ hora_atual }} &bull; Sincronizado
             </div>
         </div>
 
-        <!-- 3. MÓDULOS OPERACIONAIS EMBAIXO DO DISPLAY -->
         <div class="section-box">
-            <div class="section-title">🎛️ Módulos Operacionais de Engenharia</div>
+            <div class="section-title">🎛️ Módulos Operacionais</div>
             <div class="grid-buttons">
                 <a href="/modulo/engenharia" class="btn-card main-full">
-                    <span style="font-size: 1.8rem;">⚙️</span>
+                    <span style="font-size: 1.4rem;">⚙️</span>
                     <div>
-                        <div style="font-weight:700; color:#60a5fa; font-size: 1.05rem;">Engenharia & Tecnologias (Profundidade Total)</div>
-                        <div style="font-size:0.82rem; color:var(--text-muted); margin-top: 4px;">Cálculos estruturais, eletrotécnia e tubagens de alta exigência.</div>
+                        <div style="font-weight:700; color:#60a5fa; font-size: 0.9rem;">Engenharia & Tecnologias</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">Eletrotecnia, betão e tubagens.</div>
                     </div>
                 </a>
                 <a href="/modulo/canalizacao" class="btn-card">
-                    <span style="font-size: 1.5rem;">🔧</span>
+                    <span style="font-size: 1.2rem;">🔧</span>
                     <div>
-                        <div style="font-weight:600; color:#38bdf8;">Canalização & Hidráulica</div>
-                        <div style="font-size:0.78rem; color:var(--text-muted); margin-top: 2px;">PPR, PEAD, PVC & Redes.</div>
+                        <div style="font-weight:600; color:#38bdf8; font-size: 0.85rem;">Canalização & Hidráulica</div>
+                        <div style="font-size:0.7rem; color:var(--text-muted);">PPR, PEAD, PVC & Redes.</div>
                     </div>
                 </a>
                 <a href="/modulo/agricultura" class="btn-card">
-                    <span style="font-size: 1.5rem;">🌱</span>
+                    <span style="font-size: 1.2rem;">🌱</span>
                     <div>
-                        <div style="font-weight:600; color:#34d399;">Agricultura Autónoma</div>
-                        <div style="font-size:0.78rem; color:var(--text-muted); margin-top: 2px;">Casa de Meio & Rega Inteligente.</div>
+                        <div style="font-weight:600; color:#34d399; font-size: 0.85rem;">Agricultura Autónoma</div>
+                        <div style="font-size:0.7rem; color:var(--text-muted);">Casa de Meio & Rega Inteligente.</div>
                     </div>
                 </a>
                 <a href="/modulo/tesouraria" class="btn-card">
-                    <span style="font-size: 1.5rem;">📊</span>
+                    <span style="font-size: 1.2rem;">📊</span>
                     <div>
-                        <div style="font-weight:600; color:#f472b6;">Tesouraria & Orçamentos (EU/US/CV)</div>
-                        <div style="font-size:0.78rem; color:var(--text-muted); margin-top: 2px;">Custos em EUR (€), USD ($) e CVE.</div>
+                        <div style="font-weight:600; color:#f472b6; font-size: 0.85rem;">Tesouraria & Orçamentos</div>
+                        <div style="font-size:0.7rem; color:var(--text-muted);">Custos em EUR (€), USD ($) e CVE.</div>
                     </div>
                 </a>
             </div>
         </div>
 
-        <!-- 4. SECÇÃO DE IA MAIS ABAIXO -->
         <div class="section-box ia-box">
-            <div class="section-title" style="color: #a78bfa;">💡 Módulo de IA & Gestão de Projetos</div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
-                Assistência autónoma para relatórios técnicos, memórias descritivas internacionais e otimização de fluxos.
-            </div>
+            <div class="section-title" style="color: #a78bfa;">💡 Módulo de IA & Relatórios</div>
             <a href="/modulo/ia_projetos" class="btn-card" style="background: #1e1b4b; border-color: #4338ca;">
-                <span style="font-size: 1.5rem;">🤖</span>
+                <span style="font-size: 1.2rem;">🤖</span>
                 <div>
-                    <div style="font-weight: 600; color: #c084fc;">Aceder à Central de IA & Relatórios</div>
-                    <div style="font-size: 0.78rem; color: var(--text-muted);">Documentação técnica e suporte avançado.</div>
+                    <div style="font-weight: 600; color: #c084fc; font-size: 0.85rem;">Central de IA & Documentos</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">Suporte técnico e relatórios.</div>
                 </div>
             </a>
         </div>
 
-        <!-- 5. REDES SOCIAIS EMBAIXO DE TUDO -->
         <div class="section-box">
-            <div class="section-title">🌐 Redes Sociais & Canais Globais</div>
+            <div class="section-title">🌐 Canais Globais</div>
             <div class="social-grid">
                 <a href="https://whatsapp.com" target="_blank" class="social-btn">💬 WhatsApp</a>
                 <a href="https://youtube.com" target="_blank" class="social-btn">▶️ YouTube</a>
@@ -289,13 +255,13 @@ HUB_TEMPLATE = """
 
         <div class="section-box">
             <div class="status-row">
-                <span>Cloud Server (Flask / Python)</span>
-                <span class="status-ok">Online & Stable (Global)</span>
+                <span>Servidor Cloud</span>
+                <span class="status-ok">Online</span>
             </div>
         </div>
 
         <footer>
-            &copy; 2026 Ecossistema Autónomo &bull; Ready for European & American Markets
+            &copy; 2026 Ecossistema Autónomo
         </footer>
     </div>
 
@@ -328,42 +294,30 @@ def mod_engenharia():
     return render_template_string("""
     <!DOCTYPE html>
     <html lang="pt">
-    <head><meta charset="UTF-8"><title>Engenharia & Tecnologias</title>
+    <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Engenharia</title>
     <style>
-        body { font-family: system-ui; background: #070913; color: #f9fafb; padding: 20px; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 25px; }
-        h1 { color: #60a5fa; font-size: 1.5rem; margin-top: 0; }
-        .box { background: #030712; padding: 20px; border-radius: 12px; border: 1px solid #1f2937; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; margin: 8px 0; background: #111827; border: 1px solid #374151; color: white; border-radius: 8px; }
-        button { background: #3b82f6; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; width: 100%; }
-        button:hover { background: #2563eb; }
-        a.back { display: inline-block; color: #60a5fa; text-decoration: none; margin-top: 15px; font-weight: 600; }
+        body { font-family: system-ui; background: #070913; color: #f9fafb; padding: 12px; }
+        .container { max-width: 480px; margin: 0 auto; background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; }
+        h1 { color: #60a5fa; font-size: 1.2rem; margin-top: 0; }
+        .box { background: #030712; padding: 12px; border-radius: 8px; border: 1px solid #1f2937; margin-bottom: 12px; }
+        input { width: 100%; padding: 8px; margin: 6px 0; background: #111827; border: 1px solid #374151; color: white; border-radius: 6px; }
+        button { background: #3b82f6; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
+        a.back { display: inline-block; color: #60a5fa; text-decoration: none; margin-top: 10px; font-weight: 600; font-size: 0.85rem; }
     </style>
     </head>
     <body>
         <div class="container">
-            <h1>⚙️ Engenharia & Tecnologias (Global Standards)</h1>
+            <h1>⚙️ Engenharia & Tecnologias</h1>
             <div class="box">
-                <h3>Calculadora de Condutores Elétricos</h3>
-                <label>Corrente (A):</label>
+                <h3 style="font-size:0.9rem; margin-top:0;">Calculadora Elétrica</h3>
+                <label style="font-size:0.8rem;">Corrente (A):</label>
                 <input type="number" id="el_i" value="16">
-                <label>Comprimento (m):</label>
+                <label style="font-size:0.8rem;">Comprimento (m):</label>
                 <input type="number" id="el_l" value="20">
-                <button onclick="calcEl()">Calcular Secção Mínima</button>
-                <p id="resEl" style="margin-top:12px; color:#38bdf8; font-weight:bold;"></p>
+                <button onclick="calcEl()">Calcular Secção</button>
+                <p id="resEl" style="margin-top:8px; color:#38bdf8; font-weight:bold; font-size:0.85rem;"></p>
             </div>
-            <div class="box">
-                <h3>Calculadora de Betão (Estruturas)</h3>
-                <label>Comprimento (m):</label>
-                <input type="number" id="civ_c" value="4">
-                <label>Largura (m):</label>
-                <input type="number" id="civ_l" value="3">
-                <label>Espessura (m):</label>
-                <input type="number" id="civ_e" value="0.2">
-                <button onclick="calcCiv()">Calcular Volume de Betão (m³)</button>
-                <p id="resCiv" style="margin-top:12px; color:#38bdf8; font-weight:bold;"></p>
-            </div>
-            <a href="/" class="back">&larr; Voltar ao Comando Central (Hub)</a>
+            <a href="/" class="back">&larr; Voltar ao Hub</a>
         </div>
         <script>
             function calcEl() {
@@ -371,13 +325,6 @@ def mod_engenharia():
                 let l = parseFloat(document.getElementById('el_l').value);
                 let s = (2 * l * i * 0.018) / 3;
                 document.getElementById('resEl').innerText = "Secção recomendada: " + s.toFixed(2) + " mm²";
-            }
-            function calcCiv() {
-                let c = parseFloat(document.getElementById('civ_c').value);
-                let l = parseFloat(document.getElementById('civ_l').value);
-                let e = parseFloat(document.getElementById('civ_e').value);
-                let v = c * l * e;
-                document.getElementById('resCiv').innerText = "Volume de betão: " + v.toFixed(2) + " m³ (Cimento aprox: " + (v*350).toFixed(1) + " kg)";
             }
         </script>
     </body>
@@ -387,71 +334,79 @@ def mod_engenharia():
 @app.route('/modulo/canalizacao', methods=['GET', 'POST'])
 def mod_canalizacao():
     resultado = None
+    diametro_pead = None
+    velocidade = 1.5 
     if request.method == 'POST':
         try:
-            q = float(request.form.get('caudal', 1.0))
-            d = math.sqrt((4 * (q / 1000.0)) / (math.pi * 1.5)) * 1000.0
-            resultado = f"Para um caudal de {q} L/s, o diâmetro interior mínimo recomendado é de {d:.1f} mm (PPR / PEAD / PVC)."
+            caudal_lps = float(request.form.get('caudal', 1.0))
+            q_m3s = caudal_lps / 1000.0
+            d_metros = math.sqrt((4 * q_m3s) / (math.pi * velocidade))
+            d_mm = d_metros * 1000.0
+            resultado = f"Caudal de {caudal_lps} L/s"
+            diametro_pead = f"Diâmetro Interior Mínimo: {d_mm:.1f} mm (V: {velocidade} m/s)"
         except Exception:
-            resultado = "Erro nos valores inseridos."
+            resultado = "Erro no cálculo."
+            diametro_pead = "Verifique os valores."
 
     return render_template_string("""
     <!DOCTYPE html>
     <html lang="pt">
-    <head><meta charset="UTF-8"><title>Canalização & Hidráulica</title>
+    <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Canalização</title>
     <style>
-        body { font-family: system-ui; background: #070913; color: #f9fafb; padding: 20px; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 25px; }
-        h1 { color: #38bdf8; font-size: 1.5rem; margin-top: 0; }
-        .box { background: #030712; padding: 20px; border-radius: 12px; border: 1px solid #1f2937; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; margin: 8px 0; background: #111827; border: 1px solid #374151; color: white; border-radius: 8px; }
-        button { background: #3b82f6; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; width: 100%; }
-        .res { margin-top: 15px; padding: 14px; background: #1e293b; border-left: 4px solid #10b981; color: #38bdf8; font-weight: bold; border-radius: 4px; }
-        a.back { display: inline-block; color: #60a5fa; text-decoration: none; margin-top: 15px; font-weight: 600; }
+        body { font-family: system-ui; background: #070913; color: #f9fafb; padding: 12px; }
+        .container { max-width: 480px; margin: 0 auto; background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; }
+        h1 { color: #38bdf8; font-size: 1.2rem; margin-top: 0; }
+        .box { background: #030712; padding: 12px; border-radius: 8px; border: 1px solid #1f2937; margin-bottom: 12px; }
+        input { width: 100%; padding: 8px; margin: 6px 0; background: #111827; border: 1px solid #374151; color: white; border-radius: 6px; }
+        button { background: #3b82f6; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
+        .res { margin-top: 10px; padding: 10px; background: #1e293b; color: #38bdf8; font-weight: bold; border-radius: 6px; font-size: 0.85rem; }
+        a.back { display: inline-block; color: #60a5fa; text-decoration: none; margin-top: 10px; font-weight: 600; font-size: 0.85rem; }
     </style>
     </head>
     <body>
         <div class="container">
-            <h1>🔧 Canalização & Hidráulica (Dimensionamento)</h1>
+            <h1>🔧 Canalização & Hidráulica</h1>
             <div class="box">
                 <form method="POST">
-                    <label>Caudal Necessário (L/s):</label>
+                    <label style="font-size:0.8rem;">Caudal Necessário (L/s):</label>
                     <input type="number" step="0.1" name="caudal" value="1.5" required>
-                    <button type="submit">Executar Dimensionamento</button>
+                    <button type="submit">Calcular Tubagem (PPR / PEAD / PVC)</button>
                 </form>
                 {% if resultado %}
-                <div class="res">{{ resultado }}</div>
+                <div class="res">
+                    <div>{{ resultado }}</div>
+                    <div style="margin-top: 5px; color: #34d399;">{{ diametro_pead }}</div>
+                </div>
                 {% endif %}
             </div>
-            <a href="/" class="back">&larr; Voltar ao Comando Central (Hub)</a>
+            <a href="/" class="back">&larr; Voltar ao Hub</a>
         </div>
     </body>
     </html>
-    """, resultado=resultado)
+    """, resultado=resultado, diametro_pead=diametro_pead)
 
 @app.route('/modulo/agricultura')
 def mod_agricultura():
     return render_template_string("""
     <!DOCTYPE html>
     <html lang="pt">
-    <head><meta charset="UTF-8"><title>Agricultura Autónoma</title>
+    <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Agricultura</title>
     <style>
-        body { font-family: system-ui; background: #070913; color: #f9fafb; padding: 20px; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 25px; }
-        h1 { color: #34d399; font-size: 1.5rem; margin-top: 0; }
-        .box { background: #030712; padding: 20px; border-radius: 12px; border: 1px solid #1f2937; margin-bottom: 20px; }
-        a.back { display: inline-block; color: #60a5fa; text-decoration: none; margin-top: 15px; font-weight: 600; }
+        body { font-family: system-ui; background: #070913; color: #f9fafb; padding: 12px; }
+        .container { max-width: 480px; margin: 0 auto; background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; }
+        h1 { color: #34d399; font-size: 1.2rem; margin-top: 0; }
+        .box { background: #030712; padding: 12px; border-radius: 8px; border: 1px solid #1f2937; margin-bottom: 12px; }
+        a.back { display: inline-block; color: #60a5fa; text-decoration: none; margin-top: 10px; font-weight: 600; font-size: 0.85rem; }
     </style>
     </head>
     <body>
         <div class="container">
-            <h1>🌱 Agricultura Autónoma (Casa de Meio - 2.500 m²)</h1>
+            <h1>🌱 Agricultura Autónoma (Casa de Meio)</h1>
             <div class="box">
-                <h3>Planeamento de Rega por Gotejamento & Fertirrega</h3>
-                <p>Gestão avançada de setores de rega, caudais e automação para alta produtividade agrícola.</p>
-                <p style="color: #34d399; font-weight: 600;">Estado: Totalmente Operacional.</p>
+                <p style="font-size:0.85rem;">Gestão de setores de rega por gotejamento (2.500 m²).</p>
+                <p style="color: #34d399; font-weight: 600; font-size:0.85rem;">Estado: Operacional.</p>
             </div>
-            <a href="/" class="back">&larr; Voltar ao Comando Central (Hub)</a>
+            <a href="/" class="back">&larr; Voltar ao Hub</a>
         </div>
     </body>
     </html>
@@ -462,32 +417,30 @@ def mod_tesouraria():
     return render_template_string("""
     <!DOCTYPE html>
     <html lang="pt">
-    <head><meta charset="UTF-8"><title>Tesouraria & Orçamentos</title>
+    <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Tesouraria</title>
     <style>
-        body { font-family: system-ui; background: #070913; color: #f9fafb; padding: 20px; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 25px; }
-        h1 { color: #f472b6; font-size: 1.5rem; margin-top: 0; }
-        .box { background: #030712; padding: 20px; border-radius: 12px; border: 1px solid #1f2937; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #374151; padding: 10px; text-align: left; font-size: 0.9rem; }
+        body { font-family: system-ui; background: #070913; color: #f9fafb; padding: 12px; }
+        .container { max-width: 480px; margin: 0 auto; background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; }
+        h1 { color: #f472b6; font-size: 1.2rem; margin-top: 0; }
+        .box { background: #030712; padding: 12px; border-radius: 8px; border: 1px solid #1f2937; margin-bottom: 12px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+        th, td { border: 1px solid #374151; padding: 6px; text-align: left; font-size: 0.75rem; }
         th { background: #1f2937; color: #f472b6; }
-        a.back { display: inline-block; color: #60a5fa; text-decoration: none; margin-top: 15px; font-weight: 600; }
+        a.back { display: inline-block; color: #60a5fa; text-decoration: none; margin-top: 10px; font-weight: 600; font-size: 0.85rem; }
     </style>
     </head>
     <body>
         <div class="container">
-            <h1>📊 Tesouraria & Orçamentos (Global Markets: EU / US / CV)</h1>
+            <h1>📊 Tesouraria & Orçamentos</h1>
             <div class="box">
-                <h3>Tabela de Custos & Referências Internacionais</h3>
                 <table>
-                    <tr><th>Material / Item</th><th>Categoria</th><th>Preço Ref. Europa (€ / USD)</th><th>CVE Est.</th></tr>
-                    <tr><td>Tubo PPR PN20 (Barra)</td><td>Hidráulica</td><td>€12.00 / $13.00</td><td>1.200 CVE</td></tr>
-                    <tr><td>Tubo PEAD / HDPE (Metro)</td><td>Hidráulica</td><td>€3.50 / $3.80</td><td>350 CVE</td></tr>
-                    <tr><td>Saco de Cimento (50kg)</td><td>Construção</td><td>€7.50 / $8.10</td><td>750 CVE</td></tr>
-                    <tr><td>Smart Irrigation Kit</td><td>Agricultura</td><td>€55.00 / $60.00</td><td>5.500 CVE</td></tr>
+                    <tr><th>Item</th><th>EU (€) / US ($)</th><th>CVE</th></tr>
+                    <tr><td>Tubo PPR PN20</td><td>€12.00 / $13.00</td><td>1.200</td></tr>
+                    <tr><td>Tubo PEAD (m)</td><td>€3.50 / $3.80</td><td>350</td></tr>
+                    <tr><td>Cimento (50kg)</td><td>€7.50 / $8.10</td><td>750</td></tr>
                 </table>
             </div>
-            <a href="/" class="back">&larr; Voltar ao Comando Central (Hub)</a>
+            <a href="/" class="back">&larr; Voltar ao Hub</a>
         </div>
     </body>
     </html>
@@ -498,24 +451,22 @@ def mod_ia_projetos():
     return render_template_string("""
     <!DOCTYPE html>
     <html lang="pt">
-    <head><meta charset="UTF-8"><title>IA & Gestão de Projetos</title>
+    <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>IA & Projetos</title>
     <style>
-        body { font-family: system-ui; background: #070913; color: #f9fafb; padding: 20px; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 25px; }
-        h1 { color: #c084fc; font-size: 1.5rem; margin-top: 0; }
-        .box { background: #030712; padding: 20px; border-radius: 12px; border: 1px solid #1f2937; margin-bottom: 20px; }
-        a.back { display: inline-block; color: #60a5fa; text-decoration: none; margin-top: 15px; font-weight: 600; }
+        body { font-family: system-ui; background: #070913; color: #f9fafb; padding: 12px; }
+        .container { max-width: 480px; margin: 0 auto; background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; }
+        h1 { color: #c084fc; font-size: 1.2rem; margin-top: 0; }
+        .box { background: #030712; padding: 12px; border-radius: 8px; border: 1px solid #1f2937; margin-bottom: 12px; }
+        a.back { display: inline-block; color: #60a5fa; text-decoration: none; margin-top: 10px; font-weight: 600; font-size: 0.85rem; }
     </style>
     </head>
     <body>
         <div class="container">
-            <h1>💡 IA & Gestão de Projetos (International Support)</h1>
+            <h1>💡 IA & Gestão de Projetos</h1>
             <div class="box">
-                <h3>Assistência Técnica Avançada & Relatórios</h3>
-                <p>Módulo focado na geração de documentação técnica, memórias descritivas e alinhamento com padrões internacionais de engenharia.</p>
-                <p style="color: #c084fc; font-weight: 600;">Estado: Sincronizado e Ativo.</p>
+                <p style="font-size:0.85rem;">Assistência autónoma para memórias descritivas e relatórios técnicos.</p>
             </div>
-            <a href="/" class="back">&larr; Voltar ao Comando Central (Hub)</a>
+            <a href="/" class="back">&larr; Voltar ao Hub</a>
         </div>
     </body>
     </html>
