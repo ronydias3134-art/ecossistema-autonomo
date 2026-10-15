@@ -1,4 +1,6 @@
-fastapi==0.110.0
-uvicorn==0.28.0
-pydantic==2.6.4
-email-validator==2.1.1
+Flask==3.0.0
+gunicorn==21.2.0
+whitenoise==6.6.0
+python-dotenv==1.0.0
+requests==2.31.0
+pytz==2024.1
