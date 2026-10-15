@@ -76,9 +76,7 @@ HUB_TEMPLATE = """
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            transition: border-color 0.2s;
         }
-        .section-box:hover { border-color: rgba(59, 130, 246, 0.4); }
         
         .section-title {
             font-size: 1rem;
@@ -101,7 +99,6 @@ HUB_TEMPLATE = """
             color: var(--text-main);
             font-size: 0.95rem;
             outline: none;
-            transition: all 0.2s;
         }
         .search-container input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px var(--accent-glow); }
         .search-container button {
@@ -112,9 +109,7 @@ HUB_TEMPLATE = """
             padding: 0 20px;
             font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.2s;
         }
-        .search-container button:hover { opacity: 0.9; }
 
         /* Display Multimédia Logo Abaixo */
         .video-container {
@@ -157,7 +152,6 @@ HUB_TEMPLATE = """
             border-color: var(--accent-blue);
             transform: translateY(-3px);
             background: #1e293b;
-            box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.3);
         }
         .btn-card.main-full {
             grid-column: 1 / -1;
@@ -187,7 +181,6 @@ HUB_TEMPLATE = """
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: 500;
-            transition: all 0.2s;
         }
         .social-btn:hover { border-color: var(--accent-blue); background: #1e293b; }
 
