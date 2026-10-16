@@ -14,8 +14,8 @@ app = Flask(__name__)
 # Objeto de Bloqueio Crítico (Garante Concorrência Segura e Zero Corrupção de Dados)
 estado_lock = Lock()
 
-# Configurações de E-mail Protegidas por Variáveis de Ambiente
-EMAIL_DESTINO = "Ronnydias3134@gmail.com"
+# Configurações de E-mail Corrigidas para o Endereço Exato
+EMAIL_DESTINO = "ronydias3134@gmail.com"
 EMAIL_REMETENTE = os.environ.get("EMAIL_REMETENTE", "teu_email@gmail.com")
 SENHA_EMAIL = os.environ.get("SENHA_EMAIL", "tua_senha_app")
 
@@ -65,7 +65,7 @@ def enviar_email(assunto, corpo):
         server.login(EMAIL_REMETENTE, SENHA_EMAIL)
         server.sendmail(EMAIL_REMETENTE, EMAIL_DESTINO, msg.as_string())
         server.quit()
-        print("Relatório de domínio e confiabilidade enviado com sucesso!")
+        print("Relatório de domínio e confiabilidade enviado com sucesso para ronydias3134@gmail.com!")
         return True
     except Exception as e:
         print(f"Erro no envio de e-mail (recuperável): {e}")
@@ -267,7 +267,7 @@ def home():
         </style>
         <script>
             function dispararRelatorio() {
-                alert("Hub Central: Relatório de estado e sincronização acionados com sucesso para Ronnydias3134@gmail.com!");
+                alert("Hub Central: Relatório de estado e sincronização acionados com sucesso para ronydias3134@gmail.com!");
             }
         </script>
     </head>
@@ -276,7 +276,7 @@ def home():
             <div class="container">
                 <header>
                     <h1>Circuito Global</h1>
-                    <div class="subtitle">Hub Central: Ronnydias3134@gmail.com</div>
+                    <div class="subtitle">Hub Central: ronydias3134@gmail.com</div>
                 </header>
                 
                 <div class="status-banner">
@@ -292,7 +292,7 @@ def home():
                             <table>
                                 <tr><th>Parâmetro</th><th>Registo</th></tr>
                                 <tr><td>Webhook Make.com</td><td><strong style="color:var(--accent-green);">Sincronizado</strong></td></tr>
-                                <tr><td>Destinatário Alerta</td><td>Ronnydias3134</td></tr>
+                                <tr><td>Destinatário Alerta</td><td>ronydias3134</td></tr>
                                 <tr><td>Ciclos Robôs</td><td>{{ estado.ciclos_robos_ocultos }} ciclos</td></tr>
                             </table>
                             <a href="#" class="btn-disparar" onclick="dispararRelatorio(); return false;">Disparar Relatório para o E-mail</a>
