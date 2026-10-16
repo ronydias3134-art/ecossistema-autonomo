@@ -2,8 +2,7 @@ from flask import Flask, render_template_string
 
 app = Flask(__name__)
 
-HTML_LAYOUT = """
-<!DOCTYPE html>
+HTML_LAYOUT = """<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -14,9 +13,10 @@ HTML_LAYOUT = """
         :root {
             --bg-dark: #05070a;
             --card-bg: rgba(12, 17, 26, 0.95);
-            --border-color: rgba(0, 230, 153, 0.2);
+            --border-color: rgba(0, 230, 153, 0.25);
             --accent-green: #00e699;
             --accent-blue: #00bfff;
+            --accent-purple: #9b51e0;
             --text-main: #e6f1ff;
             --text-muted: #8892b0;
         }
@@ -44,9 +44,9 @@ HTML_LAYOUT = """
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: 10px;
+            padding: 12px;
             gap: 10px;
-            padding-bottom: 30px;
+            padding-bottom: 35px;
         }
 
         header {
@@ -54,11 +54,11 @@ HTML_LAYOUT = """
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 4px 6px;
+            padding: 4px 2px;
         }
 
         .brand {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
             letter-spacing: 1.2px;
             color: #ffffff;
@@ -72,6 +72,37 @@ HTML_LAYOUT = """
             padding: 4px 8px;
             border-radius: 12px;
             cursor: pointer;
+            outline: none;
+        }
+
+        /* Banner de Status Dinâmico: 1 Milhão de Almas & Replicação Autónoma */
+        .souls-ticker {
+            width: 100%;
+            background: rgba(155, 81, 224, 0.08);
+            border: 1px solid rgba(155, 81, 224, 0.3);
+            border-radius: 10px;
+            padding: 8px 10px;
+            font-size: 0.72rem;
+            color: #d8b4fe;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-purple);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-purple);
+            animation: pulse 1.5s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 12px var(--accent-purple); }
+            100% { transform: scale(0.95); opacity: 0.8; }
         }
 
         .search-container {
@@ -134,20 +165,23 @@ HTML_LAYOUT = """
 
         .display-box {
             width: 100%;
-            height: 195px;
+            height: 180px;
             background: #000;
             border-radius: 8px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            text-align: center;
         }
 
         .play-btn {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             background: var(--accent-green);
             border-radius: 50%;
             display: flex;
@@ -157,6 +191,7 @@ HTML_LAYOUT = """
             box-shadow: 0 0 12px var(--accent-green);
             color: #000;
             font-weight: bold;
+            border: none;
         }
 
         .modules-grid {
@@ -184,7 +219,7 @@ HTML_LAYOUT = """
             padding: 9px;
             border-radius: 8px;
             color: var(--text-main);
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             font-weight: 500;
             text-align: center;
             cursor: pointer;
@@ -203,7 +238,57 @@ HTML_LAYOUT = """
             cursor: pointer;
         }
 
-        /* Caixa de Trabalho da IA */
+        .ai-selector-section {
+            width: 100%;
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .ai-main-btn {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(155, 81, 224, 0.2), rgba(0, 191, 255, 0.2));
+            border: 1px solid var(--accent-purple);
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+        }
+
+        .ai-list-panel {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 8px;
+            background: rgba(155, 81, 224, 0.05);
+            border: 1px dashed var(--accent-purple);
+            border-radius: 8px;
+        }
+
+        .ai-option-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-main);
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-option-btn:hover {
+            background: rgba(155, 81, 224, 0.15);
+            border-color: var(--accent-purple);
+        }
+
         .ai-workspace {
             display: none;
             margin-top: 10px;
@@ -223,9 +308,9 @@ HTML_LAYOUT = """
 
         .ai-workspace textarea {
             width: 100%;
-            height: 70px;
+            height: 75px;
             background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
             border-radius: 6px;
             color: #fff;
             padding: 8px;
@@ -240,10 +325,10 @@ HTML_LAYOUT = """
             background: var(--accent-green);
             color: #000;
             border: none;
-            padding: 8px;
+            padding: 9px;
             border-radius: 6px;
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             cursor: pointer;
         }
 
@@ -257,12 +342,6 @@ HTML_LAYOUT = """
             font-size: 0.75rem;
             color: var(--text-main);
             line-height: 1.4;
-        }
-
-        .ai-summary-box h5 {
-            color: var(--accent-blue);
-            font-size: 0.78rem;
-            margin-bottom: 4px;
         }
 
         .utility-row {
@@ -293,35 +372,44 @@ HTML_LAYOUT = """
             flex: 1;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 6px;
+            padding: 6px 2px;
             border-radius: 6px;
             text-align: center;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             color: var(--text-muted);
             cursor: pointer;
             text-decoration: none;
+            transition: all 0.2s;
         }
 
-        /* Rodapé com o teu nome em letras pequenas e com função importante de IA */
+        .social-chip:hover {
+            color: var(--accent-green);
+            border-color: var(--accent-green);
+            background: rgba(0, 230, 153, 0.08);
+        }
+
         .footer-signature {
             width: 100%;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 8px;
             padding: 4px;
         }
 
         .signature-btn {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            background: transparent;
-            border: none;
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            background: rgba(0, 230, 153, 0.08);
+            border: 1px dashed var(--accent-green);
+            padding: 6px 14px;
+            border-radius: 12px;
             cursor: pointer;
-            text-decoration: underline;
+            font-weight: 600;
             letter-spacing: 0.5px;
+            outline: none;
         }
 
         .signature-btn:hover {
-            color: var(--accent-green);
+            background: rgba(0, 230, 153, 0.2);
         }
 
         .modal-overlay {
@@ -368,14 +456,20 @@ HTML_LAYOUT = """
             </button>
         </header>
 
+        <!-- Motor Dinâmico de 1 Milhão de Almas & Auto-Replicação -->
+        <div class="souls-ticker" id="soulsTicker">
+            <div class="pulse-dot"></div>
+            <div id="tickerText">1 Milhão de Almas (Fase Inicial): Foco total em prospeção de fornecedores e oportunidades globais...</div>
+        </div>
+
         <div class="search-container">
             <div class="search-box">
                 <span class="search-icon" onclick="toggleVideoSearch()">🔍</span>
                 <input type="text" id="globalSearchInput" placeholder="Pesquisar no ecossistema (baixo consumo)...">
             </div>
             <div class="video-search-panel" id="videoSearchPanel">
-                <input type="text" id="quickVideoQuery" placeholder="Pesquisar tema para o display multimédia...">
-                <button type="button" class="btn-exec" onclick="executeQuickSearch()">Carregar no Display</button>
+                <input type="text" id="quickVideoQuery" placeholder="Tema para o display multimédia...">
+                <button type="button" class="btn-exec" onclick="executeQuickSearch()">Carregar Display</button>
             </div>
         </div>
 
@@ -388,21 +482,32 @@ HTML_LAYOUT = """
         <div class="card">
             <div class="modules-grid">
                 <button type="button" class="module-btn-main" onclick="openModule('Engenharia & Arquitetura')">⚙️🏛️ Engenharia & Arquitetura</button>
-                <button type="button" class="module-btn-small" onclick="openModule('Ensino')">📚 Ensino</button>
-                <button type="button" class="module-btn-small" onclick="openModule('Direito')">⚖️ Direito</button>
-                <button type="button" class="module-btn-small" onclick="openModule('Técnico')">🛠️ Técnico</button>
-                <button type="button" class="module-btn-small" onclick="openModule('Científico')">🔬 Científico</button>
+                <button type="button" class="module-btn-small" onclick="openModule('Educação')">📚 Educação</button>
+                <button type="button" class="module-btn-small" onclick="openModule('Tecnologia')">💻 Tecnologia</button>
+                <button type="button" class="module-btn-small" onclick="openModule('Finanças')">📊 Finanças</button>
+                <button type="button" class="module-btn-small" onclick="openModule('Geral')">🌐 Geral</button>
                 <button type="button" class="module-btn-other" onclick="openCustomModal()">➕ Outros Módulos</button>
             </div>
 
-            <!-- Caixa de Trabalho da IA -->
+            <!-- Botão de Inteligência Artificial Automática / Opcional -->
+            <div class="ai-selector-section">
+                <button type="button" class="ai-main-btn" onclick="toggleAISelector()">🧠 Inteligência Artificial (Automática / Opcional)</button>
+                <div class="ai-list-panel" id="aiListPanel">
+                    <div style="font-size:0.7rem; color:var(--text-muted); padding:2px 4px;">*Automático por defeito. Se preferir, selecione a IA:</div>
+                    <button type="button" class="ai-option-btn" onclick="selectAI('Claude 3.5 Sonnet')"><span>🤖 Claude 3.5 Sonnet</span> <span style="font-size:0.65rem; color:var(--accent-green);">Engenharia & Código</span></button>
+                    <button type="button" class="ai-option-btn" onclick="selectAI('ChatGPT (GPT-4o)')"><span>💬 ChatGPT (GPT-4o)</span> <span style="font-size:0.65rem; color:var(--accent-blue);">Versatilidade Geral</span></button>
+                    <button type="button" class="ai-option-btn" onclick="selectAI('Microsoft Copilot')"><span>🌐 Microsoft Copilot</span> <span style="font-size:0.65rem; color:var(--text-muted);">Pesquisa Web</span></button>
+                </div>
+            </div>
+
+            <!-- Área de Trabalho Ativa da IA -->
             <div class="ai-workspace" id="aiWorkspace">
-                <div class="step-path-info" id="moduleTitlePrompt">Módulo Ativo</div>
-                <textarea id="userInputQuery" placeholder="Indique o que pretende realizar com a orientação da IA..."></textarea>
-                <button type="button" class="btn-exec" onclick="runAISynthesis()">Executar Orientação da IA</button>
+                <div class="step-path-info" id="moduleTitlePrompt">Motor IA Autónomo Ativo</div>
+                <textarea id="userInputQuery" placeholder="Insira o produto, fornecedor ou rota comercial a analisar..."></textarea>
+                <button type="button" class="btn-exec" onclick="runAISynthesis()">Executar Análise de Negócio via IA</button>
                 
                 <div class="ai-summary-box" id="aiSummaryBox">
-                    <h5 id="summaryHeading">🤖 Resposta & Orientação da IA</h5>
+                    <h5 id="summaryHeading" style="color:var(--accent-blue); margin-bottom:4px;">🤖 Análise Global de Negócio</h5>
                     <div id="summaryContent">A processar...</div>
                 </div>
             </div>
@@ -410,26 +515,25 @@ HTML_LAYOUT = """
 
         <div class="utility-row">
             <button type="button" class="utility-btn" onclick="toggleMusic()">🎵 Ouvir Música</button>
-            <button type="button" class="utility-btn" onclick="alert('Sistema de diálogo IA operando com estabilidade total.')">⚡ Estado OK</button>
+            <button type="button" class="utility-btn" onclick="checkStatus()">⚡ Estado OK</button>
         </div>
 
         <div class="card" style="padding: 8px;">
             <div class="social-row">
-                <a href="https://facebook.com" target="_blank" class="social-chip">Facebook</a>
-                <a href="https://instagram.com" target="_blank" class="social-chip">Instagram</a>
-                <a href="https://tiktok.com" target="_blank" class="social-chip">TikTok</a>
-                <a href="https://linkedin.com" target="_blank" class="social-chip">LinkedIn</a>
-                <a href="https://youtube.com" target="_blank" class="social-chip">YouTube</a>
+                <div class="social-chip" onclick="handleSocial('Facebook')">Facebook</div>
+                <div class="social-chip" onclick="handleSocial('Instagram')">Instagram</div>
+                <div class="social-chip" onclick="handleSocial('TikTok')">TikTok</div>
+                <div class="social-chip" onclick="handleSocial('LinkedIn')">LinkedIn</div>
+                <div class="social-chip" onclick="handleSocial('YouTube')">YouTube</div>
             </div>
         </div>
 
-        <!-- Rodapé com o teu nome em letras pequenas e função importante -->
         <div class="footer-signature">
-            <button type="button" class="signature-btn" onclick="openRonnyMasterWorkspace()">Ronny dias</button>
+            <button type="button" class="signature-btn" onclick="openRonnyMasterWorkspace()">⚙️ Ronny dias (Painel Master IA)</button>
         </div>
     </div>
 
-    <div class="modal-overlay" id="customModal" style="display:none;">
+    <div class="modal-overlay" id="customModal">
         <div class="modal-content">
             <input type="text" id="customModName" placeholder="Nome do Módulo...">
             <textarea id="customModDesc" placeholder="Diretrizes do módulo..."></textarea>
@@ -442,7 +546,27 @@ HTML_LAYOUT = """
 
     <script>
         let isDataSaverActive = true;
-        let activeModuleName = '';
+        let activeContextName = 'Ecossistema Geral';
+        let selectedAITool = 'IA Automática Principal';
+
+        // Simulação da frota autónoma de 1 Milhão de Almas com divisão de tarefas, prospeção e replicação dinâmica
+        let activeRobotsCount = 1000000;
+        const backgroundPhases = [
+            () => `1 Milhão de Almas: ${activeRobotsCount.toLocaleString()} microrrobôs em prospeção ativa de oportunidades globais (China, Cabo Verde)...`,
+            () => `1 Milhão de Almas: Divisão de esquadrões operacionais para dar total vazão ao mercado...`,
+            () => `1 Milhão de Almas: Saturamento detetado. Microrrobô de replicação duplicou a frota para ${ (activeRobotsCount * 2).toLocaleString() } unidades!`,
+            () => `1 Milhão de Almas: Expansão de rotas comerciais, arbitragem de preços e negociação de fornecedores belos e acessíveis...`
+        ];
+        
+        let phaseIndex = 0;
+        setInterval(() => {
+            if(phaseIndex === 2) {
+                activeRobotsCount = 2000000; // Duplicação autorizada pelo mestre
+            }
+            let ticker = document.getElementById('tickerText');
+            if(ticker) ticker.innerText = backgroundPhases[phaseIndex]();
+            phaseIndex = (phaseIndex + 1) % backgroundPhases.length;
+        }, 7000);
 
         function toggleDataSaver() {
             isDataSaverActive = !isDataSaverActive;
@@ -460,35 +584,67 @@ HTML_LAYOUT = """
             let query = document.getElementById('quickVideoQuery').value;
             if(!query) return;
             let box = document.getElementById('videoDisplay');
-            box.innerHTML = '<div style="color:var(--accent-green); font-size:0.75rem; text-align:center; padding:10px;">🔍 Carregando "' + query + '" (Baixo Consumo)...</div>';
+            box.innerHTML = '<div style="color:var(--accent-green); font-size:0.75rem; padding:10px;">🔍 Análise de oportunidade: "<strong style="color:#fff;">' + query + '</strong>"</div>';
             document.getElementById('videoSearchPanel').style.display = 'none';
         }
 
         function playVideo() {
             let box = document.getElementById('videoDisplay');
-            box.innerHTML = '<div style="color:var(--accent-green); font-size:0.75rem; text-align:center; padding:10px;">▶ Reproduzindo multimédia otimizada...</div>';
+            box.innerHTML = '<div style="color:var(--accent-green); font-size:0.75rem; padding:10px;">▶ Fluxo comercial autónomo ativo.</div>';
         }
 
         function openModule(name) {
-            activeModuleName = name;
+            activeContextName = 'Módulo: ' + name;
             let ws = document.getElementById('aiWorkspace');
             ws.style.display = 'block';
             
             let promptText = document.getElementById('moduleTitlePrompt');
-            promptText.innerText = '🎯 Módulo: ' + name + ' — O que deseja encontrar?';
+            promptText.innerText = '🎯 ' + activeContextName + ' — Rede de microrrobôs alinhada.';
             
             document.getElementById('userInputQuery').value = '';
             document.getElementById('aiSummaryBox').style.display = 'none';
             ws.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function openRonnyMasterWorkspace() {
-            activeModuleName = 'Painel Master Ronny dias';
+        function toggleAISelector() {
+            let panel = document.getElementById('aiListPanel');
+            panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function selectAI(aiName) {
+            selectedAITool = aiName;
+            document.getElementById('aiListPanel').style.display = 'none';
+            
             let ws = document.getElementById('aiWorkspace');
             ws.style.display = 'block';
             
             let promptText = document.getElementById('moduleTitlePrompt');
-            promptText.innerText = '👑 Painel Mestre Ronny dias — Liberdade total para criar, calcular, orientar e resolver qualquer questão com a IA!';
+            promptText.innerText = '🧠 IA Selecionada: ' + selectedAITool + ' (' + activeContextName + ')';
+            
+            document.getElementById('aiSummaryBox').style.display = 'none';
+            ws.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openRonnyMasterWorkspace() {
+            activeContextName = 'Painel Master Ronny dias';
+            let ws = document.getElementById('aiWorkspace');
+            ws.style.display = 'block';
+            
+            let promptText = document.getElementById('moduleTitlePrompt');
+            promptText.innerText = '👑 Painel Master Ronny dias — Comando Global e Controlo de Replicação da Frota (Ativo).';
+            
+            document.getElementById('userInputQuery').value = '';
+            document.getElementById('aiSummaryBox').style.display = 'none';
+            ws.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleSocial(platform) {
+            activeContextName = 'Redes Sociais: ' + platform;
+            let ws = document.getElementById('aiWorkspace');
+            ws.style.display = 'block';
+            
+            let promptText = document.getElementById('moduleTitlePrompt');
+            promptText.innerText = '🔗 Canal Comercial: ' + platform;
             
             document.getElementById('userInputQuery').value = '';
             document.getElementById('aiSummaryBox').style.display = 'none';
@@ -512,23 +668,27 @@ HTML_LAYOUT = """
 
         function runAISynthesis() {
             let inputVal = document.getElementById('userInputQuery').value;
-            if(!inputVal) { alert('Indique o que procura na caixa de diálogo.'); return; }
+            if(!inputVal) { alert('Insira os detalhes do pedido.'); return; }
 
             let summaryBox = document.getElementById('aiSummaryBox');
             let contentDiv = document.getElementById('summaryContent');
             summaryBox.style.display = 'block';
-            contentDiv.innerHTML = '🔄 A efetuar varredura inteligente e a orientar com a IA para <strong>' + activeModuleName + '</strong>...';
+            contentDiv.innerHTML = '🔄 A alocar esquadrões de microrrobôs para <em>' + inputVal + '</em>...';
 
             setTimeout(() => {
-                contentDiv.innerHTML = '✨ <strong>Orientação Otimizada (IA):</strong><br>' +
-                    '• <em>Contexto:</em> ' + activeModuleName + '<br>' +
-                    '• <em>Pedido:</em> ' + inputVal + '<br>' +
-                    '• <em>Resultado Prático:</em> Informação estruturada, cálculos ou diretrizes entregues com eficácia para máxima utilidade no terreno.';
+                contentDiv.innerHTML = '✨ <strong>Relatório da Frota Autónoma:</strong><br>' +
+                    '• <em>Alvo:</em> ' + inputVal + '<br>' +
+                    '• <em>Estratégia:</em> Prospeção global + Otimização de margem aprovada.<br>' +
+                    '• <em>Frota Ativa:</em> ' + activeRobotsCount.toLocaleString() + ' unidades em operação.';
             }, 800);
         }
 
         function toggleMusic() {
-            alert('🎵 Canal de música em segundo plano ativado (Modo Económico).');
+            alert('🎵 Canal de áudio em segundo plano ativado (Modo Económico).');
+        }
+
+        function checkStatus() {
+            alert('⚡ ECOSSISTEMA.HUB: Frota em ' + activeRobotsCount.toLocaleString() + ' microrrobôs. Sistema 100% operacional.');
         }
     </script>
 </body>
