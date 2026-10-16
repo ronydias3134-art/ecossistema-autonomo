@@ -44,8 +44,8 @@ HTML_LAYOUT = """
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: 12px;
-            gap: 12px;
+            padding: 10px;
+            gap: 10px;
         }
 
         header {
@@ -53,33 +53,29 @@ HTML_LAYOUT = """
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 5px 10px;
+            padding: 4px 6px;
         }
 
         .brand {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 700;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
             color: #ffffff;
         }
 
         .status-badge {
-            font-size: 0.68rem;
+            font-size: 0.65rem;
             color: var(--accent-green);
             background: rgba(0, 230, 153, 0.1);
             border: 1px solid var(--accent-green);
             padding: 4px 8px;
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
             cursor: pointer;
         }
 
-        /* Barra de Pesquisa e Buscador Inteligente */
+        /* Barra de Pesquisa com Lupa e Poupador de Megas */
         .search-container {
             width: 100%;
-            position: relative;
         }
 
         .search-box {
@@ -88,9 +84,9 @@ HTML_LAYOUT = """
             align-items: center;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 20px;
-            padding: 8px 14px;
-            gap: 10px;
+            border-radius: 18px;
+            padding: 8px 12px;
+            gap: 8px;
         }
 
         .search-box input {
@@ -98,36 +94,33 @@ HTML_LAYOUT = """
             background: transparent;
             border: none;
             color: #fff;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             outline: none;
         }
 
         .search-icon {
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--accent-green);
         }
 
         .video-search-panel {
             display: none;
-            margin-top: 8px;
-            padding: 10px;
+            margin-top: 6px;
+            padding: 8px;
             background: rgba(0, 191, 255, 0.05);
             border: 1px solid var(--accent-blue);
-            border-radius: 12px;
-            font-size: 0.8rem;
-            color: var(--accent-blue);
+            border-radius: 10px;
         }
 
         .video-search-panel input {
             width: 100%;
-            margin-top: 6px;
-            padding: 8px;
+            padding: 6px;
             background: rgba(0,0,0,0.4);
             border: 1px solid rgba(0,191,255,0.3);
             border-radius: 6px;
             color: #fff;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             outline: none;
         }
 
@@ -136,29 +129,16 @@ HTML_LAYOUT = """
             width: 100%;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 14px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 10px;
         }
 
-        .card-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Televisor / Feed Multimédia */
-        .video-box {
+        /* Display Limpo */
+        .display-box {
             width: 100%;
-            height: 180px;
+            height: 195px;
             background: #000;
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -168,8 +148,8 @@ HTML_LAYOUT = """
         }
 
         .play-btn {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             background: var(--accent-green);
             border-radius: 50%;
             display: flex;
@@ -181,14 +161,7 @@ HTML_LAYOUT = """
             font-weight: bold;
         }
 
-        .feed-info {
-            font-size: 0.68rem;
-            color: var(--accent-green);
-            margin-top: 6px;
-            text-align: center;
-        }
-
-        /* Painel de Comando Principal & Módulos em Bruto */
+        /* Grelha de Módulos (Compactos e em Bruto) */
         .modules-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -199,32 +172,25 @@ HTML_LAYOUT = """
             grid-column: span 2;
             background: linear-gradient(135deg, rgba(0, 230, 153, 0.15), rgba(0, 191, 255, 0.15));
             border: 1px solid var(--accent-green);
-            padding: 12px;
-            border-radius: 10px;
+            padding: 11px;
+            border-radius: 8px;
             color: #fff;
             font-size: 0.82rem;
             font-weight: 600;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
         .module-btn-small {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px;
+            padding: 9px;
             border-radius: 8px;
             color: var(--text-main);
             font-size: 0.75rem;
             font-weight: 500;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .module-btn-small:hover, .module-btn-main:hover {
-            border-color: var(--accent-green);
-            background: rgba(0, 230, 153, 0.08);
         }
 
         .module-btn-other {
@@ -232,7 +198,7 @@ HTML_LAYOUT = """
             background: rgba(0, 191, 255, 0.08);
             border: 1px solid var(--accent-blue);
             color: var(--accent-blue);
-            padding: 10px;
+            padding: 9px;
             border-radius: 8px;
             font-size: 0.78rem;
             font-weight: 600;
@@ -240,26 +206,21 @@ HTML_LAYOUT = """
             cursor: pointer;
         }
 
-        /* Área de Trabalho Inteligente da IA & Caminhos Progressivos */
+        /* Caixa de Diálogo Inteligente da IA por Módulo */
         .ai-workspace {
             display: none;
-            margin-top: 12px;
-            padding: 12px;
+            margin-top: 10px;
+            padding: 10px;
             background: rgba(0, 230, 153, 0.04);
             border: 1px dashed var(--accent-green);
-            border-radius: 10px;
-        }
-
-        .ai-workspace h4 {
-            font-size: 0.82rem;
-            color: var(--accent-green);
-            margin-bottom: 6px;
+            border-radius: 8px;
         }
 
         .step-path-info {
             font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
+            color: var(--accent-green);
+            margin-bottom: 6px;
+            font-weight: 600;
             line-height: 1.3;
         }
 
@@ -278,72 +239,74 @@ HTML_LAYOUT = """
 
         .btn-exec {
             width: 100%;
-            margin-top: 8px;
+            margin-top: 6px;
             background: var(--accent-green);
             color: #000;
             border: none;
             padding: 8px;
             border-radius: 6px;
             font-weight: 700;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             cursor: pointer;
         }
 
-        .btn-step-next {
-            width: 100%;
-            margin-top: 6px;
-            background: rgba(0, 191, 255, 0.15);
-            color: var(--accent-blue);
+        /* Painel de Resultados / Síntese da IA */
+        .ai-summary-box {
+            display: none;
+            margin-top: 8px;
+            padding: 10px;
+            background: rgba(0, 191, 255, 0.06);
             border: 1px solid var(--accent-blue);
-            padding: 6px;
             border-radius: 6px;
-            font-weight: 600;
             font-size: 0.75rem;
-            cursor: pointer;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .ai-summary-box h5 {
+            color: var(--accent-blue);
+            font-size: 0.78rem;
+            margin-bottom: 4px;
         }
 
         /* Utilitários: Música & Ferramentas */
         .utility-row {
             display: flex;
-            gap: 8px;
+            gap: 6px;
         }
 
         .utility-btn {
             flex: 1;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px;
+            padding: 8px;
             border-radius: 8px;
             color: #fff;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 600;
             text-align: center;
             cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
         }
 
         .social-row {
             display: flex;
             justify-content: space-between;
-            gap: 6px;
+            gap: 4px;
         }
 
         .social-chip {
             flex: 1;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 8px;
+            padding: 6px;
             border-radius: 6px;
             text-align: center;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
             cursor: pointer;
         }
 
-        /* Modal Outros Módulos */
+        /* Modal para Outros Módulos */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -359,21 +322,21 @@ HTML_LAYOUT = """
         .modal-content {
             background: #0e1420;
             border: 1px solid var(--accent-green);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 10px;
+            padding: 14px;
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
         }
 
         .modal-content input, .modal-content textarea {
             width: 100%;
-            padding: 8px;
+            padding: 7px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.15);
             border-radius: 6px;
             color: #fff;
             font-size: 0.78rem;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             outline: none;
         }
     </style>
@@ -381,68 +344,66 @@ HTML_LAYOUT = """
 <body>
 
     <div class="wrapper">
-        <!-- Topo / Header com Indicador de Poupador de Megas -->
+        <!-- Topo Minimalista & Poupador de Megas -->
         <header>
             <div class="brand">ECOSSISTEMA.HUB</div>
             <div class="status-badge" onclick="toggleDataSaver()" id="dataSaverBadge">
-                ⚡ Modo Baixo Consumo: ON
+                ⚡ Economia: ON
             </div>
         </header>
 
-        <!-- Barra com Lupa para Buscador de Vídeos & Pesquisa Leve -->
+        <!-- Barra de Pesquisa com Lupa Inteligente -->
         <div class="search-container">
             <div class="search-box">
                 <span class="search-icon" onclick="toggleVideoSearch()">🔍</span>
-                <input type="text" id="globalSearchInput" placeholder="Pesquisar sem gastar megas (Módulos, IA, Conteúdos)...">
+                <input type="text" id="globalSearchInput" placeholder="Pesquisar no ecossistema (baixo consumo)...">
             </div>
             <div class="video-search-panel" id="videoSearchPanel">
-                📺 <strong>Buscador Rápido de Vídeos (Poupador de Megas):</strong>
-                <input type="text" id="quickVideoQuery" placeholder="Escreva o tema para atualizar o televisor...">
-                <button class="btn-exec" style="margin-top:6px;" onclick="executeQuickSearch()">Pesquisar Conteúdo</button>
+                <input type="text" id="quickVideoQuery" placeholder="Pesquisar tema para o display multimédia...">
+                <button class="btn-exec" onclick="executeQuickSearch()">Carregar no Display</button>
             </div>
         </div>
 
-        <!-- Feed Multimédia / Televisor Inteligente -->
+        <!-- Display / Televisor Multimédia Limpo -->
         <div class="card">
-            <div class="card-title">⚡ Feed Multimédia & Televisor IA</div>
-            <div class="video-box" id="videoDisplay">
+            <div class="display-box" id="videoDisplay">
                 <div class="play-btn" onclick="playVideo()">▶</div>
             </div>
-            <div class="feed-info" id="feedStatusInfo">🔄 Atualizado com IA • Otimizado para baixo consumo de dados</div>
         </div>
 
-        <!-- Painel de Comando Principal & Módulos em Bruto -->
+        <!-- Painel de Comando Principal -->
         <div class="card">
-            <div class="card-title">🎛️ Painel de Comando Principal</div>
             <div class="modules-grid">
-                <button class="module-btn-main" onclick="openModuleSystem('Engenharia & Arquitetura', 1)">⚙️🏛️ Engenharia & Arquitetura (Projetos & Caminhos IA)</button>
-                <button class="module-btn-small" onclick="openModuleSystem('Ensino', 1)">📚 Ensino (Bruto)</button>
-                <button class="module-btn-small" onclick="openModuleSystem('Direito', 1)">⚖️ Direito (Bruto)</button>
-                <button class="module-btn-small" onclick="openModuleSystem('Técnico', 1)">🛠️ Técnico (Bruto)</button>
-                <button class="module-btn-small" onclick="openModuleSystem('Científico', 1)">🔬 Científico (Bruto)</button>
-                <button class="module-btn-other" onclick="openCustomModal()">➕ Outros Módulos (Criar com IA)</button>
+                <button class="module-btn-main" onclick="openModule('Engenharia & Arquitetura')">⚙️🏛️ Engenharia & Arquitetura</button>
+                <button class="module-btn-small" onclick="openModule('Ensino')">📚 Ensino</button>
+                <button class="module-btn-small" onclick="openModule('Direito')">⚖️ Direito</button>
+                <button class="module-btn-small" onclick="openModule('Técnico')">🛠️ Técnico</button>
+                <button class="module-btn-small" onclick="openModule('Científico')">🔬 Científico</button>
+                <button class="module-btn-other" onclick="openCustomModal()">➕ Outros Módulos</button>
             </div>
 
-            <!-- Espaço de Trabalho Inteligente da IA & Caminhos Progressivos -->
+            <!-- Caixa de Diálogo Inteligente da IA (Varredura e Síntese) -->
             <div class="ai-workspace" id="aiWorkspace">
-                <h4 id="aiWorkspaceTitle">Assistente IA Ativo</h4>
-                <div class="step-path-info" id="stepPathDesc">A IA está pronta para guiar cada clique até à ferramenta final.</div>
-                <textarea id="aiInput" placeholder="Insira parâmetros ou diretrizes para este passo..."></textarea>
-                <button class="btn-exec" onclick="runAIProcess()">Executar com Acompanhamento IA</button>
-                <button class="btn-step-next" onclick="nextPathStep()">➡️ Avançar para o Próximo Passo do Caminho</button>
-                <div id="aiResult" style="margin-top:8px; font-size:0.75rem; color:var(--accent-green); display:none;"></div>
+                <div class="step-path-info" id="moduleTitlePrompt">Módulo Ativo</div>
+                <textarea id="userInputQuery" placeholder="Indique o que procura (ex: Explicação de matéria, cálculo hidráulico, artigo legal)..."></textarea>
+                <button class="btn-exec" onclick="runAISynthesis()">Varredura Rápida & Sintetizar com IA</button>
+                
+                <!-- Caixa de Resumo e Informação Cirúrgica -->
+                <div class="ai-summary-box" id="aiSummaryBox">
+                    <h5 id="summaryHeading">🤖 Síntese & Informação Detalhada</h5>
+                    <div id="summaryContent">A processar dados com otimização de megas...</div>
+                </div>
             </div>
         </div>
 
-        <!-- Música & Ferramentas Auxiliares -->
+        <!-- Ferramentas Auxiliares & Música -->
         <div class="utility-row">
-            <div class="utility-btn" onclick="toggleMusic()">🎵 Ouvir Música (Leve)</div>
-            <div class="utility-btn" onclick="alert('IA a sincronizar histórico com baixo consumo.')">🤖 IA: 10/10 Ativa</div>
+            <div class="utility-btn" onclick="toggleMusic()">🎵 Ouvir Música</div>
+            <div class="utility-btn" onclick="alert('Sistema de diálogo IA operando com estabilidade total.')">⚡ Estado OK</div>
         </div>
 
         <!-- Redes Sociais -->
-        <div class="card" style="padding: 10px;">
-            <div class="card-title" style="margin-bottom: 6px;">🌐 Redes & Canais</div>
+        <div class="card" style="padding: 8px;">
             <div class="social-row">
                 <div class="social-chip">Facebook</div>
                 <div class="social-chip">Instagram</div>
@@ -456,10 +417,9 @@ HTML_LAYOUT = """
     <!-- Modal Outros Módulos -->
     <div class="modal-overlay" id="customModal">
         <div class="modal-content">
-            <div class="card-title">Criar Novo Módulo</div>
-            <input type="text" id="customModName" placeholder="Nome do Módulo (Ex: Hidráulica, Gestão)...">
-            <textarea id="customModDesc" placeholder="Diretrizes e ferramentas necessárias..."></textarea>
-            <div style="display:flex; gap:6px; margin-top:8px;">
+            <input type="text" id="customModName" placeholder="Nome do Módulo...">
+            <textarea id="customModDesc" placeholder="Diretrizes do módulo..."></textarea>
+            <div style="display:flex; gap:6px; margin-top:6px;">
                 <button class="btn-exec" style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:#fff;" onclick="closeCustomModal()">Cancelar</button>
                 <button class="btn-exec" onclick="saveCustomModule()">Criar Módulo</button>
             </div>
@@ -468,21 +428,13 @@ HTML_LAYOUT = """
 
     <script>
         let isDataSaverActive = true;
-        let currentModuleName = '';
-        let currentStep = 1;
+        let activeModuleName = '';
 
         function toggleDataSaver() {
             isDataSaverActive = !isDataSaverActive;
             let badge = document.getElementById('dataSaverBadge');
-            if (isDataSaverActive) {
-                badge.innerHTML = '⚡ Modo Baixo Consumo: ON';
-                badge.style.borderColor = 'var(--accent-green)';
-                badge.style.color = 'var(--accent-green)';
-            } else {
-                badge.innerHTML = '⚡ Modo Normal (Alta Qualidade)';
-                badge.style.borderColor = 'var(--accent-blue)';
-                badge.style.color = 'var(--accent-blue)';
-            }
+            badge.innerHTML = isDataSaverActive ? '⚡ Economia: ON' : '⚡ Normal';
+            badge.style.color = isDataSaverActive ? 'var(--accent-green)' : 'var(--accent-blue)';
         }
 
         function toggleVideoSearch() {
@@ -492,43 +444,28 @@ HTML_LAYOUT = """
 
         function executeQuickSearch() {
             let query = document.getElementById('quickVideoQuery').value;
-            if(!query) { alert('Insira um termo para pesquisar.'); return; }
+            if(!query) return;
             let box = document.getElementById('videoDisplay');
-            box.innerHTML = '<div style="color:var(--accent-green); font-size:0.78rem; font-weight:600; text-align:center; padding:10px;">🔍 A pesquisar "' + query + '" com poupança de dados ativada...</div>';
+            box.innerHTML = '<div style="color:var(--accent-green); font-size:0.75rem; text-align:center; padding:10px;">🔍 Carregando "' + query + '" (Baixo Consumo)...</div>';
             document.getElementById('videoSearchPanel').style.display = 'none';
         }
 
         function playVideo() {
             let box = document.getElementById('videoDisplay');
-            box.innerHTML = '<div style="color:var(--accent-green); font-size:0.78rem; font-weight:600; text-align:center; padding:10px;">▶ Televisor IA Ativo (Modo Económico): A reproduzir multimédia...</div>';
+            box.innerHTML = '<div style="color:var(--accent-green); font-size:0.75rem; text-align:center; padding:10px;">▶ Reproduzindo multimédia otimizada...</div>';
         }
 
-        function openModuleSystem(name, step) {
-            currentModuleName = name;
-            currentStep = step;
+        function openModule(name) {
+            activeModuleName = name;
             let ws = document.getElementById('aiWorkspace');
             ws.style.display = 'block';
             
-            document.getElementById('aiWorkspaceTitle').innerText = 'Módulo: ' + name + ' (Passo ' + step + ')';
+            let promptText = document.getElementById('moduleTitlePrompt');
+            promptText.innerText = '🎯 Módulo: ' + name + ' — O que deseja encontrar?';
             
-            let desc = document.getElementById('stepPathDesc');
-            if (name.includes('Engenharia')) {
-                if (step === 1) desc.innerText = 'Passo 1/3: Seleção de especialidade e parâmetros estruturais (Caminho guiado por IA).';
-                else if (step === 2) desc.innerText = 'Passo 2/3: Cálculo de materiais, pressões e dimensionamento técnico.';
-                else desc.innerText = 'Passo 3/3: Ferramenta final de engenharia pronta a gerar relatórios e desenhos técnicos.';
-            } else {
-                if (step === 1) desc.innerText = 'Passo 1/2: Aceder ao módulo em bruto para configuração inicial e diretrizes.';
-                else desc.innerText = 'Passo 2/2: Especialização e entrega de ferramentas finais de trabalho.';
-            }
-
-            document.getElementById('aiResult').style.display = 'none';
+            document.getElementById('userInputQuery').value = '';
+            document.getElementById('aiSummaryBox').style.display = 'none';
             ws.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function nextPathStep() {
-            currentStep++;
-            if (currentStep > 3) currentStep = 3;
-            openModuleSystem(currentModuleName, currentStep);
         }
 
         function openCustomModal() {
@@ -541,19 +478,30 @@ HTML_LAYOUT = """
 
         function saveCustomModule() {
             let name = document.getElementById('customModName').value;
-            if(!name) { alert('Insira o nome do módulo.'); return; }
+            if(!name) return;
             closeCustomModal();
-            openModuleSystem(name, 1);
+            openModule(name);
         }
 
-        function runAIProcess() {
-            let res = document.getElementById('aiResult');
-            res.style.display = 'block';
-            res.innerText = '🤖 IA a processar este passo, a abrir os caminhos e a atualizar as ferramentas de trabalho...';
+        function runAISynthesis() {
+            let inputVal = document.getElementById('userInputQuery').value;
+            if(!inputVal) { alert('Indique o que procura na caixa de diálogo.'); return; }
+
+            let summaryBox = document.getElementById('aiSummaryBox');
+            let contentDiv = document.getElementById('summaryContent');
+            summaryBox.style.display = 'block';
+            contentDiv.innerHTML = '🔄 A efetuar varredura inteligente e a sintetizar dados para <strong>' + activeModuleName + '</strong>...';
+
+            setTimeout(() => {
+                contentDiv.innerHTML = '✨ <strong>Síntese Otimizada (Poupança de Megas):</strong><br>' +
+                    '• <em>Área:</em> ' + activeModuleName + '<br>' +
+                    '• <em>Objetivo:</em> ' + inputVal + '<br>' +
+                    '• <em>Resultado Criterioso:</em> Informação resumida, estruturada e detalhada entregue de forma direta para máxima utilidade prática.';
+            }, 800);
         }
 
         function toggleMusic() {
-            alert('🎵 Canal de Música ativado em segundo plano (Modo de Baixo Consumo).');
+            alert('🎵 Canal de música em segundo plano ativado (Modo Económico).');
         }
     </script>
 </body>
