@@ -1,8 +1,13 @@
+import os
 from flask import Flask, render_template_string
 
 app = Flask(__name__)
 
-HTML_LAYOUT = """<!DOCTYPE html>
+# ECOSSISTEMA.HUB - Versão Final de Produção
+# Desenvolvido para execução em dispositivo móvel com otimização de dados ("Poupador de Megas")
+# Integração: Motor autónomo ("1 Milhão de Almas") + Seletor de IA + Painel Master Ronny dias
+
+HTML_LAYOUT = '''<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -75,7 +80,6 @@ HTML_LAYOUT = """<!DOCTYPE html>
             outline: none;
         }
 
-        /* Banner de Status Dinâmico: 1 Milhão de Almas & Replicação Autónoma */
         .souls-ticker {
             width: 100%;
             background: rgba(155, 81, 224, 0.08);
@@ -284,11 +288,6 @@ HTML_LAYOUT = """<!DOCTYPE html>
             align-items: center;
         }
 
-        .ai-option-btn:hover {
-            background: rgba(155, 81, 224, 0.15);
-            border-color: var(--accent-purple);
-        }
-
         .ai-workspace {
             display: none;
             margin-top: 10px;
@@ -379,13 +378,6 @@ HTML_LAYOUT = """<!DOCTYPE html>
             color: var(--text-muted);
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.2s;
-        }
-
-        .social-chip:hover {
-            color: var(--accent-green);
-            border-color: var(--accent-green);
-            background: rgba(0, 230, 153, 0.08);
         }
 
         .footer-signature {
@@ -404,12 +396,7 @@ HTML_LAYOUT = """<!DOCTYPE html>
             border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
-            letter-spacing: 0.5px;
             outline: none;
-        }
-
-        .signature-btn:hover {
-            background: rgba(0, 230, 153, 0.2);
         }
 
         .modal-overlay {
@@ -451,15 +438,12 @@ HTML_LAYOUT = """<!DOCTYPE html>
     <div class="wrapper">
         <header>
             <div class="brand">ECOSSISTEMA.HUB</div>
-            <button type="button" class="status-badge" onclick="toggleDataSaver()" id="dataSaverBadge">
-                ⚡ Economia: ON
-            </button>
+            <button type="button" class="status-badge" onclick="toggleDataSaver()" id="dataSaverBadge">⚡ Economia: ON</button>
         </header>
 
-        <!-- Motor Dinâmico de 1 Milhão de Almas & Auto-Replicação -->
         <div class="souls-ticker" id="soulsTicker">
             <div class="pulse-dot"></div>
-            <div id="tickerText">1 Milhão de Almas (Fase Inicial): Foco total em prospeção de fornecedores e oportunidades globais...</div>
+            <div id="tickerText">1 Milhão de Almas: Foco em prospeção e rotas comerciais (China, Cabo Verde)...</div>
         </div>
 
         <div class="search-container">
@@ -489,7 +473,6 @@ HTML_LAYOUT = """<!DOCTYPE html>
                 <button type="button" class="module-btn-other" onclick="openCustomModal()">➕ Outros Módulos</button>
             </div>
 
-            <!-- Botão de Inteligência Artificial Automática / Opcional -->
             <div class="ai-selector-section">
                 <button type="button" class="ai-main-btn" onclick="toggleAISelector()">🧠 Inteligência Artificial (Automática / Opcional)</button>
                 <div class="ai-list-panel" id="aiListPanel">
@@ -500,11 +483,10 @@ HTML_LAYOUT = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- Área de Trabalho Ativa da IA -->
             <div class="ai-workspace" id="aiWorkspace">
                 <div class="step-path-info" id="moduleTitlePrompt">Motor IA Autónomo Ativo</div>
                 <textarea id="userInputQuery" placeholder="Insira o produto, fornecedor ou rota comercial a analisar..."></textarea>
-                <button type="button" class="btn-exec" onclick="runAISynthesis()">Executar Análise de Negócio via IA</button>
+                <button type="button" class="btn-exec" onclick="runAISynthesis()">Executar Análise via IA</button>
                 
                 <div class="ai-summary-box" id="aiSummaryBox">
                     <h5 id="summaryHeading" style="color:var(--accent-blue); margin-bottom:4px;">🤖 Análise Global de Negócio</h5>
@@ -549,20 +531,17 @@ HTML_LAYOUT = """<!DOCTYPE html>
         let activeContextName = 'Ecossistema Geral';
         let selectedAITool = 'IA Automática Principal';
 
-        // Simulação da frota autónoma de 1 Milhão de Almas com divisão de tarefas, prospeção e replicação dinâmica
         let activeRobotsCount = 1000000;
         const backgroundPhases = [
-            () => `1 Milhão de Almas: ${activeRobotsCount.toLocaleString()} microrrobôs em prospeção ativa de oportunidades globais (China, Cabo Verde)...`,
-            () => `1 Milhão de Almas: Divisão de esquadrões operacionais para dar total vazão ao mercado...`,
-            () => `1 Milhão de Almas: Saturamento detetado. Microrrobô de replicação duplicou a frota para ${ (activeRobotsCount * 2).toLocaleString() } unidades!`,
-            () => `1 Milhão de Almas: Expansão de rotas comerciais, arbitragem de preços e negociação de fornecedores belos e acessíveis...`
+            () => `1 Milhão de Almas: ${activeRobotsCount.toLocaleString()} microrrobôs em prospeção ativa...`,
+            () => `1 Milhão de Almas: Divisão de esquadrões operacionais para rotas comerciais...`,
+            () => `1 Milhão de Almas: Prospeção otimizada. Frota expandida para ${ (activeRobotsCount * 2).toLocaleString() } unidades!`,
+            () => `1 Milhão de Almas: Arbitragem de fornecedores e análise de margem aprovada.`
         ];
         
         let phaseIndex = 0;
         setInterval(() => {
-            if(phaseIndex === 2) {
-                activeRobotsCount = 2000000; // Duplicação autorizada pelo mestre
-            }
+            if(phaseIndex === 2) activeRobotsCount = 2000000;
             let ticker = document.getElementById('tickerText');
             if(ticker) ticker.innerText = backgroundPhases[phaseIndex]();
             phaseIndex = (phaseIndex + 1) % backgroundPhases.length;
@@ -597,10 +576,8 @@ HTML_LAYOUT = """<!DOCTYPE html>
             activeContextName = 'Módulo: ' + name;
             let ws = document.getElementById('aiWorkspace');
             ws.style.display = 'block';
-            
             let promptText = document.getElementById('moduleTitlePrompt');
-            promptText.innerText = '🎯 ' + activeContextName + ' — Rede de microrrobôs alinhada.';
-            
+            promptText.innerText = '🎯 ' + activeContextName + ' — Frota de microrrobôs alinhada.';
             document.getElementById('userInputQuery').value = '';
             document.getElementById('aiSummaryBox').style.display = 'none';
             ws.scrollIntoView({ behavior: 'smooth' });
@@ -614,13 +591,10 @@ HTML_LAYOUT = """<!DOCTYPE html>
         function selectAI(aiName) {
             selectedAITool = aiName;
             document.getElementById('aiListPanel').style.display = 'none';
-            
             let ws = document.getElementById('aiWorkspace');
             ws.style.display = 'block';
-            
             let promptText = document.getElementById('moduleTitlePrompt');
             promptText.innerText = '🧠 IA Selecionada: ' + selectedAITool + ' (' + activeContextName + ')';
-            
             document.getElementById('aiSummaryBox').style.display = 'none';
             ws.scrollIntoView({ behavior: 'smooth' });
         }
@@ -629,10 +603,8 @@ HTML_LAYOUT = """<!DOCTYPE html>
             activeContextName = 'Painel Master Ronny dias';
             let ws = document.getElementById('aiWorkspace');
             ws.style.display = 'block';
-            
             let promptText = document.getElementById('moduleTitlePrompt');
             promptText.innerText = '👑 Painel Master Ronny dias — Comando Global e Controlo de Replicação da Frota (Ativo).';
-            
             document.getElementById('userInputQuery').value = '';
             document.getElementById('aiSummaryBox').style.display = 'none';
             ws.scrollIntoView({ behavior: 'smooth' });
@@ -642,22 +614,15 @@ HTML_LAYOUT = """<!DOCTYPE html>
             activeContextName = 'Redes Sociais: ' + platform;
             let ws = document.getElementById('aiWorkspace');
             ws.style.display = 'block';
-            
             let promptText = document.getElementById('moduleTitlePrompt');
             promptText.innerText = '🔗 Canal Comercial: ' + platform;
-            
             document.getElementById('userInputQuery').value = '';
             document.getElementById('aiSummaryBox').style.display = 'none';
             ws.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function openCustomModal() {
-            document.getElementById('customModal').style.display = 'flex';
-        }
-
-        function closeCustomModal() {
-            document.getElementById('customModal').style.display = 'none';
-        }
+        function openCustomModal() { document.getElementById('customModal').style.display = 'flex'; }
+        function closeCustomModal() { document.getElementById('customModal').style.display = 'none'; }
 
         function saveCustomModule() {
             let name = document.getElementById('customModName').value;
@@ -668,36 +633,30 @@ HTML_LAYOUT = """<!DOCTYPE html>
 
         function runAISynthesis() {
             let inputVal = document.getElementById('userInputQuery').value;
-            if(!inputVal) { alert('Insira os detalhes do pedido.'); return; }
-
+            if(!inputVal) { alert('Insira os detalhes da tarefa.'); return; }
             let summaryBox = document.getElementById('aiSummaryBox');
             let contentDiv = document.getElementById('summaryContent');
             summaryBox.style.display = 'block';
-            contentDiv.innerHTML = '🔄 A alocar esquadrões de microrrobôs para <em>' + inputVal + '</em>...';
-
+            contentDiv.innerHTML = '🔄 A alocar microrrobôs para <em>' + inputVal + '</em>...';
             setTimeout(() => {
                 contentDiv.innerHTML = '✨ <strong>Relatório da Frota Autónoma:</strong><br>' +
                     '• <em>Alvo:</em> ' + inputVal + '<br>' +
-                    '• <em>Estratégia:</em> Prospeção global + Otimização de margem aprovada.<br>' +
-                    '• <em>Frota Ativa:</em> ' + activeRobotsCount.toLocaleString() + ' unidades em operação.';
+                    '• <em>Estratégia:</em> Prospeção e otimização executadas com sucesso.<br>' +
+                    '• <em>Frota Ativa:</em> ' + activeRobotsCount.toLocaleString() + ' unidades operacionais.';
             }, 800);
         }
 
-        function toggleMusic() {
-            alert('🎵 Canal de áudio em segundo plano ativado (Modo Económico).');
-        }
-
-        function checkStatus() {
-            alert('⚡ ECOSSISTEMA.HUB: Frota em ' + activeRobotsCount.toLocaleString() + ' microrrobôs. Sistema 100% operacional.');
-        }
+        function toggleMusic() { alert('🎵 Canal de áudio em segundo plano ativado (Modo Económico).'); }
+        function checkStatus() { alert('⚡ ECOSSISTEMA.HUB: Frota em ' + activeRobotsCount.toLocaleString() + ' microrrobôs. Sistema 100% operacional.'); }
     </script>
 </body>
 </html>
-"""
+'''
 
 @app.route('/')
 def home():
     return render_template_string(HTML_LAYOUT)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
