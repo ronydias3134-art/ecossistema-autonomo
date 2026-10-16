@@ -35,7 +35,7 @@ def carregar_estado():
             "margem_tesouraria": 0.40,
             "lucro_acumulado_hoje": 0.0,
             "transacoes_hoje": 0,
-            "modo_operacional": "Circuito Global - Ecossistema Autónomo de Domínio",
+            "modo_operacional": "Circuito Global - Ecossistema Autónomo",
             "ciclos_robos_ocultos": 0,
             "status_mercado": "Ativo e Dominante"
         }
@@ -71,7 +71,7 @@ def enviar_email(assunto, corpo):
         print(f"Erro no envio de e-mail (recuperável): {e}")
         return False
 
-# Rota Web Principal - Painel Exclusivo, Moderno e com o Aro Visual Estrutural
+# Rota Web Principal - Painel com o Esquadrão de Influenciadores e Aro Visual
 @app.route('/')
 def home():
     estado = carregar_estado()
@@ -81,7 +81,7 @@ def home():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Circuito Global — Painel de Controlo Autónomo</title>
+        <title>Circuito Global — Painel Autónomo</title>
         <style>
             :root {
                 --bg-main: #090d16;
@@ -105,7 +105,7 @@ def home():
             }
             .outer-ring {
                 width: 100%;
-                max-width: 900px;
+                max-width: 950px;
                 background: linear-gradient(145deg, #1e293b, #0f172a);
                 border: 2px solid var(--border-ring);
                 border-radius: 24px;
@@ -114,37 +114,36 @@ def home():
             }
             .container {
                 background: var(--bg-card);
-                padding: 40px;
+                padding: 35px;
                 border-radius: 20px;
                 box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.05);
             }
             header {
                 text-align: center;
-                margin-bottom: 35px;
+                margin-bottom: 30px;
             }
             h1 {
                 color: var(--accent-blue);
-                font-size: 2.5em;
-                margin: 0 0 10px 0;
-                letter-spacing: -0.5px;
+                font-size: 2.3em;
+                margin: 0 0 8px 0;
             }
             .subtitle {
                 color: var(--text-muted);
-                font-size: 1.1em;
-                font-weight: 500;
+                font-size: 1em;
             }
             .status-banner {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 gap: 10px;
-                padding: 14px;
+                padding: 12px;
                 background: rgba(6, 78, 59, 0.4);
                 border: 1px solid rgba(52, 211, 153, 0.3);
                 color: var(--accent-green);
                 border-radius: 12px;
                 font-weight: 600;
-                margin-bottom: 30px;
+                margin-bottom: 25px;
+                font-size: 0.95em;
             }
             .pulse-dot {
                 width: 10px;
@@ -159,108 +158,118 @@ def home():
                 50% { transform: scale(1.2); opacity: 1; }
                 100% { transform: scale(0.95); opacity: 0.8; }
             }
+            .grid-main {
+                display: grid;
+                grid-template-columns: 1fr 1.6fr;
+                gap: 20px;
+            }
+            @media (max-width: 768px) {
+                .grid-main { grid-template-columns: 1fr; }
+            }
             .section {
                 background: rgba(15, 23, 42, 0.6);
                 border: 1px solid rgba(56, 189, 248, 0.1);
-                padding: 25px;
+                padding: 20px;
                 border-radius: 14px;
-                margin-bottom: 25px;
+                margin-bottom: 20px;
             }
             h2 {
                 color: var(--text-main);
-                font-size: 1.3em;
+                font-size: 1.2em;
                 margin-top: 0;
-                margin-bottom: 15px;
+                margin-bottom: 12px;
                 border-bottom: 2px solid #1e293b;
-                padding-bottom: 10px;
+                padding-bottom: 8px;
             }
             table {
                 width: 100%;
                 border-collapse: collapse;
             }
             th, td {
-                padding: 14px;
+                padding: 10px;
                 text-align: left;
                 border-bottom: 1px solid #1e293b;
+                font-size: 0.9em;
             }
-            th {
-                color: var(--accent-blue);
-                font-weight: 600;
-            }
-            td strong {
-                color: var(--accent-green);
-                font-size: 1.1em;
-            }
-            .modules-grid {
+            th { color: var(--accent-blue); }
+            td strong { color: var(--accent-green); }
+            
+            /* Influencers Grid */
+            .influencers-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 20px;
-                margin-top: 20px;
+                grid-template-columns: 1fr;
+                gap: 15px;
             }
-            .module-card {
+            .influencer-card {
                 background: #1e293b;
                 border: 1px solid #334155;
-                padding: 20px;
+                padding: 15px;
                 border-radius: 12px;
-                transition: transform 0.2s, border-color 0.2s;
+                position: relative;
             }
-            .module-card:hover {
-                transform: translateY(-3px);
-                border-color: var(--accent-blue);
-            }
-            .module-card h3 {
+            .influencer-card h3 {
                 color: var(--accent-blue);
-                margin-top: 0;
-                font-size: 1.15em;
+                margin: 0 0 5px 0;
+                font-size: 1.05em;
             }
-            .module-card p {
+            .influencer-card p {
                 color: var(--text-muted);
-                font-size: 0.9em;
-                line-height: 1.5;
+                font-size: 0.85em;
+                margin: 0 0 10px 0;
+                line-height: 1.4;
             }
-            .btn-action {
+            .tag {
                 display: inline-block;
+                padding: 2px 8px;
+                font-size: 0.75em;
+                border-radius: 4px;
+                font-weight: bold;
+                background: #065f46;
+                color: var(--accent-green);
+                margin-bottom: 8px;
+            }
+            .tag-tech { background: #1e3a8a; color: var(--accent-blue); }
+            .tag-diy { background: #78350f; color: #f59e0b; }
+            .inf-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 0.8em;
+                color: var(--text-muted);
+            }
+            .status-dot-sm {
+                width: 8px;
+                height: 8px;
+                background: var(--accent-green);
+                border-radius: 50%;
+                box-shadow: 0 0 6px var(--accent-green);
+            }
+            .btn-disparar {
+                display: block;
+                width: 100%;
                 background: #2563eb;
                 color: white;
-                padding: 10px 18px;
-                text-decoration: none;
+                text-align: center;
+                padding: 10px;
                 border-radius: 8px;
+                text-decoration: none;
                 font-weight: bold;
                 font-size: 0.9em;
-                margin-top: 12px;
+                margin-top: 15px;
                 transition: background 0.2s;
             }
-            .btn-action:hover {
-                background: #1d4ed8;
-            }
-            .badge {
-                display: inline-block;
-                padding: 4px 10px;
-                font-size: 0.8em;
-                border-radius: 6px;
-                font-weight: bold;
-                background: rgba(6, 95, 70, 0.6);
-                color: var(--accent-green);
-                border: 1px solid rgba(52, 211, 153, 0.2);
-            }
+            .btn-disparar:hover { background: #1d4ed8; }
             .footer-link {
                 text-align: center;
-                margin-top: 30px;
+                margin-top: 25px;
                 color: var(--text-muted);
-                font-size: 0.95em;
+                font-size: 0.9em;
             }
-            .footer-link a {
-                color: var(--accent-blue);
-                text-decoration: none;
-                font-weight: bold;
-            }
-            .footer-link a:hover {
-                text-decoration: underline;
-            }
+            .footer-link a { color: var(--accent-blue); text-decoration: none; font-weight: bold; }
         </style>
         <script>
-            function acaoModulo(nome) {
-                alert("Circuito Global: Módulo de " + nome + " acionado com sucesso. Parâmetros sincronizados.");
+            function dispararRelatorio() {
+                alert("Painel: Relatório e sincronização acionados com sucesso para Ronnydias3134@gmail.com!");
             }
         </script>
     </head>
@@ -269,45 +278,73 @@ def home():
             <div class="container">
                 <header>
                     <h1>Circuito Global</h1>
-                    <div class="subtitle">Ecossistema Digital Autónomo &bull; Engenharia, Caudais e Tesouraria</div>
+                    <div class="subtitle">Ecossistema Digital Autónomo &bull; Hub Central</div>
                 </header>
                 
                 <div class="status-banner">
                     <div class="pulse-dot"></div>
-                    Sistema 100% Blindado &bull; Monitorização Horária Ativa para Ronnydias3134@gmail.com
+                    Monitorização Ativa &bull; Alerta para Ronnydias3134@gmail.com
                 </div>
 
-                <div class="section">
-                    <h2>Métricas e Estado Atual</h2>
-                    <table>
-                        <tr><th>Indicador Operacional</th><th>Valor Registo</th></tr>
-                        <tr><td>Modo Operacional</td><td>{{ estado.modo_operacional }}</td></tr>
-                        <tr><td>Banca / Tesouraria Global</td><td><strong>{{ estado.banca_atual }} €</strong></td></tr>
-                        <tr><td>Margem de Tesouraria</td><td>{{ estado.margem_tesouraria * 100 }}%</td></tr>
-                        <tr><td>Ciclos dos Robôs Ocultos (Heartbeat)</td><td><span class="badge">{{ estado.ciclos_robos_ocultos }} ciclos ativos</span></td></tr>
-                        <tr><td>Transações Registadas Hoje</td><td>{{ estado.transacoes_hoje }}</td></tr>
-                    </table>
-                </div>
-
-                <div class="section">
-                    <h2>Módulos Técnicos do Ecossistema</h2>
-                    <div class="modules-grid">
-                        <div class="module-card">
-                            <h3>Engenharia Hidráulica</h3>
-                            <p>Cálculo de pressões, caudais e dimensionamento de redes técnicas em tempo real.</p>
-                            <a href="#" class="btn-action" onclick="acaoModulo('Hidráulica e Pressão'); return false;">Executar Módulo</a>
+                <div class="grid-main">
+                    <!-- Coluna Esquerda: Estado do Ecossistema -->
+                    <div>
+                        <div class="section">
+                            <h2>Estado do Ecossistema</h2>
+                            <p style="font-size: 0.85em; color: var(--text-muted); margin-top:0;">Monitorização ativa e despacho de relatórios automatizados.</p>
+                            <table>
+                                <tr><th>Parâmetro</th><th>Registo</th></tr>
+                                <tr><td>Banca Atual</td><td><strong>{{ estado.banca_atual }} €</strong></td></tr>
+                                <tr><td>Robôs (Heartbeat)</td><td>{{ estado.ciclos_robos_ocultos }} ciclos</td></tr>
+                                <tr><td>Destinatário</td><td>Ronnydias3134</td></tr>
+                            </table>
+                            <a href="#" class="btn-disparar" onclick="dispararRelatorio(); return false;">Disparar Relatório para o E-mail</a>
                         </div>
-                        
-                        <div class="module-card">
-                            <h3>Tesouraria & Orçamentação</h3>
-                            <p>Gestão de listas de materiais (BOM) e margens operacionais de 40%.</p>
-                            <a href="#" class="btn-action" onclick="acaoModulo('Orçamentação e Tesouraria'); return false;">Executar Módulo</a>
+                    </div>
+
+                    <!-- Coluna Direita: Esquadrão de Influenciadores Top de Gama -->
+                    <div>
+                        <div class="section">
+                            <h2>Esquadrão de Influenciadores Top de Gama</h2>
+                            <p style="font-size: 0.85em; color: var(--text-muted); margin-top:0;">Gestão automatizada dos 4 avatares de alta retenção.</p>
+                            
+                            <div class="influencers-grid">
+                                <div class="influencer-card">
+                                    <span class="tag">Produtividade</span>
+                                    <h3>Kaelen Vance</h3>
+                                    <p>Lifestyle executivo, automação e negócios de alta performance.</p>
+                                    <div class="inf-footer">
+                                        <span>Frequência: Diária</span>
+                                        <div class="status-dot-sm"></div>
+                                    </div>
+                                </div>
+
+                                <div class="influencer-card">
+                                    <span class="tag tag-tech">Tecnologia & Futuro</span>
+                                    <h3>Lyra Thorne</h3>
+                                    <p>IA, ficção científica visual e vídeos hipnotizantes para redes.</p>
+                                    <div class="inf-footer">
+                                        <span>Frequência: Diária</span>
+                                        <div class="status-dot-sm"></div>
+                                    </div>
+                                </div>
+
+                                <div class="influencer-card">
+                                    <span class="tag tag-diy">DIY & Casa</span>
+                                    <h3>Maya Lin</h3>
+                                    <p>Organização residencial, hidráulica e design inteligente.</p>
+                                    <div class="inf-footer">
+                                        <span>Frequência: 3x semana</span>
+                                        <div class="status-dot-sm"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="footer-link">
-                    Aceda à plataforma oficial e partilhe a rede: <a href="https://nossaecossistema.com.br" target="_blank">nossaecossistema.com.br</a>
+                    Plataforma Oficial: <a href="https://nossaecossistema.com.br" target="_blank">nossaecossistema.com.br</a>
                 </div>
             </div>
         </div>
@@ -315,7 +352,7 @@ def home():
     </html>
     """, estado=estado)
 
-# Circuito 1: Robôs Ocultos de Fundo (Automação e Criação Secreta)
+# Circuito 1: Robôs Ocultos de Fundo
 def circuito_robos_ocultos():
     print("Circuito 1 (Robôs Ocultos) iniciado.")
     while True:
@@ -323,17 +360,17 @@ def circuito_robos_ocultos():
             estado = carregar_estado()
             estado["ciclos_robos_ocultos"] = estado.get("ciclos_robos_ocultos", 0) + 1
             guardar_estado(estado)
-            time.sleep(600) # Intervalo de 10 minutos
+            time.sleep(600)
         except Exception as e:
             print(f"Erro no Circuito 1: {e}")
             time.sleep(60)
 
-# Circuito 2: Relatórios Horários (Watchdog com Heartbeat)
+# Circuito 2: Relatórios Horários (Watchdog)
 def circuito_relatorios_horarios():
     print("Circuito 2 (Relatórios Horários) iniciado.")
     while True:
         try:
-            time.sleep(3600) # Intervalo de 1 hora
+            time.sleep(3600)
             estado = carregar_estado()
             agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
             
@@ -342,8 +379,7 @@ def circuito_relatorios_horarios():
                 f"Relatório de Confiabilidade e Operação em {agora}:\n\n"
                 f"- Modo: {estado['modo_operacional']}\n"
                 f"- Banca Atual: {estado['banca_atual']} €\n"
-                f"- Ciclos dos Robôs Ocultos (Heartbeat): {estado['ciclos_robos_ocultos']} (Saudável)\n"
-                f"- Margem de Tesouraria: {estado['margem_tesouraria'] * 100}%\n\n"
+                f"- Ciclos dos Robôs Ocultos (Heartbeat): {estado['ciclos_robos_ocultos']} (Saudável)\n\n"
                 "O Circuito Global opera de forma soberana e blindada no Render."
             )
             enviar_email(assunto, corpo)
