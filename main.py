@@ -44,9 +44,9 @@ HTML_LAYOUT = """
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: 12px;
-            gap: 12px;
-            padding-bottom: 40px;
+            padding: 10px;
+            gap: 10px;
+            padding-bottom: 30px;
         }
 
         header {
@@ -54,7 +54,7 @@ HTML_LAYOUT = """
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 4px;
+            padding: 4px 6px;
         }
 
         .brand {
@@ -129,12 +129,12 @@ HTML_LAYOUT = """
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 12px;
+            padding: 10px;
         }
 
         .display-box {
             width: 100%;
-            height: 185px;
+            height: 195px;
             background: #000;
             border-radius: 8px;
             display: flex;
@@ -203,65 +203,65 @@ HTML_LAYOUT = """
             cursor: pointer;
         }
 
-        /* Caixa de Trabalho da IA Garantida e Visível */
+        /* Caixa de Trabalho da IA */
         .ai-workspace {
             display: none;
-            margin-top: 12px;
-            padding: 12px;
-            background: rgba(0, 230, 153, 0.06);
-            border: 1px solid var(--accent-green);
-            border-radius: 10px;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0, 230, 153, 0.04);
+            border: 1px dashed var(--accent-green);
+            border-radius: 8px;
         }
 
         .step-path-info {
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             color: var(--accent-green);
-            margin-bottom: 8px;
-            font-weight: 700;
+            margin-bottom: 6px;
+            font-weight: 600;
             line-height: 1.3;
         }
 
         .ai-workspace textarea {
             width: 100%;
-            height: 75px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.2);
+            height: 70px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 6px;
             color: #fff;
             padding: 8px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             outline: none;
             resize: vertical;
         }
 
         .btn-exec {
             width: 100%;
-            margin-top: 8px;
+            margin-top: 6px;
             background: var(--accent-green);
             color: #000;
             border: none;
-            padding: 9px;
+            padding: 8px;
             border-radius: 6px;
             font-weight: 700;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             cursor: pointer;
         }
 
         .ai-summary-box {
             display: none;
-            margin-top: 10px;
+            margin-top: 8px;
             padding: 10px;
-            background: rgba(0, 191, 255, 0.08);
+            background: rgba(0, 191, 255, 0.06);
             border: 1px solid var(--accent-blue);
-            border-radius: 8px;
-            font-size: 0.78rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
             color: var(--text-main);
             line-height: 1.4;
         }
 
         .ai-summary-box h5 {
             color: var(--accent-blue);
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             margin-bottom: 4px;
         }
 
@@ -302,35 +302,26 @@ HTML_LAYOUT = """
             text-decoration: none;
         }
 
-        /* Botão de Destaque Principal com o nome Ronny dias */
-        .ronny-master-card {
+        /* Rodapé com o teu nome em letras pequenas e com função importante de IA */
+        .footer-signature {
             width: 100%;
-            background: linear-gradient(135deg, rgba(0, 230, 153, 0.2), rgba(0, 191, 255, 0.2));
-            border: 2px solid var(--accent-green);
-            border-radius: 12px;
-            padding: 14px;
             text-align: center;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 230, 153, 0.15);
-            transition: all 0.2s;
+            margin-top: 10px;
+            padding: 4px;
         }
 
-        .ronny-master-card:hover {
-            border-color: #fff;
-            transform: scale(1.01);
-        }
-
-        .ronny-master-title {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--accent-green);
-            letter-spacing: 0.8px;
-            margin-bottom: 2px;
-        }
-
-        .ronny-master-subtitle {
-            font-size: 0.72rem;
+        .signature-btn {
+            font-size: 0.7rem;
             color: var(--text-muted);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+            letter-spacing: 0.5px;
+        }
+
+        .signature-btn:hover {
+            color: var(--accent-green);
         }
 
         .modal-overlay {
@@ -404,23 +395,17 @@ HTML_LAYOUT = """
                 <button type="button" class="module-btn-other" onclick="openCustomModal()">➕ Outros Módulos</button>
             </div>
 
-            <!-- Caixa de Trabalho da IA (Visível de imediato ao ativar qualquer botão) -->
+            <!-- Caixa de Trabalho da IA -->
             <div class="ai-workspace" id="aiWorkspace">
                 <div class="step-path-info" id="moduleTitlePrompt">Módulo Ativo</div>
-                <textarea id="userInputQuery" placeholder="Escreva o que deseja calcular, pesquisar ou estruturar com a IA..."></textarea>
-                <button type="button" class="btn-exec" onclick="runAISynthesis()">Executar com a IA</button>
+                <textarea id="userInputQuery" placeholder="Indique o que pretende realizar com a orientação da IA..."></textarea>
+                <button type="button" class="btn-exec" onclick="runAISynthesis()">Executar Orientação da IA</button>
                 
                 <div class="ai-summary-box" id="aiSummaryBox">
                     <h5 id="summaryHeading">🤖 Resposta & Orientação da IA</h5>
-                    <div id="summaryContent">A processar os dados com otimização...</div>
+                    <div id="summaryContent">A processar...</div>
                 </div>
             </div>
-        </div>
-
-        <!-- Botão de Destaque Principal: Ronny dias -->
-        <div class="ronny-master-card" onclick="openRonnyMasterWorkspace()">
-            <div class="ronny-master-title">⚙️ Painel de Controlo Master: Ronny dias</div>
-            <div class="ronny-master-subtitle">Toque para acionar a orientação total da IA para qualquer tarefa ou projeto</div>
         </div>
 
         <div class="utility-row">
@@ -436,6 +421,11 @@ HTML_LAYOUT = """
                 <a href="https://linkedin.com" target="_blank" class="social-chip">LinkedIn</a>
                 <a href="https://youtube.com" target="_blank" class="social-chip">YouTube</a>
             </div>
+        </div>
+
+        <!-- Rodapé com o teu nome em letras pequenas e função importante -->
+        <div class="footer-signature">
+            <button type="button" class="signature-btn" onclick="openRonnyMasterWorkspace()">Ronny dias</button>
         </div>
     </div>
 
@@ -485,7 +475,7 @@ HTML_LAYOUT = """
             ws.style.display = 'block';
             
             let promptText = document.getElementById('moduleTitlePrompt');
-            promptText.innerText = '🎯 Módulo: ' + name + ' — O que deseja realizar?';
+            promptText.innerText = '🎯 Módulo: ' + name + ' — O que deseja encontrar?';
             
             document.getElementById('userInputQuery').value = '';
             document.getElementById('aiSummaryBox').style.display = 'none';
@@ -498,7 +488,7 @@ HTML_LAYOUT = """
             ws.style.display = 'block';
             
             let promptText = document.getElementById('moduleTitlePrompt');
-            promptText.innerText = '👑 Painel Global Ronny dias — Liberdade total para criar, calcular, programar ou resolver qualquer questão com a IA!';
+            promptText.innerText = '👑 Painel Mestre Ronny dias — Liberdade total para criar, calcular, orientar e resolver qualquer questão com a IA!';
             
             document.getElementById('userInputQuery').value = '';
             document.getElementById('aiSummaryBox').style.display = 'none';
@@ -522,18 +512,18 @@ HTML_LAYOUT = """
 
         function runAISynthesis() {
             let inputVal = document.getElementById('userInputQuery').value;
-            if(!inputVal) { alert('Por favor, escreva o seu pedido na caixa da IA.'); return; }
+            if(!inputVal) { alert('Indique o que procura na caixa de diálogo.'); return; }
 
             let summaryBox = document.getElementById('aiSummaryBox');
             let contentDiv = document.getElementById('summaryContent');
             summaryBox.style.display = 'block';
-            contentDiv.innerHTML = '🔄 A orientar e a processar com a IA para <strong>' + activeModuleName + '</strong>...';
+            contentDiv.innerHTML = '🔄 A efetuar varredura inteligente e a orientar com a IA para <strong>' + activeModuleName + '</strong>...';
 
             setTimeout(() => {
-                contentDiv.innerHTML = '✨ <strong>Orientação & Execução Concluída:</strong><br>' +
+                contentDiv.innerHTML = '✨ <strong>Orientação Otimizada (IA):</strong><br>' +
                     '• <em>Contexto:</em> ' + activeModuleName + '<br>' +
-                    '• <em>Solicitação:</em> ' + inputVal + '<br>' +
-                    '• <em>Resultado Criterioso:</em> Resposta detalhada, estruturada e pronta a utilizar no terreno com total eficácia.';
+                    '• <em>Pedido:</em> ' + inputVal + '<br>' +
+                    '• <em>Resultado Prático:</em> Informação estruturada, cálculos ou diretrizes entregues com eficácia para máxima utilidade no terreno.';
             }, 800);
         }
 
