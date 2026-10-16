@@ -73,7 +73,6 @@ HTML_LAYOUT = """
             cursor: pointer;
         }
 
-        /* Barra de Pesquisa com Lupa e Poupador de Megas */
         .search-container {
             width: 100%;
         }
@@ -124,7 +123,6 @@ HTML_LAYOUT = """
             outline: none;
         }
 
-        /* Cards em Ecrã Inteiro */
         .card {
             width: 100%;
             background: var(--card-bg);
@@ -133,7 +131,6 @@ HTML_LAYOUT = """
             padding: 10px;
         }
 
-        /* Display Limpo */
         .display-box {
             width: 100%;
             height: 195px;
@@ -161,7 +158,6 @@ HTML_LAYOUT = """
             font-weight: bold;
         }
 
-        /* Grelha de Módulos (Compactos e em Bruto) */
         .modules-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -206,7 +202,6 @@ HTML_LAYOUT = """
             cursor: pointer;
         }
 
-        /* Caixa de Diálogo Inteligente da IA por Módulo */
         .ai-workspace {
             display: none;
             margin-top: 10px;
@@ -250,7 +245,6 @@ HTML_LAYOUT = """
             cursor: pointer;
         }
 
-        /* Painel de Resultados / Síntese da IA */
         .ai-summary-box {
             display: none;
             margin-top: 8px;
@@ -269,7 +263,6 @@ HTML_LAYOUT = """
             margin-bottom: 4px;
         }
 
-        /* Utilitários: Música & Ferramentas */
         .utility-row {
             display: flex;
             gap: 6px;
@@ -306,7 +299,6 @@ HTML_LAYOUT = """
             cursor: pointer;
         }
 
-        /* Modal para Outros Módulos */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -344,7 +336,6 @@ HTML_LAYOUT = """
 <body>
 
     <div class="wrapper">
-        <!-- Topo Minimalista & Poupador de Megas -->
         <header>
             <div class="brand">ECOSSISTEMA.HUB</div>
             <div class="status-badge" onclick="toggleDataSaver()" id="dataSaverBadge">
@@ -352,7 +343,6 @@ HTML_LAYOUT = """
             </div>
         </header>
 
-        <!-- Barra de Pesquisa com Lupa Inteligente -->
         <div class="search-container">
             <div class="search-box">
                 <span class="search-icon" onclick="toggleVideoSearch()">🔍</span>
@@ -364,14 +354,12 @@ HTML_LAYOUT = """
             </div>
         </div>
 
-        <!-- Display / Televisor Multimédia Limpo -->
         <div class="card">
             <div class="display-box" id="videoDisplay">
                 <div class="play-btn" onclick="playVideo()">▶</div>
             </div>
         </div>
 
-        <!-- Painel de Comando Principal -->
         <div class="card">
             <div class="modules-grid">
                 <button class="module-btn-main" onclick="openModule('Engenharia & Arquitetura')">⚙️🏛️ Engenharia & Arquitetura</button>
@@ -382,13 +370,11 @@ HTML_LAYOUT = """
                 <button class="module-btn-other" onclick="openCustomModal()">➕ Outros Módulos</button>
             </div>
 
-            <!-- Caixa de Diálogo Inteligente da IA (Varredura e Síntese) -->
             <div class="ai-workspace" id="aiWorkspace">
                 <div class="step-path-info" id="moduleTitlePrompt">Módulo Ativo</div>
-                <textarea id="userInputQuery" placeholder="Indique o que procura (ex: Explicação de matéria, cálculo hidráulico, artigo legal)..."></textarea>
+                <textarea id="userInputQuery" placeholder="Indique o que procura..."></textarea>
                 <button class="btn-exec" onclick="runAISynthesis()">Varredura Rápida & Sintetizar com IA</button>
                 
-                <!-- Caixa de Resumo e Informação Cirúrgica -->
                 <div class="ai-summary-box" id="aiSummaryBox">
                     <h5 id="summaryHeading">🤖 Síntese & Informação Detalhada</h5>
                     <div id="summaryContent">A processar dados com otimização de megas...</div>
@@ -396,13 +382,11 @@ HTML_LAYOUT = """
             </div>
         </div>
 
-        <!-- Ferramentas Auxiliares & Música -->
         <div class="utility-row">
             <div class="utility-btn" onclick="toggleMusic()">🎵 Ouvir Música</div>
             <div class="utility-btn" onclick="alert('Sistema de diálogo IA operando com estabilidade total.')">⚡ Estado OK</div>
         </div>
 
-        <!-- Redes Sociais -->
         <div class="card" style="padding: 8px;">
             <div class="social-row">
                 <div class="social-chip">Facebook</div>
@@ -414,7 +398,6 @@ HTML_LAYOUT = """
         </div>
     </div>
 
-    <!-- Modal Outros Módulos -->
     <div class="modal-overlay" id="customModal">
         <div class="modal-content">
             <input type="text" id="customModName" placeholder="Nome do Módulo...">
