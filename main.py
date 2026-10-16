@@ -71,7 +71,7 @@ def enviar_email(assunto, corpo):
         print(f"Erro no envio de e-mail (recuperável): {e}")
         return False
 
-# Rota Web Principal - Painel com o Esquadrão de Influenciadores e Aro Visual
+# Rota Web Principal - Painel com o Esquadrão de Influenciadores
 @app.route('/')
 def home():
     estado = carregar_estado()
@@ -81,7 +81,7 @@ def home():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Circuito Global — Painel Autónomo</title>
+        <title>Circuito Global — Hub Central Autónomo</title>
         <style>
             :root {
                 --bg-main: #090d16;
@@ -97,7 +97,7 @@ def home():
                 background: var(--bg-main);
                 color: var(--text-main);
                 margin: 0;
-                padding: 30px 20px;
+                padding: 20px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -114,22 +114,22 @@ def home():
             }
             .container {
                 background: var(--bg-card);
-                padding: 35px;
+                padding: 30px;
                 border-radius: 20px;
                 box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.05);
             }
             header {
                 text-align: center;
-                margin-bottom: 30px;
+                margin-bottom: 25px;
             }
             h1 {
                 color: var(--accent-blue);
-                font-size: 2.3em;
-                margin: 0 0 8px 0;
+                font-size: 2.2em;
+                margin: 0 0 5px 0;
             }
             .subtitle {
                 color: var(--text-muted);
-                font-size: 1em;
+                font-size: 0.95em;
             }
             .status-banner {
                 display: flex;
@@ -142,8 +142,8 @@ def home():
                 color: var(--accent-green);
                 border-radius: 12px;
                 font-weight: 600;
-                margin-bottom: 25px;
-                font-size: 0.95em;
+                margin-bottom: 20px;
+                font-size: 0.9em;
             }
             .pulse-dot {
                 width: 10px;
@@ -160,7 +160,7 @@ def home():
             }
             .grid-main {
                 display: grid;
-                grid-template-columns: 1fr 1.6fr;
+                grid-template-columns: 1fr 1.5fr;
                 gap: 20px;
             }
             @media (max-width: 768px) {
@@ -171,62 +171,60 @@ def home():
                 border: 1px solid rgba(56, 189, 248, 0.1);
                 padding: 20px;
                 border-radius: 14px;
-                margin-bottom: 20px;
+                margin-bottom: 15px;
             }
             h2 {
                 color: var(--text-main);
-                font-size: 1.2em;
+                font-size: 1.15em;
                 margin-top: 0;
-                margin-bottom: 12px;
+                margin-bottom: 10px;
                 border-bottom: 2px solid #1e293b;
-                padding-bottom: 8px;
+                padding-bottom: 6px;
             }
             table {
                 width: 100%;
                 border-collapse: collapse;
             }
             th, td {
-                padding: 10px;
+                padding: 8px;
                 text-align: left;
                 border-bottom: 1px solid #1e293b;
-                font-size: 0.9em;
+                font-size: 0.85em;
             }
             th { color: var(--accent-blue); }
             td strong { color: var(--accent-green); }
             
-            /* Influencers Grid */
             .influencers-grid {
                 display: grid;
                 grid-template-columns: 1fr;
-                gap: 15px;
+                gap: 12px;
             }
             .influencer-card {
                 background: #1e293b;
                 border: 1px solid #334155;
-                padding: 15px;
+                padding: 14px;
                 border-radius: 12px;
-                position: relative;
             }
             .influencer-card h3 {
                 color: var(--accent-blue);
-                margin: 0 0 5px 0;
-                font-size: 1.05em;
+                margin: 0 0 4px 0;
+                font-size: 1em;
             }
             .influencer-card p {
                 color: var(--text-muted);
-                font-size: 0.85em;
-                margin: 0 0 10px 0;
-                line-height: 1.4;
+                font-size: 0.8em;
+                margin: 0 0 8px 0;
+                line-height: 1.3;
             }
             .tag {
                 display: inline-block;
-                padding: 2px 8px;
-                font-size: 0.75em;
+                padding: 2px 6px;
+                font-size: 0.7em;
                 border-radius: 4px;
                 font-weight: bold;
                 background: #065f46;
                 color: var(--accent-green);
-                margin-bottom: 8px;
+                margin-bottom: 6px;
             }
             .tag-tech { background: #1e3a8a; color: var(--accent-blue); }
             .tag-diy { background: #78350f; color: #f59e0b; }
@@ -234,15 +232,15 @@ def home():
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                font-size: 0.8em;
+                font-size: 0.75em;
                 color: var(--text-muted);
             }
             .status-dot-sm {
-                width: 8px;
-                height: 8px;
+                width: 7px;
+                height: 7px;
                 background: var(--accent-green);
                 border-radius: 50%;
-                box-shadow: 0 0 6px var(--accent-green);
+                box-shadow: 0 0 5px var(--accent-green);
             }
             .btn-disparar {
                 display: block;
@@ -254,22 +252,22 @@ def home():
                 border-radius: 8px;
                 text-decoration: none;
                 font-weight: bold;
-                font-size: 0.9em;
-                margin-top: 15px;
+                font-size: 0.85em;
+                margin-top: 12px;
                 transition: background 0.2s;
             }
             .btn-disparar:hover { background: #1d4ed8; }
             .footer-link {
                 text-align: center;
-                margin-top: 25px;
+                margin-top: 20px;
                 color: var(--text-muted);
-                font-size: 0.9em;
+                font-size: 0.85em;
             }
             .footer-link a { color: var(--accent-blue); text-decoration: none; font-weight: bold; }
         </style>
         <script>
             function dispararRelatorio() {
-                alert("Painel: Relatório e sincronização acionados com sucesso para Ronnydias3134@gmail.com!");
+                alert("Hub Central: Relatório de estado e sincronização acionados com sucesso para Ronnydias3134@gmail.com!");
             }
         </script>
     </head>
@@ -278,12 +276,12 @@ def home():
             <div class="container">
                 <header>
                     <h1>Circuito Global</h1>
-                    <div class="subtitle">Ecossistema Digital Autónomo &bull; Hub Central</div>
+                    <div class="subtitle">Hub Central: Ronnydias3134@gmail.com</div>
                 </header>
                 
                 <div class="status-banner">
                     <div class="pulse-dot"></div>
-                    Monitorização Ativa &bull; Alerta para Ronnydias3134@gmail.com
+                    Monitorização ativa e despacho de relatórios automatizados.
                 </div>
 
                 <div class="grid-main">
@@ -291,28 +289,27 @@ def home():
                     <div>
                         <div class="section">
                             <h2>Estado do Ecossistema</h2>
-                            <p style="font-size: 0.85em; color: var(--text-muted); margin-top:0;">Monitorização ativa e despacho de relatórios automatizados.</p>
                             <table>
                                 <tr><th>Parâmetro</th><th>Registo</th></tr>
-                                <tr><td>Banca Atual</td><td><strong>{{ estado.banca_atual }} €</strong></td></tr>
-                                <tr><td>Robôs (Heartbeat)</td><td>{{ estado.ciclos_robos_ocultos }} ciclos</td></tr>
-                                <tr><td>Destinatário</td><td>Ronnydias3134</td></tr>
+                                <tr><td>Webhook Make.com</td><td><strong style="color:var(--accent-green);">Sincronizado</strong></td></tr>
+                                <tr><td>Destinatário Alerta</td><td>Ronnydias3134</td></tr>
+                                <tr><td>Ciclos Robôs</td><td>{{ estado.ciclos_robos_ocultos }} ciclos</td></tr>
                             </table>
                             <a href="#" class="btn-disparar" onclick="dispararRelatorio(); return false;">Disparar Relatório para o E-mail</a>
                         </div>
                     </div>
 
-                    <!-- Coluna Direita: Esquadrão de Influenciadores Top de Gama -->
+                    <!-- Coluna Direita: Esquadrão de Influenciadores -->
                     <div>
                         <div class="section">
                             <h2>Esquadrão de Influenciadores Top de Gama</h2>
-                            <p style="font-size: 0.85em; color: var(--text-muted); margin-top:0;">Gestão automatizada dos 4 avatares de alta retenção.</p>
+                            <p style="font-size: 0.8em; color: var(--text-muted); margin-top:0;">Gestão automatizada dos 4 avatares de alta retenção.</p>
                             
                             <div class="influencers-grid">
                                 <div class="influencer-card">
                                     <span class="tag">Produtividade</span>
                                     <h3>Kaelen Vance</h3>
-                                    <p>Lifestyle executivo, automação e negócios de alta performance.</p>
+                                    <p>Lifestyle executivo, automação e negócios.</p>
                                     <div class="inf-footer">
                                         <span>Frequência: Diária</span>
                                         <div class="status-dot-sm"></div>
@@ -322,7 +319,7 @@ def home():
                                 <div class="influencer-card">
                                     <span class="tag tag-tech">Tecnologia & Futuro</span>
                                     <h3>Lyra Thorne</h3>
-                                    <p>IA, ficção científica visual e vídeos hipnotizantes para redes.</p>
+                                    <p>IA, ficção científica visual e vídeos hipnotizantes.</p>
                                     <div class="inf-footer">
                                         <span>Frequência: Diária</span>
                                         <div class="status-dot-sm"></div>
@@ -332,9 +329,9 @@ def home():
                                 <div class="influencer-card">
                                     <span class="tag tag-diy">DIY & Casa</span>
                                     <h3>Maya Lin</h3>
-                                    <p>Organização residencial, hidráulica e design inteligente.</p>
+                                    <p>Organização residencial e design inteligente.</p>
                                     <div class="inf-footer">
-                                        <span>Frequência: 3x semana</span>
+                                        <span>Frequência: 3x</span>
                                         <div class="status-dot-sm"></div>
                                     </div>
                                 </div>
@@ -344,7 +341,7 @@ def home():
                 </div>
 
                 <div class="footer-link">
-                    Plataforma Oficial: <a href="https://nossaecossistema.com.br" target="_blank">nossaecossistema.com.br</a>
+                    Aceda à plataforma oficial: <a href="https://nossaecossistema.com.br" target="_blank">nossaecossistema.com.br</a>
                 </div>
             </div>
         </div>
@@ -378,7 +375,6 @@ def circuito_relatorios_horarios():
             corpo = (
                 f"Relatório de Confiabilidade e Operação em {agora}:\n\n"
                 f"- Modo: {estado['modo_operacional']}\n"
-                f"- Banca Atual: {estado['banca_atual']} €\n"
                 f"- Ciclos dos Robôs Ocultos (Heartbeat): {estado['ciclos_robos_ocultos']} (Saudável)\n\n"
                 "O Circuito Global opera de forma soberana e blindada no Render."
             )
