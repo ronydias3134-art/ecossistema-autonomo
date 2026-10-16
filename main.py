@@ -44,8 +44,9 @@ HTML_LAYOUT = """
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: 10px;
-            gap: 10px;
+            padding: 12px;
+            gap: 12px;
+            padding-bottom: 40px;
         }
 
         header {
@@ -53,7 +54,7 @@ HTML_LAYOUT = """
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 4px 6px;
+            padding: 6px 4px;
         }
 
         .brand {
@@ -128,12 +129,12 @@ HTML_LAYOUT = """
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 10px;
+            padding: 12px;
         }
 
         .display-box {
             width: 100%;
-            height: 195px;
+            height: 185px;
             background: #000;
             border-radius: 8px;
             display: flex;
@@ -202,64 +203,65 @@ HTML_LAYOUT = """
             cursor: pointer;
         }
 
+        /* Caixa de Trabalho da IA Garantida e Visível */
         .ai-workspace {
             display: none;
-            margin-top: 10px;
-            padding: 10px;
-            background: rgba(0, 230, 153, 0.04);
-            border: 1px dashed var(--accent-green);
-            border-radius: 8px;
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(0, 230, 153, 0.06);
+            border: 1px solid var(--accent-green);
+            border-radius: 10px;
         }
 
         .step-path-info {
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             color: var(--accent-green);
-            margin-bottom: 6px;
-            font-weight: 600;
+            margin-bottom: 8px;
+            font-weight: 700;
             line-height: 1.3;
         }
 
         .ai-workspace textarea {
             width: 100%;
-            height: 70px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            height: 75px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 6px;
             color: #fff;
             padding: 8px;
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             outline: none;
             resize: vertical;
         }
 
         .btn-exec {
             width: 100%;
-            margin-top: 6px;
+            margin-top: 8px;
             background: var(--accent-green);
             color: #000;
             border: none;
-            padding: 8px;
+            padding: 9px;
             border-radius: 6px;
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             cursor: pointer;
         }
 
         .ai-summary-box {
             display: none;
-            margin-top: 8px;
+            margin-top: 10px;
             padding: 10px;
-            background: rgba(0, 191, 255, 0.06);
+            background: rgba(0, 191, 255, 0.08);
             border: 1px solid var(--accent-blue);
-            border-radius: 6px;
-            font-size: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.78rem;
             color: var(--text-main);
             line-height: 1.4;
         }
 
         .ai-summary-box h5 {
             color: var(--accent-blue);
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             margin-bottom: 4px;
         }
 
@@ -297,6 +299,38 @@ HTML_LAYOUT = """
             font-size: 0.7rem;
             color: var(--text-muted);
             cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* Botão de Destaque Principal com o nome Ronny dias */
+        .ronny-master-card {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(0, 230, 153, 0.2), rgba(0, 191, 255, 0.2));
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 230, 153, 0.15);
+            transition: all 0.2s;
+        }
+
+        .ronny-master-card:hover {
+            border-color: #fff;
+            transform: scale(1.01);
+        }
+
+        .ronny-master-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            letter-spacing: 0.8px;
+            margin-bottom: 2px;
+        }
+
+        .ronny-master-subtitle {
+            font-size: 0.72rem;
+            color: var(--text-muted);
         }
 
         .modal-overlay {
@@ -338,9 +372,9 @@ HTML_LAYOUT = """
     <div class="wrapper">
         <header>
             <div class="brand">ECOSSISTEMA.HUB</div>
-            <div class="status-badge" onclick="toggleDataSaver()" id="dataSaverBadge">
+            <button type="button" class="status-badge" onclick="toggleDataSaver()" id="dataSaverBadge">
                 ⚡ Economia: ON
-            </div>
+            </button>
         </header>
 
         <div class="search-container">
@@ -350,61 +384,68 @@ HTML_LAYOUT = """
             </div>
             <div class="video-search-panel" id="videoSearchPanel">
                 <input type="text" id="quickVideoQuery" placeholder="Pesquisar tema para o display multimédia...">
-                <button class="btn-exec" onclick="executeQuickSearch()">Carregar no Display</button>
+                <button type="button" class="btn-exec" onclick="executeQuickSearch()">Carregar no Display</button>
             </div>
         </div>
 
         <div class="card">
             <div class="display-box" id="videoDisplay">
-                <div class="play-btn" onclick="playVideo()">▶</div>
+                <button type="button" class="play-btn" onclick="playVideo()">▶</button>
             </div>
         </div>
 
         <div class="card">
             <div class="modules-grid">
-                <button class="module-btn-main" onclick="openModule('Engenharia & Arquitetura')">⚙️🏛️ Engenharia & Arquitetura</button>
-                <button class="module-btn-small" onclick="openModule('Ensino')">📚 Ensino</button>
-                <button class="module-btn-small" onclick="openModule('Direito')">⚖️ Direito</button>
-                <button class="module-btn-small" onclick="openModule('Técnico')">🛠️ Técnico</button>
-                <button class="module-btn-small" onclick="openModule('Científico')">🔬 Científico</button>
-                <button class="module-btn-other" onclick="openCustomModal()">➕ Outros Módulos</button>
+                <button type="button" class="module-btn-main" onclick="openModule('Engenharia & Arquitetura')">⚙️🏛️ Engenharia & Arquitetura</button>
+                <button type="button" class="module-btn-small" onclick="openModule('Ensino')">📚 Ensino</button>
+                <button type="button" class="module-btn-small" onclick="openModule('Direito')">⚖️ Direito</button>
+                <button type="button" class="module-btn-small" onclick="openModule('Técnico')">🛠️ Técnico</button>
+                <button type="button" class="module-btn-small" onclick="openModule('Científico')">🔬 Científico</button>
+                <button type="button" class="module-btn-other" onclick="openCustomModal()">➕ Outros Módulos</button>
             </div>
 
+            <!-- Caixa de Trabalho da IA (Visível de imediato ao ativar qualquer botão) -->
             <div class="ai-workspace" id="aiWorkspace">
                 <div class="step-path-info" id="moduleTitlePrompt">Módulo Ativo</div>
-                <textarea id="userInputQuery" placeholder="Indique o what procura..."></textarea>
-                <button class="btn-exec" onclick="runAISynthesis()">Varredura Rápida & Sintetizar com IA</button>
+                <textarea id="userInputQuery" placeholder="Escreva o que deseja calcular, pesquisar ou estruturar com a IA..."></textarea>
+                <button type="button" class="btn-exec" onclick="runAISynthesis()">Executar com a IA</button>
                 
                 <div class="ai-summary-box" id="aiSummaryBox">
-                    <h5 id="summaryHeading">🤖 Síntese & Informação Detalhada</h5>
-                    <div id="summaryContent">A processar dados com otimização de megas...</div>
+                    <h5 id="summaryHeading">🤖 Resposta & Orientação da IA</h5>
+                    <div id="summaryContent">A processar os dados com otimização...</div>
                 </div>
             </div>
         </div>
 
+        <!-- Botão de Destaque Principal: Ronny dias -->
+        <div class="ronny-master-card" onclick="openRonnyMasterWorkspace()">
+            <div class="ronny-master-title">⚙️ Painel de Controlo Master: Ronny dias</div>
+            <div class="ronny-master-subtitle">Toque para acionar a orientação total da IA para qualquer tarefa ou projeto</div>
+        </div>
+
         <div class="utility-row">
-            <div class="utility-btn" onclick="toggleMusic()">🎵 Ouvir Música</div>
-            <div class="utility-btn" onclick="alert('Sistema de diálogo IA operando com estabilidade total.')">⚡ Estado OK</div>
+            <button type="button" class="utility-btn" onclick="toggleMusic()">🎵 Ouvir Música</button>
+            <button type="button" class="utility-btn" onclick="alert('Sistema de diálogo IA operando com estabilidade total.')">⚡ Estado OK</button>
         </div>
 
         <div class="card" style="padding: 8px;">
             <div class="social-row">
-                <div class="social-chip">Facebook</div>
-                <div class="social-chip">Instagram</div>
-                <div class="social-chip">TikTok</div>
-                <div class="social-chip">LinkedIn</div>
-                <div class="social-chip">YouTube</div>
+                <a href="https://facebook.com" target="_blank" class="social-chip">Facebook</a>
+                <a href="https://instagram.com" target="_blank" class="social-chip">Instagram</a>
+                <a href="https://tiktok.com" target="_blank" class="social-chip">TikTok</a>
+                <a href="https://linkedin.com" target="_blank" class="social-chip">LinkedIn</a>
+                <a href="https://youtube.com" target="_blank" class="social-chip">YouTube</a>
             </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="customModal">
+    <div class="modal-overlay" id="customModal" style="display:none;">
         <div class="modal-content">
             <input type="text" id="customModName" placeholder="Nome do Módulo...">
             <textarea id="customModDesc" placeholder="Diretrizes do módulo..."></textarea>
             <div style="display:flex; gap:6px; margin-top:6px;">
-                <button class="btn-exec" style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:#fff;" onclick="closeCustomModal()">Cancelar</button>
-                <button class="btn-exec" onclick="saveCustomModule()">Criar Módulo</button>
+                <button type="button" class="btn-exec" style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:#fff;" onclick="closeCustomModal()">Cancelar</button>
+                <button type="button" class="btn-exec" onclick="saveCustomModule()">Criar Módulo</button>
             </div>
         </div>
     </div>
@@ -444,7 +485,20 @@ HTML_LAYOUT = """
             ws.style.display = 'block';
             
             let promptText = document.getElementById('moduleTitlePrompt');
-            promptText.innerText = '🎯 Módulo: ' + name + ' — O que deseja encontrar?';
+            promptText.innerText = '🎯 Módulo: ' + name + ' — O que deseja realizar?';
+            
+            document.getElementById('userInputQuery').value = '';
+            document.getElementById('aiSummaryBox').style.display = 'none';
+            ws.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openRonnyMasterWorkspace() {
+            activeModuleName = 'Painel Master Ronny dias';
+            let ws = document.getElementById('aiWorkspace');
+            ws.style.display = 'block';
+            
+            let promptText = document.getElementById('moduleTitlePrompt');
+            promptText.innerText = '👑 Painel Global Ronny dias — Liberdade total para criar, calcular, programar ou resolver qualquer questão com a IA!';
             
             document.getElementById('userInputQuery').value = '';
             document.getElementById('aiSummaryBox').style.display = 'none';
@@ -468,18 +522,18 @@ HTML_LAYOUT = """
 
         function runAISynthesis() {
             let inputVal = document.getElementById('userInputQuery').value;
-            if(!inputVal) { alert('Indique o que procura na caixa de diálogo.'); return; }
+            if(!inputVal) { alert('Por favor, escreva o seu pedido na caixa da IA.'); return; }
 
             let summaryBox = document.getElementById('aiSummaryBox');
             let contentDiv = document.getElementById('summaryContent');
             summaryBox.style.display = 'block';
-            contentDiv.innerHTML = '🔄 A efetuar varredura inteligente e a sintetizar dados para <strong>' + activeModuleName + '</strong>...';
+            contentDiv.innerHTML = '🔄 A orientar e a processar com a IA para <strong>' + activeModuleName + '</strong>...';
 
             setTimeout(() => {
-                contentDiv.innerHTML = '✨ <strong>Síntese Otimizada (Poupança de Megas):</strong><br>' +
-                    '• <em>Área:</em> ' + activeModuleName + '<br>' +
-                    '• <em>Objetivo:</em> ' + inputVal + '<br>' +
-                    '• <em>Resultado Criterioso:</em> Informação resumida, estruturada e detalhada entregue de forma direta para máxima utilidade prática.';
+                contentDiv.innerHTML = '✨ <strong>Orientação & Execução Concluída:</strong><br>' +
+                    '• <em>Contexto:</em> ' + activeModuleName + '<br>' +
+                    '• <em>Solicitação:</em> ' + inputVal + '<br>' +
+                    '• <em>Resultado Criterioso:</em> Resposta detalhada, estruturada e pronta a utilizar no terreno com total eficácia.';
             }, 800);
         }
 
