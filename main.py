@@ -372,7 +372,7 @@ HTML_LAYOUT = """
 
             <div class="ai-workspace" id="aiWorkspace">
                 <div class="step-path-info" id="moduleTitlePrompt">Módulo Ativo</div>
-                <textarea id="userInputQuery" placeholder="Indique o que procura..."></textarea>
+                <textarea id="userInputQuery" placeholder="Indique o what procura..."></textarea>
                 <button class="btn-exec" onclick="runAISynthesis()">Varredura Rápida & Sintetizar com IA</button>
                 
                 <div class="ai-summary-box" id="aiSummaryBox">
