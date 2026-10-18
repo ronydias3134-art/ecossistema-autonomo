@@ -1,319 +1,99 @@
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ecossistema Autónomo - Ronny Dias</title>
+    <title>Circuito Global - Ecossistema Autónomo</title>
     <style>
         :root {
-            --bg-dark: #0a0e17;
-            --card-bg: #111827;
-            --accent-blue: #00d2ff;
-            --accent-purple: #7a00ff;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border-color: #1f2937;
+            --primary-color: #0f172a;
+            --accent-color: #2563eb;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #334155;
+            --border-color: #e2e8f0;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 12px;
         }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
-            flex: 1;
-        }
-
         header {
             text-align: center;
-            margin-bottom: 20px;
+            padding: 16px 0;
         }
-
         h1 {
-            font-size: 1.5rem;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin: 0;
         }
-
-        .search-box {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        .search-box input {
-            flex: 1;
-            padding: 12px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background: var(--card-bg);
-            color: #fff;
-            font-size: 0.95rem;
-        }
-
-        .search-box button {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            background: linear-gradient(90deg, #0088ff, var(--accent-blue));
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .module-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 12px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-
-        .module-btn.active, .module-btn:hover {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
-        }
-
-        .library-section {
+        .status-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 16px;
-            margin-bottom: 24px;
-            min-height: 180px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-
-        .library-title {
-            color: var(--accent-blue);
-            font-size: 0.95rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 10px;
-        }
-
-        .card h3 {
-            font-size: 1rem;
-            color: #fff;
-            margin-bottom: 6px;
-        }
-
-        .card p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-            white-space: pre-wrap;
-        }
-
-        .links-title {
-            color: var(--accent-blue);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .social-grid {
+        /* Grelha de ícones adaptada com módulos compactos */
+        .grid-modules {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(1cm, 1fr));
+            gap: 12px;
+            justify-items: center;
+            padding: 10px 0;
         }
-
-        .social-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 12px;
+        .icon-module {
+            width: 1cm;
+            height: 1cm;
+            background: var(--accent-color);
+            color: white;
             border-radius: 8px;
-            text-decoration: none;
-            text-align: center;
-            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 16px 0;
             font-size: 0.75rem;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-            margin-top: auto;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-
-        footer strong {
-            color: var(--accent-blue);
+        .metrics-box {
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
-
-        .loading {
-            color: var(--text-muted);
-            font-style: italic;
-            font-size: 0.85rem;
+        .metrics-box span {
+            font-weight: bold;
+            color: var(--accent-color);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>ECOSSISTEMA AUTÓNOMO</h1>
-        </header>
+    <header>
+        <h1>Circuito Global</h1>
+        <p style="font-size: 0.85rem; color: #64748b;">Ecossistema Autónomo & Inteligente</p>
+    </header>
 
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Pesquisar ou solicitar à IA...">
-            <button onclick="pesquisar()">Enviar</button>
-        </div>
-
-        <div class="modules-grid">
-            <button class="module-btn" onclick="carregarModulo('noticias')">📰 Notícias <span>▶</span></button>
-            <button class="module-btn" onclick="carregarModulo('desporto')">⚽ Desporto <span>▶</span></button>
-            <button class="module-btn" onclick="carregarModulo('benfica')">🦅 Benfica <span>▶</span></button>
-            <button class="module-btn" onclick="carregarModulo('musica')">🎵 Música <span>▶</span></button>
-            <button class="module-btn" onclick="carregarModulo('jogos')">🎮 Jogos <span>▶</span></button>
-            <button class="module-btn" onclick="carregarModulo('arquitetura')">📐 Arquitetura <span>▶</span></button>
-            <button class="module-btn" onclick="carregarModulo('agricultura')">🌱 Agricultura <span>▶</span></button>
-            <button class="module-btn" onclick="carregarModulo('engenharia')">⚙️ Engenharia <span>▶</span></button>
-            <button class="module-btn" onclick="carregarModulo('pesca')">🐟 Pesca <span>▶</span></button>
-            <button class="module-btn" onclick="carregarModulo('educacao')">🎓 Educação <span>▶</span></button>
-            <button class="module-btn" onclick="carregarModulo('saude')">🩺 Saúde <span>▶</span></button>
-            <button class="module-btn" onclick="carregarModulo('economia')">📈 Economia <span>▶</span></button>
-            <button class="module-btn active" onclick="carregarModulo('geral')">🌐 Geral / Outras <span>▶</span></button>
-        </div>
-
-        <div class="library-section">
-            <div class="library-title" id="moduleTitle">Biblioteca Do Módulo: GERAL</div>
-            <div id="cardsContainer">
-                <div class="loading">A carregar biblioteca...</div>
-            </div>
-        </div>
-
-        <div class="links-title">🌐 REDES SOCIAIS E LIGAÇÕES</div>
-        <div class="social-grid">
-            <a href="https://facebook.com" target="_blank" class="social-btn">📘 Facebook</a>
-            <a href="https://youtube.com" target="_blank" class="social-btn">▶️ YouTube</a>
-            <a href="https://chatgpt.com" target="_blank" class="social-btn">🤖 ChatGPT</a>
-            <a href="https://gemini.google.com" target="_blank" class="social-btn">✨ Gemini Engine</a>
+    <div class="status-card">
+        <h3>Status Report & Operação</h3>
+        <div class="metrics-box" id="status-display">
+            <p>Fase Operacional: <span id="fase-atual">{{ state.fase }}</span></p>
+            <p>Faturação Total: <span id="faturacao-val">{{ state.metricas.faturacao_total }}</span> Escudos</p>
+            <p>Retenção Finanças (10%): <span id="retencao-val">{{ state.metricas.retencao_10_porcento }}</span> Escudos</p>
+            <p>Canais Ativos: <span>E-mail, WhatsApp, Facebook</span></p>
         </div>
     </div>
 
-    <footer>
-        PROJETADO & DESENVOLVIDO POR <strong>RONNY DIAS</strong>
-    </footer>
-
-    <script>
-        let moduloAtual = 'geral';
-
-        window.onload = function() {
-            carregarModulo('geral');
-        };
-
-        function carregarModulo(nomeModulo) {
-            moduloAtual = nomeModulo;
-            document.getElementById('moduleTitle').innerText = `Biblioteca Do Módulo: ${nomeModulo.toUpperCase()}`;
-            
-            document.querySelectorAll('.module-btn').forEach(btn => btn.classList.remove('active'));
-            if (window.event && window.event.target) {
-                window.event.target.closest('.module-btn')?.classList.add('active');
-            }
-
-            const container = document.getElementById('cardsContainer');
-            container.innerHTML = '<div class="loading">A consultar biblioteca do servidor...</div>';
-
-            fetch(`/api/modulo/${nomeModulo}`)
-                .then(res => res.json())
-                .then(data => {
-                    renderizarCards(data.biblioteca);
-                })
-                .catch(err => {
-                    container.innerHTML = '<div class="card"><p>Erro ao carregar os dados do módulo.</p></div>';
-                });
-        }
-
-        function renderizarCards(itens) {
-            const container = document.getElementById('cardsContainer');
-            container.innerHTML = '';
-
-            if (!itens || itens.length === 0) {
-                container.innerHTML = '<div class="card"><p>Nenhum registo nesta biblioteca. Faça uma pesquisa acima para gerar novos conteúdos.</p></div>';
-                return;
-            }
-
-            itens.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <h3>${item.titulo}</h3>
-                    <p>${item.conteudo}</p>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function pesquisar() {
-            const input = document.getElementById('searchInput');
-            const termo = input.value.trim();
-
-            if (!termo) return;
-
-            const container = document.getElementById('cardsContainer');
-            container.innerHTML = '<div class="loading">A processar com a Inteligência Artificial...</div>';
-
-            fetch('/api/pesquisar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ modulo: moduloAtual, termo: termo })
-            })
-            .then(res => res.json())
-            .then(data => {
-                input.value = '';
-                renderizarCards(data.biblioteca_atualizada);
-            })
-            .catch(err => {
-                container.innerHTML = '<div class="card"><p>Erro ao processar o pedido.</p></div>';
-            });
-        }
-    </script>
+    <div class="status-card">
+        <h3>Módulos do Ecossistema</h3>
+        <div class="grid-modules">
+            <div class="icon-module" title="Faturação">€</div>
+            <div class="icon-module" title="WhatsApp">WA</div>
+            <div class="icon-module" title="E-mail">Mail</div>
+            <div class="icon-module" title="Facebook">FB</div>
+            <div class="icon-module" title="IA Gemini">IA</div>
+        </div>
+    </div>
 </body>
 </html>
