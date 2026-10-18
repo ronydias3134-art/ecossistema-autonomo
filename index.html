@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Leandro - Painel de Tesouraria e Frota de Microrrobôs</title>
+    <title>Projeto Leandro - Painel Principal e Frota</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,7 +69,6 @@
             border: 1px solid #334155;
             font-size: 0.9rem;
         }
-        /* Modal de PIN */
         .modal-backdrop {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -106,10 +105,10 @@
 
     <h1>🌐 Projeto Leandro - Central de Operações</h1>
 
-    <!-- MODAL DE AUTENTICAÇÃO PIN PARA AÇÕES CRÍTICAS -->
+    <!-- Modal de PIN -->
     <div id="pin-modal" class="modal-backdrop" style="display: none;">
         <div class="pin-card">
-            <h3>Autorizar Operação Crítica</h3>
+            <h3>🔐 Autorizar Tesouraria</h3>
             <p>Introduza o PIN de Fundador (6 dígitos)</p>
             <div class="pin-inputs">
                 <input type="password" maxlength="1" class="pin-digit" data-index="0" autofocus />
@@ -121,14 +120,14 @@
             </div>
             <div>
                 <button onclick="closePinModal()" style="background-color: #64748b; color: #fff;">Cancelar</button>
-                <button onclick="submitPin()">Autorizar</button>
+                <button onclick="submitPin()">Validar</button>
             </div>
         </div>
     </div>
 
-    <!-- PAINEL DE TESOURARIA E MÉTRICAS (Da arquitetura anterior) -->
+    <!-- Painel de Tesouraria -->
     <div class="card">
-        <h2>📊 Monitorização de Tesouraria e Sistema</h2>
+        <h2>📊 Monitorização de Tesouraria</h2>
         <div class="metrics-grid">
             <div class="metric-card">
                 <span class="label">Volume Bruto (30d)</span>
@@ -140,33 +139,32 @@
             </div>
             <div class="metric-card">
                 <span class="label">Capacidade da Frota</span>
-                <span class="value" id="valCapacidade">100</span>
+                <span class="value" id="valCapacidade">60,000,000</span>
             </div>
             <div class="metric-card highlight">
                 <span class="label">Unidades Ativas (Carga)</span>
-                <span class="value" id="valAtivas">90</span> (<span id="valTaxa">90</span>%)
+                <span class="value" id="valAtivas">54,000,000</span> (<span id="valTaxa">90</span>%)
             </div>
         </div>
         <button onclick="pedirAutorizacaoPin()">Atualizar Tesouraria (Requer PIN)</button>
     </div>
 
-    <!-- CONTROLOS DO ECOSSISTEMA DE MICRORROBÔS -->
+    <!-- Controlo do Ecossistema -->
     <div class="card">
-        <h2>🤖 Controlo Dinâmico da Frota (1.92B)</h2>
+        <h2>🤖 Gestão do Ecossistema (60M Unidades)</h2>
         <p>Detritos Reciclados Acumulados: <span id="valDetritos">0</span> kg</p>
-        <button onclick="simularPicoTráfego()">Simular Aumento de Carga (+5)</button>
-        <button onclick="recolherDetritos()">Recolher Detritos (Físico +5kg)</button>
+        <button onclick="simularPicoTráfego()">Simular Aumento de Carga</button>
+        <button onclick="recolherDetritos()">Recolher Detritos (+10kg)</button>
         <button onclick="resetSistema()">Reiniciar Sistema</button>
     </div>
 
-    <!-- CONSOLA DE LOGS -->
+    <!-- Consola -->
     <div class="card">
-        <h3>🖥️ Registo de Atividade das Amas & Sistema</h3>
-        <div id="consola">Sistema unificado inicializado com sucesso. Pronto para monitorização...</div>
+        <h3>🖥️ Registo de Atividade</h3>
+        <div id="consola">Painel principal inicializado para 60 milhões de unidades. Pronto...</div>
     </div>
 
     <script>
-        // --- 1. LÓGICA DO ECOSSISTEMA DE MICRORROBÔS & AMAS ---
         class EcossistemaMicrorrobos {
             constructor(capacidadeInicial) {
                 this.capacidadeTotal = capacidadeInicial;
@@ -182,20 +180,18 @@
             }
 
             atualizarInterface() {
-                document.getElementById('valCapacidade').innerText = this.capacidadeTotal;
-                document.getElementById('valAtivas').innerText = this.unidadesAtivas;
+                document.getElementById('valCapacidade').innerText = this.capacidadeTotal.toLocaleString();
+                document.getElementById('valAtivas').innerText = this.unidadesAtivas.toLocaleString();
                 let taxa = ((this.unidadesAtivas / this.capacidadeTotal) * 100).toFixed(1);
                 document.getElementById('valTaxa').innerText = taxa;
-                document.getElementById('valDetritos').innerText = this.detritosKg;
+                document.getElementById('valDetritos').innerText = this.detritosKg.toLocaleString();
             }
 
             simularCarga(novaCarga) {
                 this.unidadesAtivas = Math.min(novaCarga, this.capacidadeTotal);
                 let taxaOcupacao = (this.unidadesAtivas / this.capacidadeTotal) * 100;
-                
-                this.log(`Carga atualizada para ${this.unidadesAtivas} unidades (${taxaOcupacao.toFixed(1)}%).`);
+                this.log(`Carga atualizada: ${this.unidadesAtivas.toLocaleString()} unidades (${taxaOcupacao.toFixed(1)}%).`);
 
-                // Gatilho crítico dos 90% avaliado pelas Amas Criadoras
                 if (taxaOcupacao >= 90) {
                     this.acionarAmasCriadoras();
                 }
@@ -205,51 +201,47 @@
             acionarAmasCriadoras() {
                 let incremento = Math.floor(this.capacidadeTotal * 0.2);
                 this.capacidadeTotal += incremento;
-                this.log(`⚠️ ALERTA 90% (Saturação): Amas criadoras injetaram +20% de reserva (${incremento} unidades). Nova capacidade: ${this.capacidadeTotal}`);
+                this.log(`⚠️ ALERTA 90%: Amas criadoras injetaram +20% de reserva (${incremento.toLocaleString()} unidades).`);
             }
 
             adicionarDetritos(kg) {
                 this.detritosKg += kg;
-                this.log(`🧹 Detritos recolhidos fisicamente: +${kg}kg (Total: ${this.detritosKg}kg)`);
+                this.log(`🧹 Detritos recolhidos: +${kg}kg (Total: ${this.detritosKg}kg)`);
                 
-                // Conversão de 10kg de detritos em 1 unidade estrutural nova
                 let novasUnidades = Math.floor(this.detritosKg / 10);
                 if (novasUnidades > 0) {
                     this.capacidadeTotal += novasUnidades;
                     this.detritosKg %= 10;
-                    this.log(`♻️ RECICLAGEM: Detritos convertidos em ${novasUnidades} novas unidades estruturais para a frota!`);
+                    this.log(`♻️ RECICLAGEM: Convertidos em ${novasUnidades.toLocaleString()} novas unidades!`);
                 }
                 this.atualizarInterface();
             }
 
             reset() {
-                this.capacidadeTotal = 100;
-                this.unidadesAtivas = 90;
+                this.capacidadeTotal = 60000000;
+                this.unidadesAtivas = 54000000;
                 this.detritosKg = 0;
-                this.log(`🔄 Sistema reiniciado para o estado padrão.`);
+                this.log(`🔄 Sistema reiniciado para o padrão de 60 milhões.`);
                 this.atualizarInterface();
             }
         }
 
-        const sistema = new EcossistemaMicrorrobos(100);
+        const sistema = new EcossistemaMicrorrobos(60000000);
 
         function simularPicoTráfego() {
-            let novaCarga = sistema.unidadesAtivas + 5;
-            if (novaCarga > sistema.capacidadeTotal) {
-                novaCarga = sistema.capacidadeTotal;
-            }
-            sistema.simularCarga(novaCarga);
+            let incrementoSimulacao = 5000000;
+            sistema.simularCarga(sistema.unidadesAtivas + incrementoSimulacao);
         }
 
         function recolherDetritos() {
-            sistema.adicionarDetritos(5);
+            sistema.adicionarDetritos(10);
         }
 
         function resetSistema() {
             sistema.reset();
         }
 
-        // --- 2. LÓGICA DE AUTENTICAÇÃO PIN E TESOURARIA ---
+        // Lógica do PIN
         const digits = document.querySelectorAll('.pin-digit');
         digits.forEach((input, index) => {
             input.addEventListener('input', (e) => {
@@ -277,25 +269,20 @@
         function submitPin() {
             const pin = Array.from(digits).map(i => i.value).join('');
             if (pin.length !== 6) {
-                alert('Por favor, introduza um PIN válido de 6 dígitos.');
+                alert('Introduza um PIN de 6 dígitos.');
                 return;
             }
-            
-            // Simulação de validação bem-sucedida do PIN do Fundador
-            sistema.log(`🔐 PIN verificado com sucesso. Token de tesouraria emitido.`);
-            sessionStorage.setItem('treasury_token', 'token_ativo_fundador');
+            sistema.log(`🔐 PIN validado com sucesso. Token de tesouraria ativo.`);
             closePinModal();
             carregarMetricasTesouraria();
         }
 
         function carregarMetricasTesouraria() {
-            // Valores simulados de tesouraria e regras de 40% de margem
-            const volumeBruto = 150000; // Escudos / Unidades monetárias
+            const volumeBruto = 1500000;
             const margemServico = volumeBruto * 0.40;
-
             document.getElementById('val-gross').innerText = `$${volumeBruto.toLocaleString()}`;
             document.getElementById('val-margin').innerText = `$${margemServico.toLocaleString()}`;
-            sistema.log(`📊 Métricas de tesouraria atualizadas com sucesso (Margem de 40% aplicada).`);
+            sistema.log(`📊 Métricas de tesouraria atualizadas (Margem de 40% aplicada).`);
         }
     </script>
 </body>
