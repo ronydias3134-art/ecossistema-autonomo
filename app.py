@@ -49,7 +49,7 @@ MODULE_LIBRARIES = {
 }
 
 def gerar_mensagem_automatica():
-    """Função executada automaticamente a cada 1 hora (60 minutos)"""
+    """Função executada no arranque e depois a cada 1 hora (60 minutos)"""
     agora = datetime.now().strftime("%d/%m/%Y às %H:%M")
     
     nova_mensagem = {
@@ -63,7 +63,10 @@ def gerar_mensagem_automatica():
     
     print(f"[{agora}] -> Mensagem automática gerada e guardada com sucesso!")
 
-# Inicializa o agendador de tarefas em segundo plano
+# Dispara uma mensagem imediatamente assim que o servidor arranca
+gerar_mensagem_automatica()
+
+# Inicializa o agendador de tarefas em segundo plano para repetir a cada 60 minutos
 scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(gerar_mensagem_automatica, 'interval', minutes=60)
 scheduler.start()
