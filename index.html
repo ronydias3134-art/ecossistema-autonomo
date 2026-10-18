@@ -1,99 +1,53 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Circuito Global - Ecossistema Autónomo</title>
-    <style>
-        :root {
-            --primary-color: #0f172a;
-            --accent-color: #2563eb;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-color: #334155;
-            --border-color: #e2e8f0;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 12px;
-        }
-        header {
-            text-align: center;
-            padding: 16px 0;
-        }
-        h1 {
-            font-size: 1.4rem;
-            color: var(--primary-color);
-            margin: 0;
-        }
-        .status-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        /* Grelha de ícones adaptada com módulos compactos */
-        .grid-modules {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(1cm, 1fr));
-            gap: 12px;
-            justify-items: center;
-            padding: 10px 0;
-        }
-        .icon-module {
-            width: 1cm;
-            height: 1cm;
-            background: var(--accent-color);
-            color: white;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .metrics-box {
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        .metrics-box span {
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Circuito Global</h1>
-        <p style="font-size: 0.85rem; color: #64748b;">Ecossistema Autónomo & Inteligente</p>
-    </header>
-
-    <div class="status-card">
-        <h3>Status Report & Operação</h3>
-        <div class="metrics-box" id="status-display">
-            <p>Fase Operacional: <span id="fase-atual">{{ state.fase }}</span></p>
-            <p>Faturação Total: <span id="faturacao-val">{{ state.metricas.faturacao_total }}</span> Escudos</p>
-            <p>Retenção Finanças (10%): <span id="retencao-val">{{ state.metricas.retencao_10_porcento }}</span> Escudos</p>
-            <p>Canais Ativos: <span>E-mail, WhatsApp, Facebook</span></p>
-        </div>
+<!-- 1. Cartões de Resumo (KPIs) -->
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="title">Total Faturado no Mês</div>
+        <div class="value">25.000 CVE</div>
     </div>
-
-    <div class="status-card">
-        <h3>Módulos do Ecossistema</h3>
-        <div class="grid-modules">
-            <div class="icon-module" title="Faturação">€</div>
-            <div class="icon-module" title="WhatsApp">WA</div>
-            <div class="icon-module" title="E-mail">Mail</div>
-            <div class="icon-module" title="Facebook">FB</div>
-            <div class="icon-module" title="IA Gemini">IA</div>
-        </div>
+    <div class="kpi-card">
+        <div class="title">Subscrições Ativas</div>
+        <div class="value">10 / 12</div>
     </div>
-</body>
-</html>
+    <div class="kpi-card">
+        <div class="title">Estado da Supervisão</div>
+        <div class="value status-ok">🟢 Operacional</div>
+    </div>
+</div>
+
+<!-- 2. Tabela de Gestão de Clientes -->
+<div class="table-section">
+    <h2>Gestão de Clientes & Subscrições</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Cliente / Serviço</th>
+                <th>Mensalidade</th>
+                <th>Estado</th>
+                <th>Próx. Vencimento</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Empresa Exemplo Lda</strong></td>
+                <td>2.500 CVE</td>
+                <td><span class="badge badge-active">Ativo</span></td>
+                <td>30/10/2026</td>
+                <td>
+                    <button class="btn btn-charge">✉️ Cobrar</button>
+                    <button class="btn btn-receipt">📄 Recibo</button>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Cliente Teste Mindelo</strong></td>
+                <td>2.500 CVE</td>
+                <td><span class="badge badge-pending">Pendente</span></td>
+                <td>25/10/2026</td>
+                <td>
+                    <button class="btn btn-charge">✉️ Cobrar</button>
+                    <button class="btn btn-receipt">📄 Recibo</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
