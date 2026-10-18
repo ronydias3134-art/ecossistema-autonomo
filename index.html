@@ -1,53 +1,205 @@
-<!-- 1. Cartões de Resumo (KPIs) -->
-<div class="kpi-grid">
-    <div class="kpi-card">
-        <div class="title">Total Faturado no Mês</div>
-        <div class="value">25.000 CVE</div>
-    </div>
-    <div class="kpi-card">
-        <div class="title">Subscrições Ativas</div>
-        <div class="value">10 / 12</div>
-    </div>
-    <div class="kpi-card">
-        <div class="title">Estado da Supervisão</div>
-        <div class="value status-ok">🟢 Operacional</div>
-    </div>
-</div>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuito Global - Painel Operacional</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --border-color: #334155;
+        }
 
-<!-- 2. Tabela de Gestão de Clientes -->
-<div class="table-section">
-    <h2>Gestão de Clientes & Subscrições</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Cliente / Serviço</th>
-                <th>Mensalidade</th>
-                <th>Estado</th>
-                <th>Próx. Vencimento</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Empresa Exemplo Lda</strong></td>
-                <td>2.500 CVE</td>
-                <td><span class="badge badge-active">Ativo</span></td>
-                <td>30/10/2026</td>
-                <td>
-                    <button class="btn btn-charge">✉️ Cobrar</button>
-                    <button class="btn btn-receipt">📄 Recibo</button>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>Cliente Teste Mindelo</strong></td>
-                <td>2.500 CVE</td>
-                <td><span class="badge badge-pending">Pendente</span></td>
-                <td>25/10/2026</td>
-                <td>
-                    <button class="btn btn-charge">✉️ Cobrar</button>
-                    <button class="btn btn-receipt">📄 Recibo</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        /* Cartões de Resumo (KPIs) */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .kpi-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .kpi-card .title {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .kpi-card .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .kpi-card .status-ok {
+            color: var(--accent-green);
+        }
+
+        /* Tabela de Clientes */
+        .table-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .table-section h2 {
+            font-size: 1.1rem;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Crachás de Estado */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .badge-active {
+            background-color: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+        }
+
+        .badge-pending {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+        }
+
+        /* Botões de Ação */
+        .btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-right: 4px;
+            font-weight: 500;
+        }
+
+        .btn-charge {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-receipt {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🌐 Circuito Global - Painel Operacional</h1>
+
+        <!-- 1. Cartões de Resumo -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="title">Total Faturado no Mês</div>
+                <div class="value">25.000 CVE</div>
+            </div>
+            <div class="kpi-card">
+                <div class="title">Subscrições Ativas</div>
+                <div class="value">10 / 12</div>
+            </div>
+            <div class="kpi-card">
+                <div class="title">Estado da Supervisão</div>
+                <div class="value status-ok">🟢 Operacional</div>
+            </div>
+        </div>
+
+        <!-- 2. Tabela de Gestão de Clientes -->
+        <div class="table-section">
+            <h2>Gestão de Clientes & Subscrições</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cliente / Serviço</th>
+                        <th>Mensalidade</th>
+                        <th>Estado</th>
+                        <th>Próx. Vencimento</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Empresa Exemplo Lda</strong></td>
+                        <td>2.500 CVE</td>
+                        <td><span class="badge badge-active">Ativo</span></td>
+                        <td>30/10/2026</td>
+                        <td>
+                            <button class="btn btn-charge">✉️ Cobrar</button>
+                            <button class="btn btn-receipt">📄 Recibo</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cliente Teste Mindelo</strong></td>
+                        <td>2.500 CVE</td>
+                        <td><span class="badge badge-pending">Pendente</span></td>
+                        <td>25/10/2026</td>
+                        <td>
+                            <button class="btn btn-charge">✉️ Cobrar</button>
+                            <button class="btn btn-receipt">📄 Recibo</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
