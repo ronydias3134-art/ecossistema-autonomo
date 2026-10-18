@@ -3,93 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serviços Digitais - Painel Executivo</title>
-    <!-- Tailwind CSS v4 -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Projeto Leandro - Painel de Tesouraria e Frota de Microrrobôs</title>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+        h1, h2, h3 { color: #38bdf8; }
+        .card {
+            background-color: #1e293b;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .metric-card {
+            background-color: #0f172a;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #38bdf8;
+        }
+        .metric-card.highlight {
+            border-left-color: #4ade80;
+        }
+        .label {
+            display: block;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+        .value {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        button {
+            background-color: #38bdf8;
+            color: #0f172a;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        button:hover { background-color: #0ea5e9; }
+        #consola {
+            background-color: #020617;
+            color: #4ade80;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            height: 160px;
+            overflow-y: auto;
+            border: 1px solid #334155;
+            font-size: 0.9rem;
+        }
+        /* Modal de PIN */
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .pin-card {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            width: 320px;
+        }
+        .pin-inputs {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .pin-digit {
+            width: 40px;
+            height: 45px;
+            text-align: center;
+            font-size: 1.5rem;
+            background: #0f172a;
+            color: #fff;
+            border: 1px solid #334155;
+            border-radius: 4px;
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between">
+<body>
 
-    <!-- CABEÇALHO -->
-    <header class="bg-slate-900 border-b border-slate-800 py-4 px-6 flex justify-between items-center shadow-md">
-        <div class="flex items-center space-x-3">
-            <span class="h-3 w-3 bg-emerald-500 rounded-full animate-pulse"></span>
-            <h1 class="text-xl font-bold tracking-tight text-white">Serviços Digitais <span class="text-xs bg-indigo-600 px-2 py-0.5 rounded text-indigo-100 ml-2">v8.2 Final</span></h1>
-        </div>
-        <div class="text-sm text-slate-400">
-            Hub Central: <span class="text-indigo-400 font-medium">Ronnydias3134@gmail.com</span>
-        </div>
-    </header>
+    <h1>🌐 Projeto Leandro - Central de Operações</h1>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="max-w-7xl w-full mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6 my-auto">
-
-        <!-- PAINEL DE CONTROLO E AUDITORIA -->
-        <section class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl flex flex-col justify-between">
+    <!-- MODAL DE AUTENTICAÇÃO PIN PARA AÇÕES CRÍTICAS -->
+    <div id="pin-modal" class="modal-backdrop" style="display: none;">
+        <div class="pin-card">
+            <h3>Autorizar Operação Crítica</h3>
+            <p>Introduza o PIN de Fundador (6 dígitos)</p>
+            <div class="pin-inputs">
+                <input type="password" maxlength="1" class="pin-digit" data-index="0" autofocus />
+                <input type="password" maxlength="1" class="pin-digit" data-index="1" />
+                <input type="password" maxlength="1" class="pin-digit" data-index="2" />
+                <input type="password" maxlength="1" class="pin-digit" data-index="3" />
+                <input type="password" maxlength="1" class="pin-digit" data-index="4" />
+                <input type="password" maxlength="1" class="pin-digit" data-index="5" />
+            </div>
             <div>
-                <h2 class="text-lg font-semibold text-white mb-2">Estado do Ecossistema</h2>
-                <p class="text-sm text-slate-400 mb-4">Monitorização ativa e despacho de relatórios automatizados.</p>
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center text-sm bg-slate-950 p-3 rounded-lg border border-slate-800/60">
-                        <span class="text-slate-300">Make.com Webhook</span>
-                        <span id="status-conexao" class="text-emerald-400 font-medium">Sincronizado</span>
-                    </div>
-                    <div class="flex justify-between items-center text-sm bg-slate-950 p-3 rounded-lg border border-slate-800/60">
-                        <span class="text-slate-300">Destinatário Alerta</span>
-                        <span class="text-indigo-400 font-medium text-xs">Ronnydias3134</span>
-                    </div>
-                </div>
+                <button onclick="closePinModal()" style="background-color: #64748b; color: #fff;">Cancelar</button>
+                <button onclick="submitPin()">Autorizar</button>
             </div>
-            
-            <div class="mt-6 space-y-3">
-                <button onclick="dispararWebhookMake()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg transition-all shadow-lg shadow-indigo-600/20 cursor-pointer">
-                    Disparar Relatório para o E-mail
-                </button>
-                <p id="feedback-envio" class="text-xs text-center text-slate-400 h-4"></p>
+        </div>
+    </div>
+
+    <!-- PAINEL DE TESOURARIA E MÉTRICAS (Da arquitetura anterior) -->
+    <div class="card">
+        <h2>📊 Monitorização de Tesouraria e Sistema</h2>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <span class="label">Volume Bruto (30d)</span>
+                <span class="value" id="val-gross">$0.00</span>
             </div>
-        </section>
+            <div class="metric-card highlight">
+                <span class="label">Margem de Serviço (40%)</span>
+                <span class="value" id="val-margin">$0.00</span>
+            </div>
+            <div class="metric-card">
+                <span class="label">Capacidade da Frota</span>
+                <span class="value" id="valCapacidade">100</span>
+            </div>
+            <div class="metric-card highlight">
+                <span class="label">Unidades Ativas (Carga)</span>
+                <span class="value" id="valAtivas">90</span> (<span id="valTaxa">90</span>%)
+            </div>
+        </div>
+        <button onclick="pedirAutorizacaoPin()">Atualizar Tesouraria (Requer PIN)</button>
+    </div>
 
-        <!-- ESQUADRÃO DE INFLUENCIADORES -->
-        <section class="md:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
-            <h2 class="text-lg font-semibold text-white mb-2">Esquadrão de Influenciadores Top de Gama</h2>
-            <p class="text-sm text-slate-400 mb-4">Gestão automatizada dos 4 avatares de alta retenção.</p>
+    <!-- CONTROLOS DO ECOSSISTEMA DE MICRORROBÔS -->
+    <div class="card">
+        <h2>🤖 Controlo Dinâmico da Frota (1.92B)</h2>
+        <p>Detritos Reciclados Acumulados: <span id="valDetritos">0</span> kg</p>
+        <button onclick="simularPicoTráfego()">Simular Aumento de Carga (+5)</button>
+        <button onclick="recolherDetritos()">Recolher Detritos (Físico +5kg)</button>
+        <button onclick="resetSistema()">Reiniciar Sistema</button>
+    </div>
+
+    <!-- CONSOLA DE LOGS -->
+    <div class="card">
+        <h3>🖥️ Registo de Atividade das Amas & Sistema</h3>
+        <div id="consola">Sistema unificado inicializado com sucesso. Pronto para monitorização...</div>
+    </div>
+
+    <script>
+        // --- 1. LÓGICA DO ECOSSISTEMA DE MICRORROBÔS & AMAS ---
+        class EcossistemaMicrorrobos {
+            constructor(capacidadeInicial) {
+                this.capacidadeTotal = capacidadeInicial;
+                this.unidadesAtivas = Math.floor(capacidadeInicial * 0.9);
+                this.detritosKg = 0;
+                this.atualizarInterface();
+            }
+
+            log(mensagem) {
+                const consola = document.getElementById('consola');
+                consola.innerHTML += `<br>> ${mensagem}`;
+                consola.scrollTop = consola.scrollHeight;
+            }
+
+            atualizarInterface() {
+                document.getElementById('valCapacidade').innerText = this.capacidadeTotal;
+                document.getElementById('valAtivas').innerText = this.unidadesAtivas;
+                let taxa = ((this.unidadesAtivas / this.capacidadeTotal) * 100).toFixed(1);
+                document.getElementById('valTaxa').innerText = taxa;
+                document.getElementById('valDetritos').innerText = this.detritosKg;
+            }
+
+            simularCarga(novaCarga) {
+                this.unidadesAtivas = Math.min(novaCarga, this.capacidadeTotal);
+                let taxaOcupacao = (this.unidadesAtivas / this.capacidadeTotal) * 100;
+                
+                this.log(`Carga atualizada para ${this.unidadesAtivas} unidades (${taxaOcupacao.toFixed(1)}%).`);
+
+                // Gatilho crítico dos 90% avaliado pelas Amas Criadoras
+                if (taxaOcupacao >= 90) {
+                    this.acionarAmasCriadoras();
+                }
+                this.atualizarInterface();
+            }
+
+            acionarAmasCriadoras() {
+                let incremento = Math.floor(this.capacidadeTotal * 0.2);
+                this.capacidadeTotal += incremento;
+                this.log(`⚠️ ALERTA 90% (Saturação): Amas criadoras injetaram +20% de reserva (${incremento} unidades). Nova capacidade: ${this.capacidadeTotal}`);
+            }
+
+            adicionarDetritos(kg) {
+                this.detritosKg += kg;
+                this.log(`🧹 Detritos recolhidos fisicamente: +${kg}kg (Total: ${this.detritosKg}kg)`);
+                
+                // Conversão de 10kg de detritos em 1 unidade estrutural nova
+                let novasUnidades = Math.floor(this.detritosKg / 10);
+                if (novasUnidades > 0) {
+                    this.capacidadeTotal += novasUnidades;
+                    this.detritosKg %= 10;
+                    this.log(`♻️ RECICLAGEM: Detritos convertidos em ${novasUnidades} novas unidades estruturais para a frota!`);
+                }
+                this.atualizarInterface();
+            }
+
+            reset() {
+                this.capacidadeTotal = 100;
+                this.unidadesAtivas = 90;
+                this.detritosKg = 0;
+                this.log(`🔄 Sistema reiniciado para o estado padrão.`);
+                this.atualizarInterface();
+            }
+        }
+
+        const sistema = new EcossistemaMicrorrobos(100);
+
+        function simularPicoTráfego() {
+            let novaCarga = sistema.unidadesAtivas + 5;
+            if (novaCarga > sistema.capacidadeTotal) {
+                novaCarga = sistema.capacidadeTotal;
+            }
+            sistema.simularCarga(novaCarga);
+        }
+
+        function recolherDetritos() {
+            sistema.adicionarDetritos(5);
+        }
+
+        function resetSistema() {
+            sistema.reset();
+        }
+
+        // --- 2. LÓGICA DE AUTENTICAÇÃO PIN E TESOURARIA ---
+        const digits = document.querySelectorAll('.pin-digit');
+        digits.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < digits.length - 1) {
+                    digits[index + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    digits[index - 1].focus();
+                }
+            });
+        });
+
+        function pedirAutorizacaoPin() {
+            document.getElementById('pin-modal').style.display = 'flex';
+            digits[0].focus();
+        }
+
+        function closePinModal() {
+            document.getElementById('pin-modal').style.display = 'none';
+            digits.forEach(d => d.value = '');
+        }
+
+        function submitPin() {
+            const pin = Array.from(digits).map(i => i.value).join('');
+            if (pin.length !== 6) {
+                alert('Por favor, introduza um PIN válido de 6 dígitos.');
+                return;
+            }
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <!-- Kaelen -->
-                <div class="bg-slate-950 p-4 rounded-lg border border-slate-800/60 flex flex-col justify-between">
-                    <div>
-                        <span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-medium">Produtividade</span>
-                        <h3 class="font-bold text-white mt-2">Kaelen Vance</h3>
-                        <p class="text-xs text-slate-400 mt-1">Lifestyle executivo, automação e negócios.</p>
-                    </div>
-                    <div class="mt-4 text-xs text-slate-500 flex justify-between items-center">
-                        <span>Frequência: Diária</span>
-                        <span class="h-2 w-2 bg-emerald-500 rounded-full"></span>
-                    </div>
-                </div>
+            // Simulação de validação bem-sucedida do PIN do Fundador
+            sistema.log(`🔐 PIN verificado com sucesso. Token de tesouraria emitido.`);
+            sessionStorage.setItem('treasury_token', 'token_ativo_fundador');
+            closePinModal();
+            carregarMetricasTesouraria();
+        }
 
-                <!-- Lyra -->
-                <div class="bg-slate-950 p-4 rounded-lg border border-slate-800/60 flex flex-col justify-between">
-                    <div>
-                        <span class="text-xs bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded font-medium">Tecnologia & Futuro</span>
-                        <h3 class="font-bold text-white mt-2">Lyra Thorne</h3>
-                        <p class="text-xs text-slate-400 mt-1">IA, ficção científica visual e vídeos hipnotizantes.</p>
-                    </div>
-                    <div class="mt-4 text-xs text-slate-500 flex justify-between items-center">
-                        <span>Frequência: Diária</span>
-                        <span class="h-2 w-2 bg-emerald-500 rounded-full"></span>
-                    </div>
-                </div>
+        function carregarMetricasTesouraria() {
+            // Valores simulados de tesouraria e regras de 40% de margem
+            const volumeBruto = 150000; // Escudos / Unidades monetárias
+            const margemServico = volumeBruto * 0.40;
 
-                <!-- Maya -->
-                <div class="bg-slate-950 p-4 rounded-lg border border-slate-800/60 flex flex-col justify-between">
-                    <div>
-                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded font-medium">DIY & Casa</span>
-                        <h3 class="font-bold text-white mt-2">Maya Lin</h3>
-                        <p class="text-xs text-slate-400 mt-1">Organização residencial e design inteligente.</p>
-                    </div>
-                    <div class="mt-4 text-xs text-slate-500 flex justify-between items-center">
-                        <span>Frequência: 3x
+            document.getElementById('val-gross').innerText = `$${volumeBruto.toLocaleString()}`;
+            document.getElementById('val-margin').innerText = `$${margemServico.toLocaleString()}`;
+            sistema.log(`📊 Métricas de tesouraria atualizadas com sucesso (Margem de 40% aplicada).`);
+        }
+    </script>
+</body>
+</html>
