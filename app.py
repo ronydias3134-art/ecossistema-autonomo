@@ -1,241 +1,108 @@
-from flask import Flask, jsonify, request, render_template_string
+from flask import Flask, render_template, request, jsonify
+import json
 import os
 
 app = Flask(__name__)
 
-# Estado do ecossistema e links funcionais
-estado_sistema = {
-    "capacidade_total": 60000000,
-    "unidades_ativas": 54000000,
-    "detritos_kg": 1250,
-    "modulos": [
-        {"id": "arq", "nome": "Arquitetura 🏗️", "link": "/modulo/arquitetura"},
-        {"id": "agri", "nome": "Agricultura 🌱", "link": "/modulo/agricultura"},
-        {"id": "eng", "nome": "Engenharia ⚙️", "link": "/modulo/engenharia"},
-        {"id": "pesca", "nome": "Pesca 🐟", "link": "/modulo/pesca"},
-        {"id": "edu", "nome": "Educação 📚", "link": "/modulo/educacao"},
-        {"id": "saude", "nome": "Saúde 🩺", "link": "/modulo/saude"},
-        {"id": "eco", "nome": "Economia 📈", "link": "/modulo/economia"},
-        {"id": "geral", "nome": "Geral / Outras 🌐", "link": "/modulo/geral"}
+# Base de dados em memória (Biblioteca Própria por Módulo)
+# Os conteúdos pesquisados ficam guardados aqui enquanto o servidor estiver a rodar
+MODULE_LIBRARIES = {
+    "arquitetura": [
+        {"titulo": "Introdução ao Design de Interiores", "conteudo": "Conceitos básicos de ergonomia, iluminação natural e disposição espacial."},
+        {"titulo": "Projetos em Cad e Modelos 3D", "conteudo": "Diretrizes sobre plantas humanas, estruturas e cortes técnicos de arquitetura."}
     ],
-    "redes_sociais": [
-        {"nome": "Facebook", "icon": "📘", "url": "https://facebook.com"},
-        {"nome": "LinkedIn", "icon": "💼", "url": "https://linkedin.com"},
-        {"nome": "Instagram", "icon": "📷", "url": "https://instagram.com"},
-        {"nome": "YouTube", "icon": "▶️", "url": "https://youtube.com"}
+    "agricultura": [
+        {"titulo": "Sistemas de Rega Gota a Gota", "conteudo": "Técnicas de otimização hídrica e gestão de fertirrega em solos áridos."},
+        {"titulo": "Preparação e Nutrição do Solo", "conteudo": "Dosagem de fertilizantes e rotatividade de culturas agrícolas."}
     ],
-    "ias": [
-        {"nome": "Gemini Engine", "url": "https://gemini.google.com"},
-        {"nome": "ChatGPT", "url": "https://chatgpt.com"},
-        {"nome": "Copilot Assistant", "url": "https://copilot.microsoft.com"},
-        {"nome": "Claude AI", "url": "https://claude.ai"}
+    "engenharia": [
+        {"titulo": "Cálculos Hidráulicos e Dimensionamento", "conteudo": "Normas de pressão, caudal, tubagens PPR/PVC e perdas de carga."},
+        {"titulo": "Estruturas e Materiais de Construção", "conteudo": "Resistência de betão, armações de aço e instalações técnicas sanitárias."}
+    ],
+    "pesca": [
+        {"titulo": "Técnicas e Equipamentos Marítimos", "conteudo": "Sistemas de navegação, manutenção de motores fora-de-bordo e recursos haliêuticos."}
+    ],
+    "educacao": [
+        {"titulo": "Recursos Pedagógicos e Apoio Escolar", "conteudo": "Exercícios práticos de leitura, matemática e raciocínio lógico."}
+    ],
+    "saude": [
+        {"titulo": "Primeiros Socorros e Higiene Comunitária", "conteudo": "Procedimentos essenciais de cuidados, prevenção e saúde operacional."}
+    ],
+    "economia": [
+        {"titulo": "Gestão Financeira e Orçamentos", "conteudo": "Controlo de custos de obras, orçamentação e estimativa de materiais."}
+    ],
+    "geral": [
+        {"titulo": "Informações e Utilitários Gerais", "conteudo": "Documentação, manuais técnicos e recursos multifuncionais."}
+    ],
+    "noticias": [
+        {"titulo": "Atualidades Globais e Nacionais", "conteudo": "Destaques informativos de Cabo Verde e notícias internacionais atualizadas."}
+    ],
+    "desporto": [
+        {"titulo": "Painel Desportivo Geral", "conteudo": "Resultados ao vivo, resumos de modalidades e classificações das ligas."}
+    ],
+    "benfica": [
+        {"titulo": "Central Exclusiva Sport Lisboa e Benfica", "conteudo": "Notícias do plantel, próximos jogos, vídeos e acompanhamento em direto do Glorioso."}
+    ],
+    "jogos": [
+        {"titulo": "Arcade e Jogos Web Online", "conteudo": "Coleção de jogos casuais e clássicos para jogar diretamente no navegador."}
     ]
 }
 
-HTML_TEMPLATE = """
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Leandro - Central de Operações Geral</title>
-    <style>
-        :root {
-            --bg-color: #090d16;
-            --card-bg: #131b2e;
-            --accent-cyan: #38bdf8;
-            --accent-gold: #f59e0b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-        }
-        .container { max-width: 1100px; margin: 0 auto; }
-        
-        /* Cabeçalho e Barra de Pesquisa */
-        header { text-align: center; margin-bottom: 25px; }
-        h1 { color: var(--accent-cyan); margin: 0 0 15px 0; font-size: 2rem; }
-        
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: var(--card-bg);
-            border: 1px solid var(--accent-cyan);
-            border-radius: 30px;
-            padding: 8px 20px;
-            margin-bottom: 25px;
-        }
-        .search-box input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            padding-left: 10px;
-        }
-        .search-btn {
-            background: var(--accent-cyan);
-            border: none;
-            color: #000;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* Display Inteligente Limpo para Vídeo */
-        .display-container {
-            background: #000;
-            border: 2px solid #1e293b;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 30px;
-            position: relative;
-            min-height: 250px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .video-player {
-            width: 100%;
-            height: 100%;
-            max-height: 350px;
-            object-fit: cover;
-        }
-
-        /* Seções e Grelhas */
-        .section-title {
-            color: var(--accent-cyan);
-            border-bottom: 1px solid #1e293b;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        /* Estilo dos Botões Interativos */
-        .btn-card {
-            background-color: var(--card-bg);
-            border: 1px solid #1e293b;
-            border-radius: 10px;
-            padding: 18px;
-            text-decoration: none;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-weight: bold;
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-        }
-        .btn-card:hover {
-            border-color: var(--accent-cyan);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
-        }
-        
-        /* Modal de Três Pontinhos (...) */
-        .dropdown { position: relative; display: inline-block; }
-        .more-btn {
-            background: var(--card-bg);
-            border: 1px solid #1e293b;
-            color: var(--accent-cyan);
-            padding: 15px 25px;
-            border-radius: 10px;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-        .more-btn:hover { border-color: var(--accent-cyan); }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>PROJETO LEANDRO - CENTRAL DE OPERAÇÕES GERAL</h1>
-        </header>
-
-        <!-- Pesquisador Directo no Topo -->
-        <form action="https://www.google.com/search" method="get" target="_blank" class="search-box">
-            🔍 <input type="text" name="q" placeholder="Pesquisador Global: Digite ou pesquise vídeos..." required>
-            <button type="submit" class="search-btn">Pesquisar</button>
-        </form>
-
-        <!-- Display Inteligente Limpo (Pronto para Reproduzir Vídeo Imediatamente) -->
-        <div class="display-container">
-            <video class="video-player" autoplay loop muted playsinline poster="https://via.placeholder.com/800x400/000000/38bdf8?text=Display+Inteligente+-+Vídeo+em+Execução">
-                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                O seu navegador não suporta reprodução de vídeo.
-            </video>
-        </div>
-
-        <!-- Módulos Profissionais Integrados -->
-        <div class="section-title">MÓDULOS PROFISSIONAIS INTEGRADOS</div>
-        <div class="grid">
-            {% for mod in modulos %}
-            <a href="javascript:void(0)" onclick="executarModulo('{{ mod.nome }}')" class="btn-card">
-                <span>{{ mod.nome }}</span>
-                <span style="color: var(--accent-cyan);">▶</span>
-            </a>
-            {% endfor %}
-        </div>
-
-        <!-- Redes Sociais e Comunicações -->
-        <div class="section-title">REDES SOCIAIS E COMUNICAÇÕES</div>
-        <div class="grid">
-            {% for rede in redes %}
-            <a href="{{ rede.url }}" target="_blank" class="btn-card">
-                <span>{{ rede.icon }} {{ rede.nome }}</span>
-                <span style="font-size: 0.8rem; color: var(--text-muted);">Abrir ↗</span>
-            </a>
-            {% endfor %}
-            <!-- Botão de Mais Redes (...) -->
-            <button class="more-btn" onclick="outrasRedes()">••• Outras Redes</button>
-        </div>
-
-        <!-- Motores de Inteligência Artificial (Gratuitos & Directos) -->
-        <div class="section-title">MOTORES DE INTELIGÊNCIA ARTIFICIAL (IA)</div>
-        <div class="grid">
-            {% for ia in ias %}
-            <a href="{{ ia.url }}" target="_blank" class="btn-card" style="border-left: 4px solid var(--accent-gold);">
-                <span>🤖 {{ ia.nome }}</span>
-                <span style="font-size: 0.8rem; color: var(--accent-gold);">Aceder ↗</span>
-            </a>
-            {% endfor %}
-        </div>
-    </div>
-
-    <script>
-        function executarModulo(nome) {
-            alert('A carregar dados operacionais do Módulo: ' + nome);
-        }
-        function outrasRedes() {
-            alert('Acesso direto a TikTok, Telegram, X (Twitter), Pinterest e WhatsApp Web sem expor dados pessoais.');
-        }
-    </script>
-</body>
-</html>
-"""
+# Vídeos associados a temas/módulos
+VIDEO_LIBRARY = {
+    "arquitetura": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    "agricultura": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    "engenharia": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+    "benfica": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoylikes.mp4",
+    "jogos": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+    "geral": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+}
 
 @app.route('/')
-def index():
-    return render_template_string(
-        HTML_TEMPLATE,
-        modulos=estado_sistema['modulos'],
-        redes=estado_sistema['redes_sociais'],
-        ias=estado_sistema['ias']
-    )
+def home():
+    return render_template('index.html')
+
+@app.route('/api/modulo/<nome_modulo>', methods=['GET'])
+def obter_dados_modulo(nome_modulo):
+    nome = nome_modulo.lower()
+    biblioteca = MODULE_LIBRARIES.get(nome, [])
+    video_url = VIDEO_LIBRARY.get(nome, VIDEO_LIBRARY["geral"])
+    
+    return jsonify({
+        "status": "sucesso",
+        "modulo": nome,
+        "biblioteca": biblioteca,
+        "video": video_url
+    })
+
+@app.route('/api/pesquisar', methods=['POST'])
+def pesquisar_ou_gerar():
+    dados = request.get_json() or {}
+    modulo = dados.get('modulo', 'geral').lower()
+    termo = dados.get('termo', '').strip()
+
+    if not termo:
+        return jsonify({"status": "erro", "mensagem": "Termo de pesquisa vazio."}), 400
+
+    # Adiciona o novo registo à biblioteca própria do módulo (Simulação de geração por IA + Cache)
+    novo_item = {
+        "titulo": f"Resultado sobre: {termo}",
+        "conteudo": f"Conteúdo gerado para '{termo}'. Este registo foi automaticamente guardado na biblioteca do módulo '{modulo}'."
+    }
+
+    if modulo not in MODULE_LIBRARIES:
+        MODULE_LIBRARIES[modulo] = []
+
+    # Insere o novo conteúdo no topo da biblioteca do módulo
+    MODULE_LIBRARIES[modulo].insert(0, novo_item)
+
+    return jsonify({
+        "status": "sucesso",
+        "modulo": modulo,
+        "item_adicionado": novo_item,
+        "biblioteca_atualizada": MODULE_LIBRARIES[modulo]
+    })
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
