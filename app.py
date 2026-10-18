@@ -1,61 +1,49 @@
-from flask import Flask, render_template, request, jsonify
-import json
+ from flask import Flask, render_template, request, jsonify
 import os
 
 app = Flask(__name__)
 
 # Base de dados em memória (Biblioteca Própria por Módulo)
-# Os conteúdos pesquisados ficam guardados aqui enquanto o servidor estiver a rodar
 MODULE_LIBRARIES = {
-    "arquitetura": [
-        {"titulo": "Introdução ao Design de Interiores", "conteudo": "Conceitos básicos de ergonomia, iluminação natural e disposição espacial."},
-        {"titulo": "Projetos em Cad e Modelos 3D", "conteudo": "Diretrizes sobre plantas humanas, estruturas e cortes técnicos de arquitetura."}
-    ],
-    "agricultura": [
-        {"titulo": "Sistemas de Rega Gota a Gota", "conteudo": "Técnicas de otimização hídrica e gestão de fertirrega em solos áridos."},
-        {"titulo": "Preparação e Nutrição do Solo", "conteudo": "Dosagem de fertilizantes e rotatividade de culturas agrícolas."}
-    ],
-    "engenharia": [
-        {"titulo": "Cálculos Hidráulicos e Dimensionamento", "conteudo": "Normas de pressão, caudal, tubagens PPR/PVC e perdas de carga."},
-        {"titulo": "Estruturas e Materiais de Construção", "conteudo": "Resistência de betão, armações de aço e instalações técnicas sanitárias."}
-    ],
-    "pesca": [
-        {"titulo": "Técnicas e Equipamentos Marítimos", "conteudo": "Sistemas de navegação, manutenção de motores fora-de-bordo e recursos haliêuticos."}
-    ],
-    "educacao": [
-        {"titulo": "Recursos Pedagógicos e Apoio Escolar", "conteudo": "Exercícios práticos de leitura, matemática e raciocínio lógico."}
-    ],
-    "saude": [
-        {"titulo": "Primeiros Socorros e Higiene Comunitária", "conteudo": "Procedimentos essenciais de cuidados, prevenção e saúde operacional."}
-    ],
-    "economia": [
-        {"titulo": "Gestão Financeira e Orçamentos", "conteudo": "Controlo de custos de obras, orçamentação e estimativa de materiais."}
-    ],
-    "geral": [
-        {"titulo": "Informações e Utilitários Gerais", "conteudo": "Documentação, manuais técnicos e recursos multifuncionais."}
-    ],
     "noticias": [
-        {"titulo": "Atualidades Globais e Nacionais", "conteudo": "Destaques informativos de Cabo Verde e notícias internacionais atualizadas."}
+        {"titulo": "Atualidades Globais e Nacionais", "conteudo": "Destaques informativos de Cabo Verde e do mundo em tempo real."}
     ],
     "desporto": [
-        {"titulo": "Painel Desportivo Geral", "conteudo": "Resultados ao vivo, resumos de modalidades e classificações das ligas."}
+        {"titulo": "Painel Desportivo Geral", "conteudo": "Resultados ao vivo, resumos de jogos, transmissões e tabelas classificativas."}
     ],
     "benfica": [
-        {"titulo": "Central Exclusiva Sport Lisboa e Benfica", "conteudo": "Notícias do plantel, próximos jogos, vídeos e acompanhamento em direto do Glorioso."}
+        {"titulo": "Central Exclusiva Sport Lisboa e Benfica", "conteudo": "Notícias do plantel, agenda de jogos, diretos e atualizações do Glorioso."}
+    ],
+    "musica": [
+        {"titulo": "Central de Música e Áudios", "conteudo": "Playlists, artistas favoritos, rádios online e gestão de faixas musicais."}
     ],
     "jogos": [
-        {"titulo": "Arcade e Jogos Web Online", "conteudo": "Coleção de jogos casuais e clássicos para jogar diretamente no navegador."}
+        {"titulo": "Plataforma de Jogos Online", "conteudo": "Acesso direto a jogos interativos no navegador e arcade web."}
+    ],
+    "arquitetura": [
+        {"titulo": "Introdução ao Design e Plantas", "conteudo": "Projetos de arquitetura, ergonomia e modelos 3D."}
+    ],
+    "agricultura": [
+        {"titulo": "Rega e Cultivo", "conteudo": "Gestão de sistemas de rega gota a gota e nutrição do solo."}
+    ],
+    "engenharia": [
+        {"titulo": "Cálculos e Instalações", "conteudo": "Normas técnicas, tubagens PPR/PVC, pressão e estruturas."}
+    ],
+    "pesca": [
+        {"titulo": "Técnicas e Equipamentos Marítimos", "conteudo": "Sistemas de navegação e manutenção de motores."}
+    ],
+    "educacao": [
+        {"titulo": "Recursos Pedagógicos", "conteudo": "Exercícios de apoio escolar, leitura e matemática."}
+    ],
+    "saude": [
+        {"titulo": "Primeiros Socorros e Higiene", "conteudo": "Procedimentos essenciais de cuidados e prevenção."}
+    ],
+    "economia": [
+        {"titulo": "Gestão Financeira", "conteudo": "Controlo de custos de obras e orçamentação de materiais."}
+    ],
+    "geral": [
+        {"titulo": "Bem-vindo ao Ecossistema", "conteudo": "Pesquise na barra superior para guardar conteúdos nesta biblioteca."}
     ]
-}
-
-# Vídeos associados a temas/módulos
-VIDEO_LIBRARY = {
-    "arquitetura": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    "agricultura": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-    "engenharia": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-    "benfica": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoylikes.mp4",
-    "jogos": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-    "geral": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
 }
 
 @app.route('/')
@@ -66,13 +54,11 @@ def home():
 def obter_dados_modulo(nome_modulo):
     nome = nome_modulo.lower()
     biblioteca = MODULE_LIBRARIES.get(nome, [])
-    video_url = VIDEO_LIBRARY.get(nome, VIDEO_LIBRARY["geral"])
     
     return jsonify({
         "status": "sucesso",
         "modulo": nome,
-        "biblioteca": biblioteca,
-        "video": video_url
+        "biblioteca": biblioteca
     })
 
 @app.route('/api/pesquisar', methods=['POST'])
@@ -84,16 +70,14 @@ def pesquisar_ou_gerar():
     if not termo:
         return jsonify({"status": "erro", "mensagem": "Termo de pesquisa vazio."}), 400
 
-    # Adiciona o novo registo à biblioteca própria do módulo (Simulação de geração por IA + Cache)
     novo_item = {
-        "titulo": f"Resultado sobre: {termo}",
-        "conteudo": f"Conteúdo gerado para '{termo}'. Este registo foi automaticamente guardado na biblioteca do módulo '{modulo}'."
+        "titulo": f"Registo: {termo}",
+        "conteudo": f"Informação processada para '{termo}'. Guardado automaticamente na biblioteca do módulo '{modulo}'."
     }
 
     if modulo not in MODULE_LIBRARIES:
         MODULE_LIBRARIES[modulo] = []
 
-    # Insere o novo conteúdo no topo da biblioteca do módulo
     MODULE_LIBRARIES[modulo].insert(0, novo_item)
 
     return jsonify({
