@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, jsonify
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime
 import os
 
 app = Flask(__name__)
@@ -45,6 +47,26 @@ MODULE_LIBRARIES = {
         {"titulo": "Bem-vindo ao Ecossistema", "conteudo": "Pesquise na barra superior para guardar conteúdos nesta biblioteca."}
     ]
 }
+
+def gerar_mensagem_automatica():
+    """Função executada automaticamente a cada 1 hora (60 minutos)"""
+    agora = datetime.now().strftime("%d/%m/%Y às %H:%M")
+    
+    nova_mensagem = {
+        "titulo": f"🔔 Relatório Automático ({agora})",
+        "conteudo": f"Mensagem gerada pelo circuito autónomo às {agora}. O sistema está operacional e a monitorizar todos os 13 módulos."
+    }
+    
+    # Adiciona a mensagem automática diretamente no topo da biblioteca 'Geral'
+    if "geral" in MODULE_LIBRARIES:
+        MODULE_LIBRARIES["geral"].insert(0, nova_mensagem)
+    
+    print(f"[{agora}] -> Mensagem automática gerada e guardada com sucesso!")
+
+# Inicializa o agendador de tarefas em segundo plano
+scheduler = BackgroundScheduler(daemon=True)
+scheduler.add_job(gerar_mensagem_automatica, 'interval', minutes=60)
+scheduler.start()
 
 @app.route('/')
 def home():
