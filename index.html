@@ -3,286 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Leandro - Painel Principal e Frota</title>
+    <title>PROJETO LEANDRO - Central de Operações Geral</title>
     <style>
+        :root {
+            --bg-main: #0B0F19;
+            --bg-card: #151C2C;
+            --bg-card-hover: #1E293B;
+            --accent-blue: #3B82F6;
+            --accent-red: #E11D48;
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
-            padding: 20px;
-            max-width: 900px;
-            margin: auto;
-        }
-        h1, h2, h3 { color: #38bdf8; }
-        .card {
-            background-color: #1e293b;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        .metric-card {
-            background-color: #0f172a;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
             padding: 15px;
-            border-radius: 6px;
-            border-left: 4px solid #38bdf8;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .metric-card.highlight {
-            border-left-color: #4ade80;
+
+        h1 {
+            text-align: center;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            text-transform: uppercase;
         }
-        .label {
-            display: block;
-            font-size: 0.85rem;
-            color: #94a3b8;
-            margin-bottom: 5px;
+
+        /* Barra de Pesquisa */
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
         }
-        .value {
-            font-size: 1.25rem;
-            font-weight: bold;
+
+        .search-container input {
+            flex: 1;
+            padding: 14px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
         }
-        button {
-            background-color: #38bdf8;
-            color: #0f172a;
+
+        .search-container button {
+            padding: 14px 22px;
+            border-radius: 8px;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            background: var(--accent-blue);
+            color: white;
             font-weight: bold;
             cursor: pointer;
-            margin-right: 10px;
-            margin-top: 10px;
         }
-        button:hover { background-color: #0ea5e9; }
-        #consola {
-            background-color: #020617;
-            color: #4ade80;
-            padding: 15px;
-            border-radius: 5px;
-            font-family: monospace;
-            height: 160px;
-            overflow-y: auto;
-            border: 1px solid #334155;
-            font-size: 0.9rem;
+
+        .section-title {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 10px;
+            margin-top: 20px;
         }
-        .modal-backdrop {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+
+        /* Grelha de Módulos */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
         }
-        .pin-card {
-            background: #1e293b;
-            padding: 25px;
+
+        .module-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            text-align: center;
-            width: 320px;
-        }
-        .pin-inputs {
+            padding: 12px 10px;
+            color: var(--text-primary);
+            font-size: 0.85rem;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        .pin-digit {
-            width: 40px;
-            height: 45px;
+
+        .module-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-blue);
+        }
+
+        .module-btn.benfica-btn {
+            border-color: var(--accent-red);
+        }
+
+        .module-btn.benfica-btn:hover {
+            background: #450A0A;
+        }
+
+        /* Painel da Biblioteca do Módulo */
+        .library-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 20px;
+            min-height: 180px;
+        }
+
+        .library-header {
+            font-size: 1.05rem;
+            color: var(--accent-blue);
+            margin-bottom: 12px;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .library-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .library-item {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .library-item h4 {
+            color: var(--text-primary);
+            font-size: 0.92rem;
+            margin-bottom: 5px;
+        }
+
+        .library-item p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        /* Acessos Rápidos Externos */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .tool-link {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.85rem;
             text-align: center;
-            font-size: 1.5rem;
-            background: #0f172a;
-            color: #fff;
-            border: 1px solid #334155;
-            border-radius: 4px;
+            display: block;
+        }
+
+        .tool-link:hover {
+            border-color: var(--accent-blue);
         }
     </style>
 </head>
 <body>
 
-    <h1>🌐 Projeto Leandro - Central de Operações</h1>
+    <h1>PROJETO LEANDRO - CENTRAL DE OPERAÇÕES GERAL</h1>
 
-    <!-- Modal de PIN -->
-    <div id="pin-modal" class="modal-backdrop" style="display: none;">
-        <div class="pin-card">
-            <h3>🔐 Autorizar Tesouraria</h3>
-            <p>Introduza o PIN de Fundador (6 dígitos)</p>
-            <div class="pin-inputs">
-                <input type="password" maxlength="1" class="pin-digit" data-index="0" autofocus />
-                <input type="password" maxlength="1" class="pin-digit" data-index="1" />
-                <input type="password" maxlength="1" class="pin-digit" data-index="2" />
-                <input type="password" maxlength="1" class="pin-digit" data-index="3" />
-                <input type="password" maxlength="1" class="pin-digit" data-index="4" />
-                <input type="password" maxlength="1" class="pin-digit" data-index="5" />
-            </div>
-            <div>
-                <button onclick="closePinModal()" style="background-color: #64748b; color: #fff;">Cancelar</button>
-                <button onclick="submitPin()">Validar</button>
+    <!-- Barra de Pesquisa Dinâmica -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Pesquisar ou adicionar conteúdo ao módulo ativo...">
+        <button onclick="executarPesquisa()">Pesquisar</button>
+    </div>
+
+    <!-- MÓDULOS INFORMATIVOS E DESPORTIVOS -->
+    <div class="section-title">Informação e Entretenimento</div>
+    <div class="modules-grid">
+        <button class="module-btn" onclick="carregarModulo('noticias')">📰 Notícias <span>▶</span></button>
+        <button class="module-btn" onclick="carregarModulo('desporto')">⚽ Desporto <span>▶</span></button>
+        <button class="module-btn benfica-btn" onclick="carregarModulo('benfica')">🦅 Benfica <span>▶</span></button>
+        <button class="module-btn" onclick="carregarModulo('jogos')">🎮 Jogos Online <span>▶</span></button>
+    </div>
+
+    <!-- MÓDULOS PROFISSIONAIS INTEGRADOS -->
+    <div class="section-title">Módulos Profissionais Operacionais</div>
+    <div class="modules-grid">
+        <button class="module-btn" onclick="carregarModulo('arquitetura')">🏗️ Arquitetura <span>▶</span></button>
+        <button class="module-btn" onclick="carregarModulo('agricultura')">🌱 Agricultura <span>▶</span></button>
+        <button class="module-btn" onclick="carregarModulo('engenharia')">⚙️ Engenharia <span>▶</span></button>
+        <button class="module-btn" onclick="carregarModulo('pesca')">🐟 Pesca <span>▶</span></button>
+        <button class="module-btn" onclick="carregarModulo('educacao')">🎓 Educação <span>▶</span></button>
+        <button class="module-btn" onclick="carregarModulo('saude')">🩺 Saúde <span>▶</span></button>
+        <button class="module-btn" onclick="carregarModulo('economia')">📈 Economia <span>▶</span></button>
+        <button class="module-btn" onclick="carregarModulo('geral')">🌐 Geral / Outras <span>▶</span></button>
+    </div>
+
+    <!-- PAINEL DE CONTEÚDO E BIBLIOTECA PRÓPRIA DO MÓDULO -->
+    <div class="library-panel">
+        <div class="library-header" id="moduloTitulo">Biblioteca do Módulo: GERAL</div>
+        <div class="library-content" id="libraryContent">
+            <div class="library-item">
+                <h4>Bem-vindo ao Ecossistema!</h4>
+                <p>Selecione qualquer módulo acima para carregar a sua biblioteca própria ou realizar pesquisas acumulativas.</p>
             </div>
         </div>
     </div>
 
-    <!-- Painel de Tesouraria -->
-    <div class="card">
-        <h2>📊 Monitorização de Tesouraria</h2>
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <span class="label">Volume Bruto (30d)</span>
-                <span class="value" id="val-gross">$0.00</span>
-            </div>
-            <div class="metric-card highlight">
-                <span class="label">Margem de Serviço (40%)</span>
-                <span class="value" id="val-margin">$0.00</span>
-            </div>
-            <div class="metric-card">
-                <span class="label">Capacidade da Frota</span>
-                <span class="value" id="valCapacidade">60,000,000</span>
-            </div>
-            <div class="metric-card highlight">
-                <span class="label">Unidades Ativas (Carga)</span>
-                <span class="value" id="valAtivas">54,000,000</span> (<span id="valTaxa">90</span>%)
-            </div>
-        </div>
-        <button onclick="pedirAutorizacaoPin()">Atualizar Tesouraria (Requer PIN)</button>
-    </div>
-
-    <!-- Controlo do Ecossistema -->
-    <div class="card">
-        <h2>🤖 Gestão do Ecossistema (60M Unidades)</h2>
-        <p>Detritos Reciclados Acumulados: <span id="valDetritos">0</span> kg</p>
-        <button onclick="simularPicoTráfego()">Simular Aumento de Carga</button>
-        <button onclick="recolherDetritos()">Recolher Detritos (+10kg)</button>
-        <button onclick="resetSistema()">Reiniciar Sistema</button>
-    </div>
-
-    <!-- Consola -->
-    <div class="card">
-        <h3>🖥️ Registo de Atividade</h3>
-        <div id="consola">Painel principal inicializado para 60 milhões de unidades. Pronto...</div>
+    <!-- ACESSOS RÁPIDOS EXTERNOS -->
+    <div class="section-title">Ferramentas e Redes Sociais</div>
+    <div class="tools-grid">
+        <a href="https://chatgpt.com" target="_blank" class="tool-link">🤖 ChatGPT</a>
+        <a href="https://gemini.google.com" target="_blank" class="tool-link">✨ Gemini Engine</a>
+        <a href="https://www.facebook.com" target="_blank" class="tool-link">📘 Facebook</a>
+        <a href="https://www.youtube.com" target="_blank" class="tool-link">▶️ YouTube</a>
     </div>
 
     <script>
-        class EcossistemaMicrorrobos {
-            constructor(capacidadeInicial) {
-                this.capacidadeTotal = capacidadeInicial;
-                this.unidadesAtivas = Math.floor(capacidadeInicial * 0.9);
-                this.detritosKg = 0;
-                this.atualizarInterface();
-            }
+        let moduloAtual = "geral";
 
-            log(mensagem) {
-                const consola = document.getElementById('consola');
-                consola.innerHTML += `<br>> ${mensagem}`;
-                consola.scrollTop = consola.scrollHeight;
-            }
-
-            atualizarInterface() {
-                document.getElementById('valCapacidade').innerText = this.capacidadeTotal.toLocaleString();
-                document.getElementById('valAtivas').innerText = this.unidadesAtivas.toLocaleString();
-                let taxa = ((this.unidadesAtivas / this.capacidadeTotal) * 100).toFixed(1);
-                document.getElementById('valTaxa').innerText = taxa;
-                document.getElementById('valDetritos').innerText = this.detritosKg.toLocaleString();
-            }
-
-            simularCarga(novaCarga) {
-                this.unidadesAtivas = Math.min(novaCarga, this.capacidadeTotal);
-                let taxaOcupacao = (this.unidadesAtivas / this.capacidadeTotal) * 100;
-                this.log(`Carga atualizada: ${this.unidadesAtivas.toLocaleString()} unidades (${taxaOcupacao.toFixed(1)}%).`);
-
-                if (taxaOcupacao >= 90) {
-                    this.acionarAmasCriadoras();
-                }
-                this.atualizarInterface();
-            }
-
-            acionarAmasCriadoras() {
-                let incremento = Math.floor(this.capacidadeTotal * 0.2);
-                this.capacidadeTotal += incremento;
-                this.log(`⚠️ ALERTA 90%: Amas criadoras injetaram +20% de reserva (${incremento.toLocaleString()} unidades).`);
-            }
-
-            adicionarDetritos(kg) {
-                this.detritosKg += kg;
-                this.log(`🧹 Detritos recolhidos: +${kg}kg (Total: ${this.detritosKg}kg)`);
-                
-                let novasUnidades = Math.floor(this.detritosKg / 10);
-                if (novasUnidades > 0) {
-                    this.capacidadeTotal += novasUnidades;
-                    this.detritosKg %= 10;
-                    this.log(`♻️ RECICLAGEM: Convertidos em ${novasUnidades.toLocaleString()} novas unidades!`);
-                }
-                this.atualizarInterface();
-            }
-
-            reset() {
-                this.capacidadeTotal = 60000000;
-                this.unidadesAtivas = 54000000;
-                this.detritosKg = 0;
-                this.log(`🔄 Sistema reiniciado para o padrão de 60 milhões.`);
-                this.atualizarInterface();
-            }
+        // Carrega o módulo sem exibir alertas
+        function carregarModulo(nomeModulo) {
+            moduloAtual = nomeModulo;
+            
+            fetch(`/api/modulo/${nomeModulo}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('moduloTitulo').innerText = `Biblioteca do Módulo: ${data.modulo.toUpperCase()}`;
+                    renderizarBiblioteca(data.biblioteca);
+                })
+                .catch(err => console.error("Erro ao carregar módulo:", err));
         }
 
-        const sistema = new EcossistemaMicrorrobos(60000000);
+        // Renderiza os cartões de conteúdo na biblioteca
+        function renderizarBiblioteca(itens) {
+            const container = document.getElementById('libraryContent');
+            container.innerHTML = "";
 
-        function simularPicoTráfego() {
-            let incrementoSimulacao = 5000000;
-            sistema.simularCarga(sistema.unidadesAtivas + incrementoSimulacao);
-        }
-
-        function recolherDetritos() {
-            sistema.adicionarDetritos(10);
-        }
-
-        function resetSistema() {
-            sistema.reset();
-        }
-
-        // Lógica do PIN
-        const digits = document.querySelectorAll('.pin-digit');
-        digits.forEach((input, index) => {
-            input.addEventListener('input', (e) => {
-                if (e.target.value.length === 1 && index < digits.length - 1) {
-                    digits[index + 1].focus();
-                }
-            });
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && !e.target.value && index > 0) {
-                    digits[index - 1].focus();
-                }
-            });
-        });
-
-        function pedirAutorizacaoPin() {
-            document.getElementById('pin-modal').style.display = 'flex';
-            digits[0].focus();
-        }
-
-        function closePinModal() {
-            document.getElementById('pin-modal').style.display = 'none';
-            digits.forEach(d => d.value = '');
-        }
-
-        function submitPin() {
-            const pin = Array.from(digits).map(i => i.value).join('');
-            if (pin.length !== 6) {
-                alert('Introduza um PIN de 6 dígitos.');
+            if (!itens || itens.length === 0) {
+                container.innerHTML = "<p style='color: var(--text-secondary);'>Nenhum registo guardado nesta biblioteca. Faça uma pesquisa na barra acima para adicionar conteúdos!</p>";
                 return;
             }
-            sistema.log(`🔐 PIN validado com sucesso. Token de tesouraria ativo.`);
-            closePinModal();
-            carregarMetricasTesouraria();
+
+            itens.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'library-item';
+                div.innerHTML = `<h4>${item.titulo}</h4><p>${item.conteudo}</p>`;
+                container.appendChild(div);
+            });
         }
 
-        function carregarMetricasTesouraria() {
-            const volumeBruto = 1500000;
-            const margemServico = volumeBruto * 0.40;
-            document.getElementById('val-gross').innerText = `$${volumeBruto.toLocaleString()}`;
-            document.getElementById('val-margin').innerText = `$${margemServico.toLocaleString()}`;
-            sistema.log(`📊 Métricas de tesouraria atualizadas (Margem de 40% aplicada).`);
+        // Pesquisa e Gravação Automática na Biblioteca do Módulo
+        function executarPesquisa() {
+            const input = document.getElementById('searchInput');
+            const termo = input.value.trim();
+
+            if (!termo) return;
+
+            fetch('/api/pesquisar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ modulo: moduloAtual, termo: termo })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "sucesso") {
+                    renderizarBiblioteca(data.biblioteca_atualizada);
+                    input.value = "";
+                }
+            })
+            .catch(err => console.error("Erro na pesquisa:", err));
         }
     </script>
 </body>
