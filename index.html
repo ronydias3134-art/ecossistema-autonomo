@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROJETO LEANDRO - Central de Operações Geral</title>
+    <title>PROJETO LEANDRO - Central de Operações</title>
     <style>
         :root {
             --bg-main: #0B0F19;
@@ -26,77 +26,116 @@
         body {
             background-color: var(--bg-main);
             color: var(--text-primary);
-            padding: 15px;
-            max-width: 1200px;
+            padding: 12px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
         h1 {
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             letter-spacing: 1px;
             color: var(--accent-blue);
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             text-transform: uppercase;
         }
 
-        /* Barra de Pesquisa */
+        /* Display Inteligente (Ecrã Compacto de Vídeo/Visualização) */
+        .display-inteligente {
+            width: 100%;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .display-inteligente video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .display-overlay {
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            background: rgba(11, 15, 25, 0.75);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--accent-blue);
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Barra de Pesquisa Compacta */
         .search-container {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 15px;
         }
 
         .search-container input {
             flex: 1;
-            padding: 14px 15px;
-            border-radius: 8px;
+            padding: 10px 12px;
+            border-radius: 6px;
             border: 1px solid var(--border-color);
             background: var(--bg-card);
             color: var(--text-primary);
-            font-size: 0.95rem;
+            font-size: 0.88rem;
             outline: none;
         }
 
         .search-container button {
-            padding: 14px 22px;
-            border-radius: 8px;
+            padding: 10px 16px;
+            border-radius: 6px;
             border: none;
             background: var(--accent-blue);
             color: white;
             font-weight: bold;
+            font-size: 0.85rem;
             cursor: pointer;
         }
 
         .section-title {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            margin-bottom: 10px;
-            margin-top: 20px;
+            margin-bottom: 8px;
+            margin-top: 12px;
         }
 
-        /* Grelha de Módulos */
+        /* Grelha de Módulos Compacta (Mais organizada) */
         .modules-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        @media (min-width: 480px) {
+            .modules-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         .module-btn {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px 10px;
+            border-radius: 6px;
+            padding: 8px 10px;
             color: var(--text-primary);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
         .module-btn:hover {
@@ -116,16 +155,16 @@
         .library-panel {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 18px;
-            margin-bottom: 20px;
-            min-height: 180px;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 15px;
+            min-height: 140px;
         }
 
         .library-header {
-            font-size: 1.05rem;
+            font-size: 0.9rem;
             color: var(--accent-blue);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             font-weight: bold;
             text-transform: capitalize;
         }
@@ -133,43 +172,43 @@
         .library-content {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
         .library-item {
             background: var(--bg-main);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 12px;
+            border-radius: 5px;
+            padding: 10px;
         }
 
         .library-item h4 {
             color: var(--text-primary);
-            font-size: 0.92rem;
-            margin-bottom: 5px;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
         }
 
         .library-item p {
             color: var(--text-secondary);
-            font-size: 0.85rem;
-            line-height: 1.4;
+            font-size: 0.8rem;
+            line-height: 1.3;
         }
 
         /* Acessos Rápidos Externos */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 8px;
         }
 
         .tool-link {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px;
+            border-radius: 6px;
+            padding: 10px;
             color: var(--text-primary);
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: center;
             display: block;
         }
@@ -181,11 +220,20 @@
 </head>
 <body>
 
-    <h1>PROJETO LEANDRO - CENTRAL DE OPERAÇÕES GERAL</h1>
+    <h1>PROJETO LEANDRO - CENTRAL DE OPERAÇÕES</h1>
+
+    <!-- DISPLAY INTELIGENTE (Mantido no formato compacto correto) -->
+    <div class="display-inteligente">
+        <div class="display-overlay" id="displayTag">DISPLAY INTELIGENTE</div>
+        <video id="mainDisplayVideo" controls autoplay muted loop>
+            <source id="videoSource" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+            O seu navegador não suporta o leitor.
+        </video>
+    </div>
 
     <!-- Barra de Pesquisa Dinâmica -->
     <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Pesquisar ou adicionar conteúdo ao módulo ativo...">
+        <input type="text" id="searchInput" placeholder="Pesquisar ou adicionar à biblioteca do módulo...">
         <button onclick="executarPesquisa()">Pesquisar</button>
     </div>
 
@@ -211,18 +259,18 @@
         <button class="module-btn" onclick="carregarModulo('geral')">🌐 Geral / Outras <span>▶</span></button>
     </div>
 
-    <!-- PAINEL DE CONTEÚDO E BIBLIOTECA PRÓPRIA DO MÓDULO -->
+    <!-- PAINEL DA BIBLIOTECA DO MÓDULO -->
     <div class="library-panel">
         <div class="library-header" id="moduloTitulo">Biblioteca do Módulo: GERAL</div>
         <div class="library-content" id="libraryContent">
             <div class="library-item">
                 <h4>Bem-vindo ao Ecossistema!</h4>
-                <p>Selecione qualquer módulo acima para carregar a sua biblioteca própria ou realizar pesquisas acumulativas.</p>
+                <p>Selecione um módulo acima para consultar a sua biblioteca ou fazer pesquisas dinâmicas.</p>
             </div>
         </div>
     </div>
 
-    <!-- ACESSOS RÁPIDOS EXTERNOS -->
+    <!-- FERRAMENTAS E REDES SOCIAIS -->
     <div class="section-title">Ferramentas e Redes Sociais</div>
     <div class="tools-grid">
         <a href="https://chatgpt.com" target="_blank" class="tool-link">🤖 ChatGPT</a>
@@ -234,7 +282,6 @@
     <script>
         let moduloAtual = "geral";
 
-        // Carrega o módulo sem exibir alertas
         function carregarModulo(nomeModulo) {
             moduloAtual = nomeModulo;
             
@@ -242,18 +289,18 @@
                 .then(res => res.json())
                 .then(data => {
                     document.getElementById('moduloTitulo').innerText = `Biblioteca do Módulo: ${data.modulo.toUpperCase()}`;
+                    document.getElementById('displayTag').innerText = `DISPLAY: ${data.modulo.toUpperCase()}`;
                     renderizarBiblioteca(data.biblioteca);
                 })
                 .catch(err => console.error("Erro ao carregar módulo:", err));
         }
 
-        // Renderiza os cartões de conteúdo na biblioteca
         function renderizarBiblioteca(itens) {
             const container = document.getElementById('libraryContent');
             container.innerHTML = "";
 
             if (!itens || itens.length === 0) {
-                container.innerHTML = "<p style='color: var(--text-secondary);'>Nenhum registo guardado nesta biblioteca. Faça uma pesquisa na barra acima para adicionar conteúdos!</p>";
+                container.innerHTML = "<p style='color: var(--text-secondary); font-size: 0.8rem;'>Nenhum registo nesta biblioteca. Escreva algo na barra acima para pesquisar e guardar!</p>";
                 return;
             }
 
@@ -265,7 +312,6 @@
             });
         }
 
-        // Pesquisa e Gravação Automática na Biblioteca do Módulo
         function executarPesquisa() {
             const input = document.getElementById('searchInput');
             const termo = input.value.trim();
