@@ -2,8 +2,18 @@ from flask import Flask, render_template, request, jsonify
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 import os
+import google.generativeai as genai
 
 app = Flask(__name__)
+
+# Configuração da Chave de API do Gemini (vamos configurar no Render)
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
+    # Usamos o modelo oficial flash para respostas rápidas e eficientes
+    ai_model = genai.GenerativeModel("gemini-1.5-flash")
+else:
+    ai_model = None
 
 # Base de dados em memória (Biblioteca Própria por Módulo)
 MODULE_LIBRARIES = {
@@ -44,29 +54,40 @@ MODULE_LIBRARIES = {
         {"titulo": "Gestão Financeira", "conteudo": "Controlo de custos de obras e orçamentação de materiais."}
     ],
     "geral": [
-        {"titulo": "Bem-vindo ao Ecossistema", "conteudo": "Pesquise na barra superior para guardar conteúdos nesta biblioteca."}
+        {"titulo": "Bem-vindo ao Ecossistema", "conteudo": "Pesquise na barra superior para gerar conteúdos técnicos e autónomos."}
     ]
 }
 
 def gerar_mensagem_automatica():
-    """Função executada no arranque e depois a cada 1 hora (60 minutos)"""
+    """Função executada no arranque e de hora em hora com IA ou texto base"""
     agora = datetime.now().strftime("%d/%m/%Y às %H:%M")
     
+    conteudo_texto = f"Circuito autónomo operacional a monitorizar todos os módulos às {agora}."
+    
+    # Se a IA estiver configurada, gera um resumo inteligente real
+    if ai_model:
+        try:
+            prompt = "Gera um breve relatório técnico de monitorização de sistemas, engenharia e agricultura para um painel de controlo profissional."
+            resposta = ai_model.generate_content(prompt)
+            if resposta and resposta.text:
+                conteudo_texto = resposta.text.strip()
+        except Exception as e:
+            print(f"Erro ao gerar com IA: {e}")
+
     nova_mensagem = {
-        "titulo": f"🔔 Relatório Automático ({agora})",
-        "conteudo": f"Mensagem gerada pelo circuito autónomo às {agora}. O sistema está operacional e a monitorizar todos os 13 módulos."
+        "titulo": f"🔔 Relatório Inteligente ({agora})",
+        "conteudo": conteudo_texto
     }
     
-    # Adiciona a mensagem automática diretamente no topo da biblioteca 'Geral'
     if "geral" in MODULE_LIBRARIES:
         MODULE_LIBRARIES["geral"].insert(0, nova_mensagem)
     
-    print(f"[{agora}] -> Mensagem automática gerada e guardada com sucesso!")
+    print(f"[{agora}] -> Relatório automático gerado com sucesso!")
 
-# Dispara uma mensagem imediatamente assim que o servidor arranca
+# Dispara no arranque
 gerar_mensagem_automatica()
 
-# Inicializa o agendador de tarefas em segundo plano para repetir a cada 60 minutos
+# Agendador de 60 em 60 minutos
 scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(gerar_mensagem_automatica, 'interval', minutes=60)
 scheduler.start()
@@ -79,7 +100,6 @@ def home():
 def obter_dados_modulo(nome_modulo):
     nome = nome_modulo.lower()
     biblioteca = MODULE_LIBRARIES.get(nome, [])
-    
     return jsonify({
         "status": "sucesso",
         "modulo": nome,
@@ -95,9 +115,21 @@ def pesquisar_ou_gerar():
     if not termo:
         return jsonify({"status": "erro", "mensagem": "Termo de pesquisa vazio."}), 400
 
+    conteudo_gerado = f"Informação processada para '{termo}' no módulo '{modulo}'."
+
+    # Se a IA estiver ativa, usa o Gemini para criar uma resposta técnica real para o módulo!
+    if ai_model:
+        try:
+            prompt_ia = f"Atua como um especialista técnico no domínio de '{modulo}'. Escreve uma resposta detalhada, profissional e prática sobre o seguinte tópico: '{termo}'."
+            resposta = ai_model.generate_content(prompt_ia)
+            if resposta and resposta.text:
+                conteudo_gerado = resposta.text.strip()
+        except Exception as e:
+            conteudo_gerado = f"Erro ao consultar a IA: {str(e)}"
+
     novo_item = {
-        "titulo": f"Registo: {termo}",
-        "conteudo": f"Informação processada para '{termo}'. Guardado automaticamente na biblioteca do módulo '{modulo}'."
+        "titulo": f"IA / Registo: {termo}",
+        "conteudo": conteudo_gerado
     }
 
     if modulo not in MODULE_LIBRARIES:
