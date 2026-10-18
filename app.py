@@ -4,13 +4,13 @@ from datetime import datetime
 import os
 import google.generativeai as genai
 
-app = Flask(__name__)
+# Configura o Flask para procurar o index.html na mesma pasta (raiz)
+app = Flask(__name__, template_folder='.')
 
-# Configuração da Chave de API do Gemini (vamos configurar no Render)
+# Configuração da Chave de API do Gemini
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
-    # Usamos o modelo oficial flash para respostas rápidas e eficientes
     ai_model = genai.GenerativeModel("gemini-1.5-flash")
 else:
     ai_model = None
@@ -64,7 +64,6 @@ def gerar_mensagem_automatica():
     
     conteudo_texto = f"Circuito autónomo operacional a monitorizar todos os módulos às {agora}."
     
-    # Se a IA estiver configurada, gera um resumo inteligente real
     if ai_model:
         try:
             prompt = "Gera um breve relatório técnico de monitorização de sistemas, engenharia e agricultura para um painel de controlo profissional."
@@ -117,7 +116,6 @@ def pesquisar_ou_gerar():
 
     conteudo_gerado = f"Informação processada para '{termo}' no módulo '{modulo}'."
 
-    # Se a IA estiver ativa, usa o Gemini para criar uma resposta técnica real para o módulo!
     if ai_model:
         try:
             prompt_ia = f"Atua como um especialista técnico no domínio de '{modulo}'. Escreve uma resposta detalhada, profissional e prática sobre o seguinte tópico: '{termo}'."
