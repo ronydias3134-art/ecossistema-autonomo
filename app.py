@@ -1,147 +1,86 @@
-from flask import Flask, render_template, request, jsonify
-from apscheduler.schedulers.background import BackgroundScheduler
-from datetime import datetime
 import os
-import google.generativeai as genai
+import logging
+from flask import Flask, render_template, jsonify, request
+from apscheduler.schedulers.background import BackgroundScheduler
+from google import generativeai as genai
 
-# Configura o Flask para procurar o index.html na mesma pasta (raiz)
-app = Flask(__name__, template_folder='.')
+# Configurar logging
+logging.basicConfig(level=logging.INFO)
 
-# Configuração da Chave de API do Gemini
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+# Inicializar aplicação Flask (procurando ficheiros na pasta atual)
+app = Flask(__name__, template_folder='.', static_folder='.')
+
+# Configurar chave da API do Gemini
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
-    ai_model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel('gemini-1.5-flash')
 else:
-    ai_model = None
+    model = None
+    logging.warning("GEMINI_API_KEY não encontrada nas variáveis de ambiente.")
 
-# Base de dados em memória (Biblioteca Própria por Módulo)
-MODULE_LIBRARIES = {
-    "noticias": [
-        {"titulo": "Atualidades Globais e Nacionais", "conteudo": "Destaques informativos de Cabo Verde e do mundo em tempo real."}
-    ],
-    "desporto": [
-        {"titulo": "Painel Desportivo Geral", "conteudo": "Resultados ao vivo, resumos de jogos, transmissões e tabelas classificativas."}
-    ],
-    "benfica": [
-        {"titulo": "Central Exclusiva Sport Lisboa e Benfica", "conteudo": "Notícias do plantel, agenda de jogos, diretos e atualizações do Glorioso."}
-    ],
-    "musica": [
-        {"titulo": "Central de Música e Áudios", "conteudo": "Playlists, artistas favoritos, rádios online e gestão de faixas musicais."}
-    ],
-    "jogos": [
-        {"titulo": "Plataforma de Jogos Online", "conteudo": "Acesso direto a jogos interativos no navegador e arcade web."}
-    ],
-    "arquitetura": [
-        {"titulo": "Introdução ao Design e Plantas", "conteudo": "Projetos de arquitetura, ergonomia e modelos 3D."}
-    ],
-    "agricultura": [
-        {"titulo": "Rega e Cultivo", "conteudo": "Gestão de sistemas de rega gota a gota e nutrição do solo."}
-    ],
-    "engenharia": [
-        {"titulo": "Cálculos e Instalações", "conteudo": "Normas técnicas, tubagens PPR/PVC, pressão e estruturas."}
-    ],
-    "pesca": [
-        {"titulo": "Técnicas e Equipamentos Marítimos", "conteudo": "Sistemas de navegação e manutenção de motores."}
-    ],
-    "educacao": [
-        {"titulo": "Recursos Pedagógicos", "conteudo": "Exercícios de apoio escolar, leitura e matemática."}
-    ],
-    "saude": [
-        {"titulo": "Primeiros Socorros e Higiene", "conteudo": "Procedimentos essenciais de cuidados e prevenção."}
-    ],
-    "economia": [
-        {"titulo": "Gestão Financeira", "conteudo": "Controlo de custos de obras e orçamentação de materiais."}
-    ],
-    "geral": [
-        {"titulo": "Bem-vindo ao Ecossistema", "conteudo": "Pesquise na barra superior para gerar conteúdos técnicos e autónomos."}
-    ]
+# Armazenamento em memória para os relatórios autónomos e dados dos módulos
+estado_ecossistema = {
+    "ultimo_relatorio": "Sistema inicializado e a aguardar o primeiro ciclo de monitorização.",
+    "modulos": {
+        "geral": {"status": "Operacional", "dados": []},
+        "captacao": {"status": "Operacional", "dados": []},
+        "processamento": {"status": "Operacional", "dados": []},
+        "fat_fin": {"status": "Pronto para Faturação", "dados": []},
+        "monitorizacao": {"status": "Ativo", "dados": []}
+    }
 }
 
-def gerar_mensagem_automatica():
-    """Função executada no arranque e de hora em hora com IA ou texto base"""
-    agora = datetime.now().strftime("%d/%m/%Y às %H:%M")
+def tarefa_autonoma_horaria():
+    """Função executada a cada 60 minutos pelo APScheduler"""
+    logging.info("A executar tarefa autónoma horária...")
+    relatorio_texto = "Relatório Inteligente de Estado: Todos os módulos operacionais, comunicação ativa e ecossistema pronto para transações."
     
-    conteudo_texto = f"Circuito autónomo operacional a monitorizar todos os módulos às {agora}."
-    
-    if ai_model:
+    if model:
         try:
-            prompt = "Gera um breve relatório técnico de monitorização de sistemas, engenharia e agricultura para um painel de controlo profissional."
-            resposta = ai_model.generate_content(prompt)
-            if resposta and resposta.text:
-                conteudo_texto = resposta.text.strip()
+            prompt = (
+                "Gera um Status Report técnico e curto para o ecossistema autónomo do Projeto Leandro, "
+                "incluindo o estado dos módulos, pendências e prontidão para faturação."
+            )
+            response = model.generate_content(prompt)
+            if response and response.text:
+                relatorio_texto = response.text
         except Exception as e:
-            print(f"Erro ao gerar com IA: {e}")
+            logging.error(f"Erro ao gerar relatório com Gemini: {e}")
 
-    nova_mensagem = {
-        "titulo": f"🔔 Relatório Inteligente ({agora})",
-        "conteudo": conteudo_texto
-    }
-    
-    if "geral" in MODULE_LIBRARIES:
-        MODULE_LIBRARIES["geral"].insert(0, nova_mensagem)
-    
-    print(f"[{agora}] -> Relatório automático gerado com sucesso!")
+    estado_ecossistema["ultimo_relatorio"] = relatorio_texto
+    # Guardar no módulo geral
+    estado_ecossistema["modulos"]["geral"]["dados"].insert(0, {
+        "titulo": "🔔 Relatório Inteligente Autónomo",
+        "conteudo": relatorio_texto
+    })
+    logging.info("Relatório automático gerado e guardado com sucesso!")
 
-# Dispara no arranque
-gerar_mensagem_automatica()
-
-# Agendador de 60 em 60 minutos
-scheduler = BackgroundScheduler(daemon=True)
-scheduler.add_job(gerar_mensagem_automatica, 'interval', minutes=60)
+# Configurar e arrancar o Agendador (APScheduler)
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=tarefa_autonoma_horaria, trigger="interval", hours=1)
 scheduler.start()
 
+# Rota principal para a interface visual
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
 
+# Rota da API para consultar o estado de um módulo específico
 @app.route('/api/modulo/<nome_modulo>', methods=['GET'])
-def obter_dados_modulo(nome_modulo):
-    nome = nome_modulo.lower()
-    biblioteca = MODULE_LIBRARIES.get(nome, [])
+def api_modulo(nome_modulo):
+    modulo_info = estado_ecossistema["modulos"].get(nome_modulo.lower())
+    if not modulo_info:
+        # Se não encontrar exatamente, retorna o geral ou cria um genérico
+        modulo_info = {"status": "Ativo", "dados": [{"titulo": f"Módulo: {nome_modulo}", "conteudo": estado_ecossistema["ultimo_relatorio"]}]}
+    
     return jsonify({
-        "status": "sucesso",
-        "modulo": nome,
-        "biblioteca": biblioteca
-    })
-
-@app.route('/api/pesquisar', methods=['POST'])
-def pesquisar_ou_gerar():
-    dados = request.get_json() or {}
-    modulo = dados.get('modulo', 'geral').lower()
-    termo = dados.get('termo', '').strip()
-
-    if not termo:
-        return jsonify({"status": "erro", "mensagem": "Termo de pesquisa vazio."}), 400
-
-    conteudo_gerado = f"Informação processada para '{termo}' no módulo '{modulo}'."
-
-    if ai_model:
-        try:
-            prompt_ia = f"Atua como um especialista técnico no domínio de '{modulo}'. Escreve uma resposta detalhada, profissional e prática sobre o seguinte tópico: '{termo}'."
-            resposta = ai_model.generate_content(prompt_ia)
-            if resposta and resposta.text:
-                conteudo_gerado = resposta.text.strip()
-        except Exception as e:
-            conteudo_gerado = f"Erro ao consultar a IA: {str(e)}"
-
-    novo_item = {
-        "titulo": f"IA / Registo: {termo}",
-        "conteudo": conteudo_gerado
-    }
-
-    if modulo not in MODULE_LIBRARIES:
-        MODULE_LIBRARIES[modulo] = []
-
-    MODULE_LIBRARIES[modulo].insert(0, novo_item)
-
-    return jsonify({
-        "status": "sucesso",
-        "modulo": modulo,
-        "item_adicionado": novo_item,
-        "biblioteca_atualizada": MODULE_LIBRARIES[modulo]
+        "modulo": nome_modulo,
+        "status": modulo_info["status"],
+        "biblioteca": modulo_info["dados"],
+        "ultimo_relatorio": estado_ecossistema["ultimo_relatorio"]
     })
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=port)
