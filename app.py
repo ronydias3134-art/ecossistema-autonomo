@@ -2,112 +2,103 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from flask import Flask, render_template_string, jsonify, request
-from apscheduler.schedulers.background import BackgroundScheduler
-import google.generativeai as genai
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", "circuito-global-secret-key")
 
-# Configurações do Ecossistema e Destinatários
-DESTINATARIO_EMAIL = "ronnydias3134@gmail.com"
-DESTINATARIO_TELEFONE = "+238 980 38 18"
-CANAL_FACEBOOK = "Página Oficial Circuito Global"
+# Configurações de E-mail (SMTP)
+SMTP_SERVER = os.environ.get("SMTP_SERVER", "smtp.gmail.com")
+SMTP_PORT = int(os.environ.get("SMTP_PORT", 587))
+SMTP_USER = os.environ.get("SMTP_USER", "")
+SMTP_PASS = os.environ.get("SMTP_PASS", "")
 
-RETAIN_PERCENTAGE = 0.10  # 10% de retenção financeira
+def enviar_email(destino, assunto, mensagem_html):
+    if not SMTP_USER or not SMTP_PASS:
+        print("Aviso: Credenciais de e-mail não configuradas.")
+        return False
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = assunto
+        msg["From"] = f"Circuito Global <{SMTP_USER}>"
+        msg["To"] = destino
+        
+        parte_html = MIMEText(mensagem_html, "html")
+        msg.attach(parte_html)
 
-# Credenciais para envio SMTP (podem ser configuradas no Render)
-SENDER_EMAIL = os.environ.get("SENDER_EMAIL", DESTINATARIO_EMAIL)
-SENDER_PASSWORD = os.environ.get("SENDER_PASSWORD", "")  # App Password do Gmail
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            server.starttls()
+            server.login(SMTP_USER, SMTP_PASS)
+            server.sendmail(SMTP_USER, destino, msg.as_string())
+        return True
+    except Exception as e:
+        print(f"Erro ao enviar e-mail: {e}")
+        return False
 
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
-
-# Estado global do Ecossistema
-system_state = {
-    "fase": "inicial",
-    "ativo": True,
-    "metricas": {
-        "faturacao_total": 0.0,
-        "retencao_10_porcento": 0.0,
-        "canais_ativos": ["E-mail", "WhatsApp", "Facebook"]
+# Base de Dados Temporária de Clientes
+CLIENTES = [
+    {
+        "id": 1,
+        "nome": "Empresa Exemplo Lda",
+        "email": "cliente1@exemplo.cv",
+        "mensalidade": "2.500 CVE",
+        "estado": "Ativo",
+        "vencimento": "30/10/2026"
+    },
+    {
+        "id": 2,
+        "nome": "Cliente Teste Mindelo",
+        "email": "cliente2@exemplo.cv",
+        "mensalidade": "2.500 CVE",
+        "estado": "Pendente",
+        "vencimento": "25/10/2026"
     }
-}
+]
 
-def enviar_email_autonomo(assunto, mensagem_texto):
-    """Função executada pelo microrrobô no servidor Render"""
-    if not SENDER_PASSWORD:
-        print("[Alerta Microrrobô] SENDER_PASSWORD não configurada no Render.")
-        return False, "SENDER_PASSWORD ausente"
-    
-    try:
-        msg = MIMEMultipart()
-        msg['From'] = SENDER_EMAIL
-        msg['To'] = DESTINATARIO_EMAIL
-        msg['Subject'] = assunto
-        msg.attach(MIMEText(mensagem_texto, 'plain', 'utf-8'))
-
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login(SENDER_EMAIL, SENDER_PASSWORD)
-        server.send_message(msg)
-        server.quit()
-        print(f"[Microrrobô Email] Enviado para {DESTINATARIO_EMAIL}")
-        return True, "Enviado com sucesso"
-    except Exception as e:
-        print(f"[Erro Microrrobô Email] Falha: {str(e)}")
-        return False, str(e)
-
-def tarefa_relatorio_autonomo():
-    """Tarefa agendada automaticamente pelo servidor"""
-    assunto = "🤖 [Circuito Global] Alerta Autónomo de Rotina"
-    corpo = (
-        f"Olá Ronny,\n\n"
-        f"Este é um disparo 100% autónomo gerado pelo teu servidor no Render.\n"
-        f"Fase atual: {system_state['fase']}\n"
-        f"Canais monitorizados: WhatsApp ({DESTINATARIO_TELEFONE}), Facebook e E-mail.\n\n"
-        f"Ecossistema Circuito Global a operar normalmente."
-    )
-    enviar_email_autonomo(assunto, corpo)
-
-# Agendador autónomo no servidor
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=tarefa_relatorio_autonomo, trigger="interval", hours=1)
-scheduler.start()
-
-@app.route('/')
+@app.route("/")
 def index():
-    try:
-        with open("index.html", "r", encoding="utf-8") as f:
-            template_content = f.read()
-        return render_template_string(template_content, state=system_state)
-    except Exception as e:
-        return f"Erro ao carregar index.html: {str(e)}", 500
-
-@app.route('/api/status', methods=['GET'])
-def get_status():
-    return jsonify(system_state)
-
-@app.route('/api/disparar_teste', methods=['GET', 'POST'])
-def disparar_teste():
-    """Rota para forçar o disparo do microrrobô imediatamente"""
-    assunto = "🚨 [Circuito Global] Teste de Autonomia do Ecossistema"
-    corpo = (
-        f"Teste de Autonomia Ativado!\n\n"
-        f"Notificação disparada pelos microrrobôs do Circuito Global.\n"
-        f"Destinos registados:\n"
-        f"- E-mail: {DESTINATARIO_EMAIL}\n"
-        f"- WhatsApp: {DESTINATARIO_TELEFONE}\n"
-        f"- Facebook: {CANAL_FACEBOOK}\n\n"
-        f"O teu servidor Render está ativo e independente."
+    total_faturado = sum(2500 for c in CLIENTES if c["estado"] == "Ativo")
+    ativos = sum(1 for c in CLIENTES if c["estado"] == "Ativo")
+    total_clientes = len(CLIENTES)
+    
+    return render_template(
+        "index.html", 
+        clientes=CLIENTES, 
+        total_faturado=f"{total_faturado:,} CVE".replace(",", "."),
+        ativos=ativos,
+        total_clientes=total_clientes
     )
-    sucesso, detalhe = enviar_email_autonomo(assunto, corpo)
-    return jsonify({
-        "status": "sucesso" if sucesso else "simulado/pendente_credenciais",
-        "detalhe": detalhe,
-        "mensagem": "Comando enviado para o microrrobô do servidor."
-    })
 
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+@app.route("/cobrar/<int:cliente_id>", methods=["POST"])
+def cobrar(cliente_id):
+    cliente = next((c for c in CLIENTES if c["id"] == cliente_id), None)
+    if cliente:
+        assunto = f"Aviso de Cobrança - Circuito Global ({cliente['mensalidade']})"
+        corpo = f"""
+        <h2>Olá, {cliente['nome']}!</h2>
+        <p>Lembramos que a sua mensalidade de <strong>{cliente['mensalidade']}</strong> vence no dia <strong>{cliente['vencimento']}</strong>.</p>
+        <p>Por favor, efetue o pagamento via Vinti4 ou transferência bancária para manter o seu serviço ativo.</p>
+        <p>Atenciosamente,<br><strong>Equipa Circuito Global</strong></p>
+        """
+        enviar_email(cliente["email"], assunto, corpo)
+        flash(f"Aviso de cobrança enviado para {cliente['nome']}!", "success")
+    return redirect(url_for("index"))
+
+@app.route("/recibo/<int:cliente_id>", methods=["POST"])
+def recibo(cliente_id):
+    cliente = next((c for c in CLIENTES if c["id"] == cliente_id), None)
+    if cliente:
+        cliente["estado"] = "Ativo"
+        assunto = f"Comprovativo de Pagamento - Circuito Global"
+        corpo = f"""
+        <h2>Comprovativo de Pagamento</h2>
+        <p>Confirmamos o recebimento de <strong>{cliente['mensalidade']}</strong> do cliente <strong>{cliente['nome']}</strong>.</p>
+        <p>O estado da sua subscrição foi atualizado para <strong>Ativo</strong>.</p>
+        <p>Obrigado pela preferência,<br><strong>Equipa Circuito Global</strong></p>
+        """
+        enviar_email(cliente["email"], assunto, corpo)
+        flash(f"Recibo emitido e estado atualizado para {cliente['nome']}!", "success")
+    return redirect(url_for("index"))
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
