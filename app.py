@@ -4,19 +4,23 @@ import google.generativeai as genai
 
 app = Flask(__name__)
 
-# Configurar a API Key do Gemini a partir das variáveis de ambiente
+# Configuração da API Key do Google Gemini
 api_key = os.environ.get("GEMINI_API_KEY")
 if api_key:
     genai.configure(api_key=api_key)
 
-# Configurar o modelo de IA recomendado
-try:
-    model = genai.GenerativeModel("gemini-3.8-flash")
-except Exception:
-    try:
-        model = genai.GenerativeModel("gemini-1.5-flash")
-    except Exception:
-        model = None
+# Tenta carregar o modelo gemini-3.8-flash ou um alias suportado
+model = None
+candidate_models = ["gemini-3.8-flash", "gemini-1.5-flash", "gemini-pro"]
+
+if api_key:
+    for m in candidate_models:
+        try:
+            model = genai.GenerativeModel(m)
+            print(f"Modelo Gemini carregado com sucesso: {m}")
+            break
+        except Exception as e:
+            print(f"Aviso: Não foi possível carregar o modelo {m}: {e}")
 
 @app.route("/")
 def index():
@@ -26,10 +30,10 @@ def index():
 def chat():
     try:
         if not api_key:
-            return jsonify({"error": "Chave GEMINI_API_KEY não configurada."}), 500
+            return jsonify({"error": "Chave GEMINI_API_KEY não configurada nas variáveis do Render."}), 500
         
         if not model:
-            return jsonify({"error": "Modelo Gemini indisponível."}), 500
+            return jsonify({"error": "Nenhum modelo Gemini compatível pôde ser instanciado."}), 500
 
         data = request.get_json()
         user_message = data.get("message", "")
@@ -37,7 +41,7 @@ def chat():
         if not user_message:
             return jsonify({"error": "Mensagem vazia."}), 400
 
-        # Gerar resposta com o Gemini
+        # Gerar resposta através do modelo Gemini
         response = model.generate_content(user_message)
         return jsonify({"response": response.text})
         
