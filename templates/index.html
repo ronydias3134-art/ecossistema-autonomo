@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ecossistema Autónomo - Chat Gemini</title>
+    <title>Circuito Global — Ecossistema Autónomo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,6 +14,22 @@
             flex-direction: column;
             height: 100vh;
             justify-content: space-between;
+        }
+        header {
+            background-color: #1e293b;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #334155;
+        }
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #38bdf8;
+        }
+        .status-badge {
+            font-size: 0.875rem;
+            color: #4ade80;
+            margin-top: 5px;
         }
         #chat-container {
             flex: 1;
@@ -29,31 +45,35 @@
             border-radius: 8px;
             line-height: 1.5;
         }
+        .system-message {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            align-self: flex-start;
+            border-left: 4px solid #38bdf8;
+        }
         .user-message {
             background-color: #2563eb;
+            color: #ffffff;
             align-self: flex-end;
         }
-        .ai-message {
-            background-color: #334155;
-            align-self: flex-start;
-        }
         #input-container {
-            display: flex;
             padding: 15px;
             background-color: #1e293b;
+            display: flex;
             gap: 10px;
+            border-top: 1px solid #334155;
         }
-        input {
+        input[type="text"] {
             flex: 1;
             padding: 12px;
             border-radius: 6px;
             border: 1px solid #475569;
             background-color: #0f172a;
-            color: #fff;
-            font-size: 16px;
+            color: #f8fafc;
+            font-size: 1rem;
         }
         button {
-            padding: 0 20px;
+            padding: 12px 20px;
             background-color: #0284c7;
             color: white;
             border: none;
@@ -68,67 +88,56 @@
 </head>
 <body>
 
+    <header>
+        <h1>Circuito Global</h1>
+        <div class="status-badge">● Sistema Autónomo Ativo (CVE / Flask)</div>
+    </header>
+
     <div id="chat-container">
-        <div class="message ai-message">Olá! Como te posso ajudar hoje?</div>
+        <div class="message system-message">
+            Olá, Ronny! O **Circuito Global — Ecossistema Autónomo** está operacional. Como posso ajudar hoje?
+        </div>
     </div>
 
     <div id="input-container">
-        <input type="text" id="user-input" placeholder="Escreve uma mensagem para a IA..." autocomplete="off">
+        <input type="text" id="userInput" placeholder="Escreve a tua mensagem...">
         <button onclick="sendMessage()">Enviar</button>
     </div>
 
     <script>
-        const chatContainer = document.getElementById('chat-container');
-        const userInput = document.getElementById('user-input');
-
-        userInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
         async function sendMessage() {
-            const message = userInput.value.trim();
-            if (!message) return;
+            const input = document.getElementById('userInput');
+            const messageText = input.value.trim();
+            if (!messageText) return;
 
-            // Adiciona a mensagem do utilizador ao chat
-            appendMessage(message, 'user-message');
-            userInput.value = '';
+            const chatContainer = document.getElementById('chat-container');
 
-            // Mensagem temporária de carregamento
-            const loadingId = appendMessage('A pensar...', 'ai-message');
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user-message';
+            userDiv.innerText = messageText;
+            chatContainer.appendChild(userDiv);
+
+            input.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
 
             try {
                 const response = await fetch('/api/chat', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ message: message })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: messageText })
                 });
-
                 const data = await response.json();
                 
-                // Remove a mensagem de carregamento e coloca a resposta real
-                document.getElementById(loadingId).remove();
-                appendMessage(data.response || 'Erro na resposta do servidor.', 'ai-message');
-
-            } catch (error) {
-                document.getElementById(loadingId).remove();
-                appendMessage('Erro ao comunicar com o servidor.', 'ai-message');
+                const sysDiv = document.createElement('div');
+                sysDiv.className = 'message system-message';
+                sysDiv.innerText = data.response || "Erro na resposta do sistema.";
+                chatContainer.appendChild(sysDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            } catch (err) {
+                console.error("Erro na comunicação com o servidor:", err);
             }
         }
-
-        function appendMessage(text, className) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${className}`;
-            messageDiv.innerText = text;
-            const id = 'msg-' + Date.now();
-            messageDiv.id = id;
-            chatContainer.appendChild(messageDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            return id;
-        }
     </script>
+
 </body>
 </html>
