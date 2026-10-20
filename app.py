@@ -9,12 +9,12 @@ api_key = os.environ.get("GEMINI_API_KEY")
 if api_key:
     genai.configure(api_key=api_key)
 
-# Configurar o modelo de IA atualizado
+# Configurar o modelo de IA recomendado
 try:
-    model = genai.GenerativeModel("gemini-2.5-flash")
+    model = genai.GenerativeModel("gemini-3.8-flash")
 except Exception:
     try:
-        model = genai.GenerativeModel("gemini-pro")
+        model = genai.GenerativeModel("gemini-1.5-flash")
     except Exception:
         model = None
 
