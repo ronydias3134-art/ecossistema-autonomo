@@ -1,35 +1,26 @@
 import os
 from flask import Flask, render_template, request, jsonify
-from google import genai
+import google.generativeai as genai
 
 app = Flask(__name__)
 
-# Inicializa o cliente do Gemini utilizando a chave configurada no Render
-client = genai.Client()
+# Configuração da API do Gemini
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
 
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
 
-@app.route('/api/chat', methods=['POST'])
-def chat():
-    data = request.json or {}
-    user_message = data.get('message', '').strip()
-    
-    if not user_message:
-        return jsonify({'response': 'Por favor, escreve uma mensagem válida.'}), 400
-
-    try:
-        # Chamada ao modelo Gemini para gerar a resposta baseada no input do utilizador
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=user_message,
-        )
-        ai_response = response.text
-    except Exception as e:
-        ai_response = f"Erro ao comunicar com o Gemini: {str(e)}"
-
-    return jsonify({'response': ai_response})
+@app.route('/api/status', methods=['GET'])
+def status():
+    return jsonify({
+        "status": "online",
+        "sistema": "Circuito Global - Ecossistema Autónomo",
+        "moeda": "CVE"
+    })
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
