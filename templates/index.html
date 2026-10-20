@@ -3,52 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avatar X AI</title>
+    <title>Avatar X AI - Ecossistema Autónomo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            text-align: center;
-            background: #1e293b;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            max-width: 500px;
-            width: 90%;
-        }
-        h1 {
-            color: #38bdf8;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #94a3b8;
-            font-size: 1.1rem;
-        }
-        .status {
-            margin-top: 20px;
-            display: inline-block;
-            padding: 8px 16px;
-            background: #065f46;
-            color: #34d399;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background: #090d16; color: #f1f5f9; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 15px; }
+        .app-card { width: 100%; max-width: 650px; background: #131c2e; border-radius: 16px; border: 1px solid #1e2d4a; box-shadow: 0 20px 40px rgba(0,0,0,0.5); overflow: hidden; display: flex; flex-direction: column; }
+        
+        /* Header */
+        .header { background: #18233c; padding: 20px; border-bottom: 1px solid #233454; display: flex; justify-content: space-between; align-items: center; }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .avatar-icon { width: 42px; height: 42px; background: linear-gradient(135deg, #0284c7, #38bdf8); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 18px; box-shadow: 0 0 12px rgba(56, 189, 248, 0.4); }
+        .brand-title h1 { font-size: 18px; font-weight: 700; color: #f8fafc; }
+        .brand-title p { font-size: 12px; color: #94a3b8; }
+        .status-badge { background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #4ade80; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .pulse { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* Chat Area */
+        .chat-area { height: 360px; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; background: #0c1424; }
+        .msg { max-width: 82%; padding: 12px 16px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
+        .msg-user { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
+        .msg-ai { background: #1a273e; color: #e2e8f0; border: 1px solid #283a5c; align-self: flex-start; border-bottom-left-radius: 2px; }
+        
+        /* Typing Indicator */
+        .typing-indicator { display: flex; gap: 5px; align-items: center; padding: 10px 14px; background: #1a273e; border: 1px solid #283a5c; border-radius: 12px; align-self: flex-start; width: fit-content; }
+        .typing-dot { width: 7px; height: 7px; background: #94a3b8; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+
+        /* Input Area */
+        .input-area { padding: 15px 20px; background: #131c2e; border-top: 1px solid #1e2d4a; display: flex; gap: 10px; }
+        input[type="text"] { flex: 1; background: #0c1424; border: 1px solid #283a5c; border-radius: 10px; padding: 12px 16px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
+        input[type="text"]:focus { border-color: #38bdf8; }
+        .btn-send { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border: none; padding: 12px 22px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: transform 0.1s, background 0.2s; }
+        .btn-send:hover { background: #0284c7; }
+        .btn-send:active { transform: scale(0.97); }
+
+        /* Dashboard Panel */
+        .dashboard-panel { padding: 15px 20px; background: #0f172a; border-top: 1px solid #1e2d4a; display: flex; gap: 10px; flex-wrap: wrap; justify-content: space-between; }
+        .dash-btn { background: #18233c; border: 1px solid #283a5c; color: #cbd5e1; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; flex: 1; text-align: center; min-width: 120px; }
+        .dash-btn:hover { background: #233454; color: #38bdf8; border-color: #38bdf8; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Avatar X AI</h1>
-        <p>O ecossistema autónomo está online e pronto a operar!</p>
-        <div class="status">● Sistema Ativo (Flask)</div>
+
+    <div class="app-card">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <div class="avatar-icon">AX</div>
+                <div class="brand-title">
+                    <h1>Avatar X AI</h1>
+                    <p id="systemSubtitle">A verificar ligação...</p>
+                </div>
+            </div>
+            <div class="status-badge" id="statusBadge">
+                <div class="pulse"></div> <span id="statusText">A conectar...</span>
+            </div>
+        </div>
+
+        <!-- Chat Box -->
+        <div class="chat-area" id="chatArea">
+            <!-- Mensagens -->
+        </div>
+
+        <!-- Input Box -->
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Escreve uma mensagem para a IA..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button class="btn-send" onclick="sendMsg()">Enviar</button>
+        </div>
+
+        <!-- Dashboard Panel -->
+        <div class="dashboard-panel">
+            <button class="dash-btn" onclick="quickAction('status')">📊 Estado do Sistema</button>
+            <button class="dash-btn" onclick="quickAction('hora')">⏰ Hora do Servidor</button>
+            <button class="dash-btn" onclick="quickAction('ajuda')">❓ Ver Comandos</button>
+            <button class="dash-btn" onclick="clearChat()">🧹 Limpar Conversa</button>
+        </div>
     </div>
+
+    <script>
+        const chatArea = document.getElementById('chatArea');
+
+        window.onload = async () => {
+            loadChatHistory();
+            checkSystemStatus();
+        };
+
+        async function checkSystemStatus() {
+            try {
+                const res = await fetch('/api/status');
+                const data = await res.json();
+                document.getElementById('systemSubtitle').innerText = `${data.engine} • ${data.platform}`;
+                document.getElementById('statusText').innerText = "Sistema Ativo";
+            } catch (e) {
+                document.getElementById('systemSubtitle').innerText = "Modo Offline";
+                document.getElementById('statusText').innerText = "Reconectando";
+            }
+        }
+
+        function loadChatHistory() {
+            const saved = localStorage.getItem('avatarx_chat');
+            if (saved) {
+                chatArea.innerHTML = saved;
+            } else {
+                appendMessage('ai', 'Olá, Ronny! Bem-vindo ao <strong>Avatar X AI</strong>. O ecossistema autónomo está totalmente operacional. Em que posso ajudar-te hoje?');
+            }
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function saveChatHistory() {
+            localStorage.setItem('avatarx_chat', chatArea.innerHTML);
+        }
+
+        function appendMessage(sender, htmlContent) {
+            const className = sender === 'user' ? 'msg msg-user' : 'msg msg-ai';
+            chatArea.innerHTML += `<div class="${className}">${htmlContent}</div>`;
+            chatArea.scrollTop = chatArea.scrollHeight;
+            saveChatHistory();
+        }
+
+        async function sendMsg(customText = null) {
+            const input = document.getElementById('userInput');
+            const text = customText || input.value.trim();
+            if (!text) return;
+
+            appendMessage('user', escapeHtml(text));
+            if (!customText) input.value = '';
+
+            const typingId = 'typing-' + Date.now();
+            chatArea.innerHTML += `
+                <div id="${typingId}" class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await response.json();
+
+                document.getElementById(typingId).remove();
+                appendMessage('ai', data.response);
+            } catch (err) {
+                document.getElementById(typingId).remove();
+                appendMessage('ai', '<span style="color: #f87171;">⚠️ Erro de ligação com o servidor. Tenta novamente em instantes.</span>');
+            }
+        }
+
+        function quickAction(action) {
+            sendMsg(action);
+        }
+
+        function clearChat() {
+            localStorage.removeItem('avatarx_chat');
+            chatArea.innerHTML = '';
+            appendMessage('ai', 'Conversa limpa. O <strong>Avatar X AI</strong> está pronto para novas instruções.');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.innerText = text;
+            return div.innerHTML;
+        }
+    </script>
 </body>
 </html>
